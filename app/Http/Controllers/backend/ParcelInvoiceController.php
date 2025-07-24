@@ -2,24 +2,27 @@
 
 namespace App\Http\Controllers\backend;
 
+use App\Models\ParcelInvoiceDetails;
 use App\Models\Sale;
 use App\Models\SaleDetails;
 use App\Models\BasicInfo;
 use App\Models\CustomerPayment;
 use App\Models\Customer;
-use App\Models\Item;
+use App\Models\ParcelItem;
 use App\Models\BikeService;
 use App\Models\StockHistory;
 
 
 
 
+use App\Models\ParcelInvoice;
 use App\Models\Country;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
+use function PHPUnit\Framework\returnArgument;
 
 class ParcelInvoiceController extends Controller
 {
@@ -67,12 +70,7 @@ class ParcelInvoiceController extends Controller
         $data['currency_symbol'] = BasicInfo::first()->currency_symbol;
         $data['customers'] = Customer::where('status',1)->orderBy('name','asc')->get();
 
-        $data['items'] = Item::join('units','units.id','=','items.unit_id')
-                            ->where('items.status',1)
-                            ->orderBy('name','asc')
-                            ->select('items.id','items.name','items.purchase_price','items.sale_price as price','items.current_stock as stock_quantity','units.title as unit_name')
-                            ->get()
-                            ->toArray();
+        $data['items'] = ParcelItem::get()->toArray();
                             
         $data['breadcrumb'] = $this->breadcrumb;
         $data['counties'] = Country::where('status', '=', 1)->get();
@@ -191,73 +189,47 @@ class ParcelInvoiceController extends Controller
 
 
 
+    public function storeNewItem(Request $request)
+    {
+        $item = ParcelItem::where(['name'=> strtolower($request->name)])->first();
+        if(!$item){
+            $item = ParcelItem::create(['name'=> strtolower($request->name)]);
+        }
+        $item->name = ucwords($item->name);
+        return response()->json($item);
+    }
     public function store(Request $request)
     {
-        // DB::beginTransaction();
+        DB::beginTransaction();
         try {
-            $customerData['name'] = $request->name;
-            $customerData['phone'] = $request->phone;
-            $customerData['address'] = $request->address;
-            $customerData['customer_id'] = $request->customer_id;
-            $customer_id = $this->manageCustomer($customerData);
 
-            $bike_reg_no = $request->bike_reg_no;
-            $account_id = $request->account_id;
-            $date = $request->date;
-            $total_pice = $request->total_price;
-            $vat_tax = $request->vat_tax ?? 0;
-            $discount_method = $request->discount_method;
-            $discount_rate = $request->discount_rate ?? 0;
-            $discount = $request->discount ?? 0;
-            $total_payable = $request->total_payable;
-            $paid_amount = $request->paid_amount;
-            $note = $request->note;
-            $reference_number = $request->reference_number;
-    
-            $item_id = $request->item_id;
-            $item_type = $request->item_type;
-            $unit_price = $request->unit_price;
-            $quantity = $request->quantity;
-    
-            $invoice_no = $this->formatNumber(ParcelInvoice::latest()->limit(1)->max('invoice_no') + 1);
-            $created_by_id = Auth::guard('admin')->user()->id;
-            // Sale creation
-            $sale = new Sale();
-            $sale->customer_id = $customer_id;
-            $sale->bike_reg_no = $bike_reg_no;
-            $sale->account_id = $account_id;
-            $sale->invoice_no = $invoice_no;
-            $sale->date = $date;
-            $sale->total_price = $total_pice;
-            $sale->vat_tax = $vat_tax;
-            $sale->discount_method = $discount_method;
-            $sale->discount_rate = $discount_rate;
-            $sale->discount = $discount;
-            $sale->total_payable = $total_payable;
-            $sale->paid_amount = $paid_amount;
-            $sale->reference_number = $reference_number;
-            $sale->note = $note;
-            $sale->payment_status = ($total_payable == $paid_amount) ? 1 : 0;
-            $sale->status = 0;
-            $sale->created_by_id = $created_by_id;
-            $sale->save();
+            $data = $request->all();
+            $data['created_branch_id'] = $this->getUserInfo()->branch_id;
+            $data['current_branch_id'] = $this->getUserInfo()->branch_id;
+            $data['agent_id'] = $this->getUserInfo()->id;
+            $data['invoice_no'] = $this->formatNumber(ParcelInvoice::latest()->limit(1)->max('invoice_no') + 1);;
+            $data['created_by_id'] = $this->getUserInfo()->branch_id;
+            $data['payment_status'] = 'paid';
+            $data['parcel_status'] = 'pending';
+
+            $item_id = $data['item_id'];
+            $quantity = $data['quantity'];
+            $unit_price = $data['unit_price'];
+            unset($data['item_id']);
+            unset($data['quantity']);
+            unset($data['unit_price']);
+            $parcelInvoice = ParcelInvoice::create($data);
+
             for ($i = 0; $i < count($item_id); $i++) {
-                $saleDetails = new SaleDetails();
-                $saleDetails->sale_id = $sale->id;
-                $saleDetails->item_type = $item_type[$i];
-                $saleDetails->item_id = null;
-                $saleDetails->service_id = null;
-                if($item_type[$i]==0){
-                    $saleDetails->item_id = $item_id[$i];
-                }else{
-                    $saleDetails->service_id = $item_id[$i];
-                }
-                $saleDetails->quantity = $quantity[$i];
-                $saleDetails->unit_price = $unit_price[$i];
-                $saleDetails->save();
+                $parcelInvoiceDetails['parcel_invoice_id'] = $parcelInvoice->id; 
+                $parcelInvoiceDetails['item_id'] = $item_id[$i];         
+                $parcelInvoiceDetails['quantity'] = $quantity[$i];         
+                $parcelInvoiceDetails['unit_price'] = $unit_price[$i];
+                ParcelInvoiceDetails::create($parcelInvoiceDetails);
             }
-            // DB::commit();
-            return redirect()->route('sales.index')->with('alert', ['messageType' => 'success', 'message' => 'Data Inserted Successfully!']);
+
+            DB::commit();
+            return redirect()->route('parcel-invoices.index')->with('alert', ['messageType' => 'success', 'message' => 'Data Inserted Successfully!']);
         } catch (\Exception $e) {
             DB::rollback();
             return redirect()->back()->with('alert', ['messageType' => 'error', 'message' => 'Something went wrong! ' . $e->getMessage()]);
@@ -322,13 +294,34 @@ class ParcelInvoiceController extends Controller
                 $saleDetails->save();
             }
             DB::commit();
-            return redirect()->route('sales.index')->with('alert', ['messageType' => 'success', 'message' => 'Data Inserted Successfully!']);
+            return redirect()->route('parcel-invoices.index')->with('alert', ['messageType' => 'success', 'message' => 'Data Inserted Successfully!']);
         } catch (\Exception $e) {
             DB::rollback();
             dd($e);
             return redirect()->back()->with('alert', ['messageType' => 'error', 'message' => 'Something went wrong! ' . $e->getMessage()]);
         }
     }
+
+    public function items(Request $request)
+    {
+        $search = $request->search;
+
+        $items = ParcelItem::where('name', 'like', "%{$search}%")
+                    ->select('id', 'name')
+                    ->limit(10)
+                    ->get();
+
+        $results = $items->map(function ($item) {
+            return [
+                'label' => ucwords($item->name),
+                'value' => ucwords($item->name),
+                'item_id' => $item->id,
+            ];
+        });
+
+        return response()->json($results);
+    }
+
 
     public function approve($id)
     {
@@ -542,17 +535,17 @@ class ParcelInvoiceController extends Controller
             ) as profit')
         ];
 
-        $totalSummary = DB::table('sales')
-            ->where('status', 1)
-            ->selectRaw('
-                SUM(total_payable) as total_sale,
-                (
-                    SELECT SUM(net_profit * quantity)
-                    FROM sale_details
-                    WHERE sale_details.sale_id IN (SELECT id FROM sales)
-                ) as total_profit
-            ')
-            ->first();
+        // $totalSummary = DB::table('sales')
+        //     ->where('status', 1)
+        //     ->selectRaw('
+        //         SUM(total_payable) as total_sale,
+        //         (
+        //             SELECT SUM(net_profit * quantity)
+        //             FROM sale_details
+        //             WHERE sale_details.sale_id IN (SELECT id FROM sales)
+        //         ) as total_profit
+        //     ')
+        //     ->first();
 
 
         $query = ParcelInvoice::join('customers', 'customers.id', '=', 'sales.customer_id')

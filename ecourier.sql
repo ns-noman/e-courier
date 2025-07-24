@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 23, 2025 at 12:31 PM
+-- Generation Time: Jul 24, 2025 at 01:26 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.2.28
 
@@ -1676,7 +1676,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (134, '2025_07_22_112244_add_commission_percentage_to_branches_table', 68),
 (135, '2025_07_22_111634_create_agents_table', 69),
 (136, '2025_07_23_145516_create_parcel_invoices_table', 70),
-(137, '2025_07_23_161922_create_parcel_invoice_details_table', 70);
+(137, '2025_07_23_161922_create_parcel_invoice_details_table', 70),
+(138, '2025_07_24_162500_create_parcel_items_table', 71);
 
 -- --------------------------------------------------------
 
@@ -1717,6 +1718,17 @@ CREATE TABLE `parcel_invoices` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Dumping data for table `parcel_invoices`
+--
+
+INSERT INTO `parcel_invoices` (`id`, `created_branch_id`, `agent_id`, `current_branch_id`, `invoice_no`, `date`, `total_price`, `vat_tax`, `discount_method`, `discount_rate`, `discount`, `total_payable`, `paid_amount`, `reference_number`, `note`, `sender_name`, `sender_phone`, `sender_post_code`, `sender_address`, `receiver_name`, `receiver_phone`, `receiver_post_code`, `receiver_address`, `receiver_country_id`, `created_by_id`, `updated_by_id`, `payment_status`, `parcel_status`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, '1000001', '1996-02-28', 1000.00, NULL, 1, 36.00, 36.00, 964.00, 964.00, '320', 'Expedita sit incidu', 'Casey Ellis', '82', '71', 'Dolore explicabo Pl', 'Gillian Wolfe', '6', '52', 'Mollit similique aut', 111, 1, NULL, 'paid', 'pending', '2025-07-24 13:04:26', '2025-07-24 13:04:26'),
+(2, 1, 1, 1, '1000002', '2020-05-04', 3000.00, NULL, 1, 0.00, 0.00, 3000.00, 3000.00, '592', 'Est pariatur Eos p', 'Nola Mcfadden', '81', '84', 'Dolore molestias vol', 'Regan Simmons', '81', '81', 'Ratione temporibus p', 231, 1, NULL, 'paid', 'pending', '2025-07-24 13:16:44', '2025-07-24 13:16:44'),
+(3, 1, 1, 1, '1000003', '2022-12-20', 3000.00, NULL, 1, 37.00, 37.00, 2963.00, 2963.00, '689', 'Non pariatur Neque', 'Indigo Baxter', '80', '15', 'Rem unde dolore et q', 'Holmes Calhoun', '92', '9', 'Consectetur sit pro', 116, 1, NULL, 'paid', 'pending', '2025-07-24 13:19:12', '2025-07-24 13:19:12'),
+(4, 1, 1, 1, '1000004', '1980-12-15', 5000.00, NULL, 1, 52.00, 52.00, 4948.00, 4948.00, '500', 'Incididunt sed qui a', 'Glenna Knapp', '40', '7', 'Officia in soluta su', 'Irma Beasley', '72', '40', 'Natus velit qui lab', 26, 1, NULL, 'paid', 'pending', '2025-07-24 13:20:47', '2025-07-24 13:20:47'),
+(5, 1, 1, 1, '1000005', '2010-04-11', 1000.00, NULL, 0, 75.00, 750.00, 250.00, 250.00, '319', 'Sapiente officia pro', 'Sebastian Travis', '89', '19', 'Deserunt ut tempora', 'Addison Morrow', '29', '68', 'Obcaecati officiis i', 149, 1, NULL, 'paid', 'pending', '2025-07-24 13:21:50', '2025-07-24 13:21:50');
+
 -- --------------------------------------------------------
 
 --
@@ -1725,13 +1737,76 @@ CREATE TABLE `parcel_invoices` (
 
 CREATE TABLE `parcel_invoice_details` (
   `id` bigint UNSIGNED NOT NULL,
-  `sale_id` int NOT NULL,
-  `item_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `parcel_invoice_id` int NOT NULL,
+  `item_id` bigint NOT NULL,
   `quantity` double(20,2) NOT NULL,
   `unit_price` double(20,2) NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `parcel_invoice_details`
+--
+
+INSERT INTO `parcel_invoice_details` (`id`, `parcel_invoice_id`, `item_id`, `quantity`, `unit_price`, `created_at`, `updated_at`) VALUES
+(1, 2, 18, 1.00, 1000.00, '2025-07-24 13:16:44', '2025-07-24 13:16:44'),
+(2, 2, 17, 1.00, 1000.00, '2025-07-24 13:16:44', '2025-07-24 13:16:44'),
+(3, 2, 19, 1.00, 1000.00, '2025-07-24 13:16:44', '2025-07-24 13:16:44'),
+(4, 3, 17, 1.00, 1000.00, '2025-07-24 13:19:12', '2025-07-24 13:19:12'),
+(5, 3, 20, 1.00, 1000.00, '2025-07-24 13:19:12', '2025-07-24 13:19:12'),
+(6, 3, 21, 1.00, 1000.00, '2025-07-24 13:19:12', '2025-07-24 13:19:12'),
+(7, 4, 22, 1.00, 1000.00, '2025-07-24 13:20:47', '2025-07-24 13:20:47'),
+(8, 4, 17, 1.00, 1000.00, '2025-07-24 13:20:47', '2025-07-24 13:20:47'),
+(9, 4, 23, 1.00, 1000.00, '2025-07-24 13:20:47', '2025-07-24 13:20:47'),
+(10, 4, 24, 1.00, 1000.00, '2025-07-24 13:20:47', '2025-07-24 13:20:47'),
+(11, 4, 25, 1.00, 1000.00, '2025-07-24 13:20:47', '2025-07-24 13:20:47'),
+(12, 5, 26, 1.00, 1000.00, '2025-07-24 13:21:50', '2025-07-24 13:21:50');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `parcel_items`
+--
+
+CREATE TABLE `parcel_items` (
+  `id` bigint UNSIGNED NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `parcel_items`
+--
+
+INSERT INTO `parcel_items` (`id`, `name`, `created_at`, `updated_at`) VALUES
+(1, 'laptops', '2025-07-24 12:40:52', '2025-07-24 12:40:52'),
+(2, 'vaccines', '2025-07-24 12:40:59', '2025-07-24 12:40:59'),
+(3, 'salmon', '2025-07-24 12:41:07', '2025-07-24 12:41:07'),
+(4, 'watches', '2025-07-24 12:41:14', '2025-07-24 12:41:14'),
+(5, 'roses', '2025-07-24 12:41:25', '2025-07-24 12:41:25'),
+(6, 'batteries', '2025-07-24 12:41:32', '2025-07-24 12:41:32'),
+(7, 'bank documents', '2025-07-24 12:41:58', '2025-07-24 12:41:58'),
+(8, 'cottons', '2025-07-24 12:42:05', '2025-07-24 12:42:05'),
+(9, 'gold', '2025-07-24 12:42:14', '2025-07-24 12:42:14'),
+(10, 'engines', '2025-07-24 12:42:20', '2025-07-24 12:42:20'),
+(11, 'air buds', '2025-07-24 12:49:43', '2025-07-24 12:49:43'),
+(12, 'haviva porter', '2025-07-24 12:52:39', '2025-07-24 12:52:39'),
+(13, 'molly saunders', '2025-07-24 12:53:07', '2025-07-24 12:53:07'),
+(14, 'orange', '2025-07-24 12:53:16', '2025-07-24 12:53:16'),
+(15, 'aubrey langley', '2025-07-24 13:04:23', '2025-07-24 13:04:23'),
+(16, 'joel jacobson', '2025-07-24 13:08:25', '2025-07-24 13:08:25'),
+(17, 'oil', '2025-07-24 13:09:07', '2025-07-24 13:09:07'),
+(18, 'apple', '2025-07-24 13:16:11', '2025-07-24 13:16:11'),
+(19, 'cream', '2025-07-24 13:16:28', '2025-07-24 13:16:28'),
+(20, 'cherry', '2025-07-24 13:19:01', '2025-07-24 13:19:01'),
+(21, 'fish', '2025-07-24 13:19:07', '2025-07-24 13:19:07'),
+(22, 'book', '2025-07-24 13:20:09', '2025-07-24 13:20:09'),
+(23, 'lotion', '2025-07-24 13:20:19', '2025-07-24 13:20:19'),
+(24, 'bottol', '2025-07-24 13:20:41', '2025-07-24 13:20:41'),
+(25, 'pant', '2025-07-24 13:20:44', '2025-07-24 13:20:44'),
+(26, 'cap', '2025-07-24 13:21:44', '2025-07-24 13:21:44');
 
 -- --------------------------------------------------------
 
@@ -2668,6 +2743,12 @@ ALTER TABLE `parcel_invoice_details`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `parcel_items`
+--
+ALTER TABLE `parcel_items`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `parties`
 --
 ALTER TABLE `parties`
@@ -2979,19 +3060,25 @@ ALTER TABLE `menus`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=138;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139;
 
 --
 -- AUTO_INCREMENT for table `parcel_invoices`
 --
 ALTER TABLE `parcel_invoices`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `parcel_invoice_details`
 --
 ALTER TABLE `parcel_invoice_details`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT for table `parcel_items`
+--
+ALTER TABLE `parcel_items`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `parties`

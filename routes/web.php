@@ -189,6 +189,8 @@ Route::prefix('backend')->group(function () {
                 Route::get('edit/{id?}','createOrEdit')->name('parcel-invoices.edit');
                 Route::delete('delete/{id}','destroy')->name('parcel-invoices.destroy');
                 Route::get('approve/{id}','approve')->name('parcel-invoices.approve');
+                Route::post('items','items')->name('parcel-invoices.items');
+                Route::post('store-new-item','storeNewItem')->name('parcel-invoices.store-new-item');
             });
 
 

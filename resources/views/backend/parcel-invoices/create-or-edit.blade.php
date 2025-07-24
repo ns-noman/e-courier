@@ -29,7 +29,7 @@
         <section class="content">
             <div class="container-fluid">
                 <form id="form-submit"
-                    action="{{ isset($data['item']) ? route('sales.update', $data['item']->id) : route('sales.store') }}"
+                    action="{{ isset($data['item']) ? route('parcel-invoices.update', $data['item']->id) : route('parcel-invoices.store') }}"
                     method="POST" enctype="multipart/form-data">
                     @csrf()
                     @if (isset($data['item']))
@@ -84,7 +84,7 @@
                                                 placeholder="+8801XXXXXXXXX">
                                         </div>
                                         <div class="form-group col-sm-3 col-md-3 col-lg-3">
-                                            <label>Receiver Name *</label>
+                                            <label>Country Name *</label>
                                             <select class="form-control select2" id="receiver_country_id"
                                                 name="receiver_country_id">
                                                 <option value="">Select Country</option>
@@ -126,19 +126,10 @@
                                                 class="form-control" required>
                                         </div>
                                         <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                            <label>Item</label>
-                                            <select class="form-control select2" id="item_id_temp">
-                                                <option value="" selected disabled>Select Item</option>
-                                                @foreach ($data['items'] as $key => $item)
-                                                    <option value="{{ $item['id'] }}" item_name="{{ $item['name'] }}"
-                                                        item_price="{{ $item['price'] }}"
-                                                        unit_name="{{ $item['unit_name'] }}"
-                                                        stock_qty="{{ $item['stock_quantity'] }}"
-                                                        > {{ $item['name'] }}
-                                                        (stk: {{ $item['stock_quantity'] }})
-                                                        {{ $item['purchase_price'] }}</option>
-                                                @endforeach
-                                            </select>
+                                            <label>Item Name</label>
+                                            <input type="text" class="form-control" id="item_name_input" placeholder="Item Name">
+                                            <input type="hidden" class="form-control" id="item_name_temp">
+                                            <input type="hidden" class="form-control" id="item_id_temp">
                                         </div>
                                         <div class="form-group col-sm-12 col-md-12 col-lg-12">
                                             <div class="table-responsive">
@@ -148,9 +139,9 @@
                                                         <tr>
                                                             <th width="5%">SN</th>
                                                             <th width="30%">Item</th>
-                                                            <th width="10%">Unit</th>
+                                                            {{-- <th width="10%">Unit</th> --}}
                                                             <th width="10%">Quantity</th>
-                                                            <th width="10%">Sales Price</th>
+                                                            <th width="10%">Unit Price</th>
                                                             <th width="10%">Sub Total</th>
                                                             <th width="5%">Action</th>
                                                         </tr>
@@ -164,7 +155,7 @@
                                                                        {{ $sd['item_name'] }}
                                                                         <input type="hidden" value="{{  $sd['item_id'] }}" name="item_id[]">
                                                                     </td>
-                                                                    <td>{{ $sd['unit_name'] }}</td>
+                                                                    {{-- <td>{{ $sd['unit_name'] }}</td> --}}
                                                                     <td><input type="number"
                                                                             value="{{ $sd['current_stock'] }}"
                                                                             class="form-control form-control-sm"
@@ -275,44 +266,6 @@
 @section('script')
     <script>
         $(document).ready(function() {
-
-            $('#item_id_temp').on('change', function(e) {
-                let item_id = $('#item_id_temp').val();
-                let item_name = $('#item_id_temp option:selected').attr('item_name');
-                let unit_name = $('#item_id_temp option:selected').attr('unit_name');
-                let item_price = $('#item_id_temp option:selected').attr('item_price');
-                let stock_qty = $('#item_id_temp option:selected').attr('stock_qty');
-                let item_type = $('#item_id_temp option:selected').attr('item_type') == 'item' ? 0 : 1;
-                if (checkDuplicate(item_id, item_type)) return duplicateAlert();
-
-                let unit_price_temp = $('#item_id_temp option:selected').attr('item_price');
-                let quantity_temp = 1;
-                let total_temp = unit_price_temp * quantity_temp;
-                let tbody = ``;
-                if (isLowStock(item_type, stock_qty, quantity_temp)) return stockAlert();
-
-                tbody += `<tr>
-                            <td class="serial"></td>
-                            <td class="text-left">
-                                ${item_name}
-                                <input type="hidden" value="${item_id}" name="item_id[]">
-                                <input type="hidden" value="${item_type}" name="item_type[]">    
-                            </td>
-                            <td>${unit_name}</td>
-                            <td><input type="number" value="${quantity_temp}" class="form-control form-control-sm calculate" name="quantity[]" placeholder="0.00" required></td>
-                            <td><input type="number" value="${unit_price_temp}" class="form-control form-control-sm calculate" name="unit_price[]" placeholder="0.00" required></td>
-                            <td><input type="number" value="${total_temp}" class="form-control form-control-sm" name="sub_total[]" placeholder="0.00" disabled></td>
-                            <td><button class="btn btn-sm btn-danger btn-del" type="button"><i class="fa-solid fa-trash btn-del"></i></button></td>
-                        </tr>`;
-
-                $('#tbody').append(tbody);
-                $(".serial").each(function(index) {
-                    $(this).html(index + 1);
-                });
-                $('#item_id_temp').val('');
-                calculate();
-            });
-
             $('#table').bind('keyup, input', function(e) {
                 if ($(e.target).is('.calculate')) {
                     calculate();
@@ -335,10 +288,6 @@
                 e.preventDefault();
                 Swal.fire("Couldn't be pay more then payable!");
             }
-            if (parseFloat($('#paid_amount').val()) > 0 && !$('#account_id option:selected').val()) {
-                e.preventDefault();
-                Swal.fire("Please Select Payment Method");
-            }
         });
         $('#discount_rate').on('keyup', function(e) {
             calculate();
@@ -352,7 +301,6 @@
             let item_id = $('input[name="item_id[]"]');
             let total_price = 0;
             for (let i = 0; i < item_id.length; i++) {
-                let item_type = $('input[name="item_type[]"]')[i].value;
                 let quantity = $('input[name="quantity[]"]')[i].value;
                 let unit_price = $('input[name="unit_price[]"]')[i].value;
                 let sub_total = $('input[name="sub_total[]"]')[i].value;
@@ -377,12 +325,11 @@
             $('#total_payable').val(total_payable.toFixed(2));
         }
 
-        function checkDuplicate(item_id, item_type) {
+        function checkDuplicate(item_id) {
             let isDuplicate = false;
             $('#tbody tr').each(function() {
                 let existingItemId = $(this).find('input[name="item_id[]"]').val();
-                let existingTypeId = $(this).find('input[name="item_type[]"]').val();
-                if ((existingItemId == item_id) && (existingTypeId == item_type)) {
+                if (existingItemId == item_id) {
                     isDuplicate = true;
                     return false;
                 }
@@ -410,4 +357,113 @@
             });
         }
     </script>
+
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $("#item_name_input").autocomplete({
+        source: function(request, response) {
+            $.ajax({
+                url: "{{ route('parcel-invoices.items') }}",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    search: request.term
+                },
+                success: function(data) {
+                    console.log(data);
+                    response(data);
+                    
+                }
+            });
+        },
+
+        change: function(event, ui) {
+            if (!ui.item) {
+                event.currentTarget.value = '';
+                event.currentTarget.focus();
+            }
+        },
+        select: function(event, ui) {
+            $('#item_name_input').val(ui.item.label);
+            $('#item_name_temp').val(ui.item.label);
+            $('#item_id_temp').val(ui.item.item_id);
+            return false;
+        }
+    });
+
+
+    $("#item_name_input").on("keydown", async function (e) {
+        if (e.key === "Enter" || e.keyCode === 13) {
+            e.preventDefault();
+            const item_name_input = $("#item_name_input").val();
+            const item_name_temp = $("#item_name_temp").val();
+            const item_id_temp = $("#item_id_temp").val();
+            if(!item_id_temp && item_name_input){
+                const item = await storeItem(item_name_input);
+                $("#item_name_temp").val(item.name);
+                $("#item_id_temp").val(item.id);
+            }
+            generateRow();
+            $("#item_name_input").val('');
+            $("#item_name_temp").val('');
+            $("#item_id_temp").val('');
+        }
+    });
+
+    function generateRow()
+    {
+        let item_id = $('#item_id_temp').val();
+        let item_name = $('#item_name_temp').val();
+        let item_price = 1000;
+        let unit_price_temp = 1000;
+        let quantity_temp = 1;
+        let total_temp = unit_price_temp * quantity_temp;
+        let tbody = ``;
+
+
+        tbody += `<tr>
+                    <td class="serial"></td>
+                    <td class="text-left">
+                        ${item_name}
+                        <input type="hidden" value="${item_id}" name="item_id[]">
+                    </td>
+                    <td><input type="number" value="${quantity_temp}" class="form-control form-control-sm calculate" name="quantity[]" placeholder="0.00" required></td>
+                    <td><input type="number" value="${unit_price_temp}" class="form-control form-control-sm calculate" name="unit_price[]" placeholder="0.00" required></td>
+                    <td><input type="number" value="${total_temp}" class="form-control form-control-sm" name="sub_total[]" placeholder="0.00" disabled></td>
+                    <td><button class="btn btn-sm btn-danger btn-del" type="button"><i class="fa-solid fa-trash btn-del"></i></button></td>
+                </tr>`;
+
+        $('#tbody').append(tbody);
+        $(".serial").each(function(index) {
+            $(this).html(index + 1);
+        });
+        calculate();
+    }
+
+    async function storeItem(itemName)
+    {
+        try {
+            const item = await $.ajax({
+                url: "{{ route('parcel-invoices.store-new-item') }}",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    name: itemName,
+                }
+            });
+            return item;
+        } catch (error) {
+            console.error("Error: ", error);
+            return null
+        }
+    }
+
+
+</script>
+
 @endsection

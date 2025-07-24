@@ -8,17 +8,14 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('parcel_invoice_details', function (Blueprint $table) {
+        Schema::create('parcel_items', function (Blueprint $table) {
             $table->id();
-            $table->integer('parcel_invoice_id');
-            $table->bigInteger('item_id');
-            $table->double('quantity',20,2);
-            $table->double('unit_price',20,2);
+            $table->string('name');
             $table->timestamps();
         });
     }
     public function down()
     {
-        Schema::dropIfExists('parcel_invoice_details');
+        Schema::dropIfExists('parcel_items');
     }
 };

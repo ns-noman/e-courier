@@ -17,21 +17,32 @@
                             <div class="card-body">
                                 <div class="bootstrap-data-table-panel">
                                     <div class="table-responsive">
-                                        <table id="dataTable" class="table table-sm table-striped table-bordered table-centre">
+                                        <table id="dataTa ble" class="table table-sm table-striped table-bordered table-centre">
                                             <thead>
                                                 <tr>
                                                     <th>SN</th>
                                                     <th>InvoiceNo</th>
-                                                    <th>Customer/Reg#</th>
                                                     <th>Date</th>
                                                     <th>Total Price</th>
                                                     <th>Vat/Tax</th>
                                                     <th>Discount</th>
                                                     <th>Payable</th>
-                                                    <th>Paid|Due</th>
-                                                    <th>Profit</th>
                                                     <th>Note</th>
-                                                    <th>Payment Status</th>
+                                                    
+                                                    
+                                                    
+                                                    <th>Sender Name</th>
+                                                    <th>Sender Phone</th>
+                                                    <th>Sender Post Code</th>
+                                                    <th>Sender Address</th>
+
+                                                    <th>Receiver Name</th>
+                                                    <th>Receiver Phone</th>
+                                                    <th>Receiver Country</th>
+                                                    <th>Receiver Post Code</th>
+                                                    <th>Receiver Address</th>
+
+                                                    <th>Agent Name</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -52,56 +63,6 @@
                             </div>
                         </div>
                     </section>
-                </div>
-            </div>
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-md">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Add Payment</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <form id="form-submit" action="{{ route('parcel-invoices.payment.store') }}" method="POST"
-                            enctype="multipart/form-data">
-                            <div class="modal-body">
-                                @csrf()
-                                <div class="row">
-                                    <input type="hidden" name="sale_id" id="sale_id">
-                                    <div class="form-group col-sm-12 col-md-12 col-lg-12">
-                                        <label>Payment Date *</label>
-                                        <input value="{{ date('Y-m-d') }}" type="date" class="form-control" name="date" id="date" placeholder="0.00">
-                                    </div>
-                                    <div class="form-group col-sm-12 col-md-12 col-lg-12">
-                                        <label>Payment Methods *</label>
-                                        <select class="form-control" name="account_id" id="account_id" required>
-                                            <option selected value=''>Select Payment Methods</option>
-                                            @foreach ($data['paymentMethods'] as $paymentMethod)
-                                                <option account-bal="{{ $paymentMethod['balance'] }}" @selected(isset($data['item']) && $data['item']['account_id'] == $paymentMethod['id']) value="{{ $paymentMethod['id'] }}">{{ $paymentMethod['name'] .' : '. $paymentMethod['account_no'] . ' (Bal: ' . $paymentMethod['balance'] }} &#2547;)</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <div class="form-group col-sm-12 col-md-12 col-lg-12">
-                                        <label>Due Amount</label>
-                                        <input readonly value="0.00" type="number" class="form-control" name="due_amount" id="due_amount" placeholder="0.00">
-                                    </div>
-                                    <div class="form-group col-sm-12 col-md-12 col-lg-12">
-                                        <label>Paid Amount</label>
-                                        <input value="0.00" type="number" class="form-control" name="amount" id="amount" placeholder="0.00">
-                                    </div>
-                                    <div class="form-group col-sm-12 col-md-12 col-lg-12">
-                                        <label>Note</label>
-                                        <input type="text" class="form-control" name="note" id="note" placeholder="Note">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button id="cancel" type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                <button id="save_payment" type="submit" class="btn btn-primary">Save</button>
-                            </div>
-                        </form>
-                    </div>
                 </div>
             </div>
         </section>
