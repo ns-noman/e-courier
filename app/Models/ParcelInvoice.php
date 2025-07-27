@@ -38,6 +38,8 @@ class ParcelInvoice extends Model
 
         'created_by_id',
         'updated_by_id',
+        
+        'is_packed',
         'payment_status',
         'parcel_status',
     ];

@@ -1,5 +1,17 @@
 @extends('layouts.admin.master')
 @section('content')
+    <style>
+        td:nth-child(3){
+            white-space: nowrap;
+        }
+        td:nth-child(4),
+        td:nth-child(5),
+        td:nth-child(6),
+        td:nth-child(7)
+        {
+            text-align: right!important;
+        }
+    </style>
     <div class="content-wrapper">
         @include('layouts.admin.content-header')
         <section class="content">
@@ -17,7 +29,7 @@
                             <div class="card-body">
                                 <div class="bootstrap-data-table-panel">
                                     <div class="table-responsive">
-                                        <table id="dataTa ble" class="table table-sm table-striped table-bordered table-centre">
+                                        <table id="dataTable" class="table table-sm table-striped table-bordered table-centre text-center">
                                             <thead>
                                                 <tr>
                                                     <th>SN</th>
@@ -28,35 +40,16 @@
                                                     <th>Discount</th>
                                                     <th>Payable</th>
                                                     <th>Note</th>
-                                                    
-                                                    
-                                                    
-                                                    <th>Sender Name</th>
-                                                    <th>Sender Phone</th>
-                                                    <th>Sender Post Code</th>
-                                                    <th>Sender Address</th>
-
-                                                    <th>Receiver Name</th>
-                                                    <th>Receiver Phone</th>
-                                                    <th>Receiver Country</th>
-                                                    <th>Receiver Post Code</th>
-                                                    <th>Receiver Address</th>
-
+                                                    <th>Origin Branch</th>
+                                                    <th>Current Location</th>
                                                     <th>Agent Name</th>
+                                                    <th>Is Packed?</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                             </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <td colspan="7"><b>Total:</b></td>
-                                                    <td @style('text-align: right;')><b id="totalSale"></b></td>
-                                                    <td @style('text-align: right;')><b id="totalProit"></b></td>
-                                                    <td colspan="5"></td>
-                                                </tr>
-                                            </tfoot>
                                         </table>
                                     </div>
                                 </div>
@@ -89,18 +82,13 @@
             serverSide: true,
             ajax: {
                 url: '{{ route("parcel-invoices.list") }}',
-                type: 'GET',  
-                dataSrc: function (json) {
-                    $('#totalSale').html(formatNumber(json.sale_summery.total_sale));
-                    $('#totalProit').html(formatNumber(json.sale_summery.total_profit));
-                    return json.data;
-                }
+                type: 'GET',
             },
             columns: [
                         { data: null, orderable: false, searchable: false },
                         {
                             data: null, 
-                            name: 'sales.invoice_no', 
+                            name: 'parcel_invoices.invoice_no', 
                             orderable: true, 
                             searchable: true, 
                             render: function(data, type, row, meta) {
@@ -108,65 +96,81 @@
                                 return `<a href="${view}" class=""><b>${row.invoice_no}</b></a>`;
                             }
                         },
+                        { data: 'date', name: 'parcel_invoices.date'},
+                        { data: 'total_price', name: 'parcel_invoices.total_price'},
+                        { data: 'vat_tax', name: 'parcel_invoices.vat_tax'},
+                        { data: 'discount', name: 'parcel_invoices.discount'},
+                        { data: 'total_payable', name: 'parcel_invoices.total_payable'},
+                        { data: 'note', name: 'parcel_invoices.note'},
+                        { data: 'creator_branch_title', name: 'branches.creator_branch_title'},
                         {
                             data: null, 
-                            name: 'customers.name',
+                            name: 'parcel_invoices.invoice_no', 
                             orderable: true, 
-                            searchable: false, 
+                            searchable: true, 
                             render: function(data, type, row, meta) {
-                                return `${row.customer_name}${row.bike_reg_no ? '<br>' + row.bike_reg_no : ''}`;
-                            }
-                        },
-                        { data: 'date', name: 'sales.date'},
-                        { data: 'total_price', name: 'sales.total_price'},
-                        { data: 'vat_tax', name: 'sales.vat_tax'},
-                        { data: 'discount', name: 'sales.discount'},
-                        { data: 'total_payable', name: 'sales.total_payable'},
-                        {
-                            data: null, 
-                            name: 'sales.paid_amount', 
-                            orderable: false, 
-                            searchable: false, 
-                            render: function(data, type, row, meta) {
-                                return `<div class="text-center"><span class="text-success fw-bold"><b>${row.paid_amount}</b></span><br><span class="text-danger fw-bold"><b>${row.total_payable - row.paid_amount}</b></span></div>`;
-                            }
-                        },
-                        { data: 'profit', name: 'sales.profit'},
-                        { data: 'note', name: 'sales.note'},
-                        {
-                            data: null, 
-                            name: 'sales.payment_status', 
-                            orderable: true, 
-                            searchable: false, 
-                            render: function(data, type, row, meta) {
-                                let color;
-                                let text;
-                                if(row.payment_status == '0'){
-                                    color = 'warning';
-                                    text = 'Unpaid';
-                                }else if(row.payment_status == '1'){
-                                    color = 'info';
-                                    text = 'Paid';
+                                if(row.current_branch_title == null){
+                                    if(row.current_branch_id == '-1'){
+                                        row.current_branch_title = 'In Transit';
+                                    }
                                 }
-                                return `<span class="badge badge-${color}">${text}</span>`;
+                                return `${row.current_branch_title}`;
                             }
                         },
+                        { data: 'creator_name', name: 'admins.name'},
+
                         {
                             data: null, 
-                            name: 'sales.status', 
+                            name: 'parcel_invoices.is_packed', 
+                            orderable: true, 
+                            searchable: true, 
+                            render: function(data, type, row, meta) {
+                                let txt = 'No';
+                                let bg = 'danger';
+                                if(row.is_packed == '1'){
+                                    txt = 'Yes';
+                                    bg = 'success';
+                                }
+                                return `<span class="badge bg-${bg}">${txt}</span>`;
+                            }
+                        },
+
+                    
+                        {
+                            data: null, 
+                            name: 'parcel_invoices.parcel_status', 
                             orderable: true, 
                             searchable: false, 
                             render: function(data, type, row, meta) {
                                 let color;
                                 let text;
                                 let eventClass = '';
-                                if(row.status == '0'){
-                                    color = 'danger';
-                                    text = 'Pending';
-                                    eventClass = 'event';
-                                }else if(row.status == '1'){
-                                    color = 'success';
-                                    text = 'Approved';
+                                switch (row.parcel_status) {
+                                    case 'pending':
+                                        color = 'warning';
+                                        text = 'Pending';
+                                        eventClass = 'event';
+                                        break;
+                                    case 'approve':
+                                        color = 'primary';
+                                        text = 'Approved';
+                                        break;
+                                    case 'in_transit':
+                                        color = 'info';
+                                        text = 'In Transit';
+                                        break;
+                                    case 'delivered':
+                                        color = 'success';
+                                        text = 'Delivered';
+                                        break;
+                                    case 'cancelled':
+                                        color = 'danger';
+                                        text = 'Cancelled';
+                                        break;
+                                    default:
+                                        color = 'secondary';
+                                        text = 'Unknown';
+                                        break;
                                 }
                                 return `<button transaction_id=${row.id} type="button" class="btn btn-sm btn-${color} ${eventClass}">${text}</button>`;
                             }
@@ -180,32 +184,24 @@
                                 let print = `{{ route('parcel-invoices.invoice.print', [":id", "print"]) }}`.replace(':id', row.id);
                                 let view = `{{ route('parcel-invoices.invoice', [":id"]) }}`.replace(':id', row.id);
                                 let destroy = `{{ route('parcel-invoices.destroy', ":id") }}`.replace(':id', row.id);
-                                return (` <div class="d-flex justify-content-center">
-                                                <a href="${view}" class="btn btn-sm btn-warning ml-1">
+                                return (` <div class="d-flex justify-content-center" gap-4">
+                                                <a href="${print}" class="btn btn-sm btn-dark">
+                                                    <i class="fa-solid fa-print"></i>
+                                                </a>
+                                                <a href="${view}" class="btn btn-sm btn-primary">
                                                     <i class="fa-solid fa-eye"></i>
                                                 </a>
-                                                <a href="${edit}" class="btn btn-sm btn-info ${row.status == '1' ? 'disabled' : null}">
+                                                <a href="${edit}" class="btn btn-sm btn-info ${row.parcel_status != 'pending' ? 'disabled' : null}">
                                                         <i class="fa-solid fa-pen-to-square"></i>
                                                 </a>
                                                 <form class="delete" action="${destroy}" method="post">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger" ${row.status == '1' ? "disabled" : null}>
+                                                    <button type="submit" class="btn btn-sm btn-danger" ${row.parcel_status != 'pending' ? "disabled" : null}>
                                                         <i class="fa-solid fa-trash-can"></i>
                                                     </button>
                                                 </form>
-                                                <div class="btn-group">
-                                                    <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                                                        More
-                                                    </button>
-                                                    <div class="dropdown-menu">
-                                                        <button due="${row.total_payable - row.paid_amount}" sale-id="${row.id }" type="button" class="btn btn-success btn-sm pay-now dropdown-item"
-                                                            data-toggle="modal" data-target="#exampleModal" data-whatever="@getbootstrap" 
-                                                                ${(row.total_payable - row.paid_amount)==0? 'disabled' : null}
-                                                            >Add Payments</button>
-                                                            <a href="${print}" class="dropdown-item">Print</a>
-                                                    </div>
-                                                </div>
+                                               
                                             </div>
                                         `);
                             }

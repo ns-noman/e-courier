@@ -12,40 +12,41 @@
                                   <h4>
                                     <img style="height: 50px;width: px;" src="{{ asset('public/uploads/basic-info/' . $data['basicInfo']['logo']) }}" alt="Logo" />
                                       {{ $data['basicInfo']['title'] }}
-                                      <small class="float-right">Date: {{ date('dS M Y', strtotime($data['master']['sale_date'])) }}</small>
+                                      <small class="float-right">Date: {{ date('dS M Y', strtotime($data['master']['date'])) }}</small>
                                   </h4>
                               </div>
                           </div>
-                          <div class="row invoice-info">
-                                <div class="col-sm-4 invoice-col">
-                                    From
-                                    <address>
-                                        <strong>{{ $data['basicInfo']['title'] }}</strong><br>
-                                        {{ $data['basicInfo']['address'] }}<br>
-                                        Phone-1: {{ $data['basicInfo']['phone'] }}<br>
-                                        Phone-2: {{ $data['basicInfo']['telephone'] }}<br>
-                                        Email: {{ $data['basicInfo']['email'] }}
-                                    </address>
-                                </div>
-                                <div class="col-sm-4 invoice-col">
-                                   
-                                    To
-                                    <address>
-                                        <strong>{{ $data['master']['customer_name'] }}{{ $data['master']['bike_reg_no'] ? ' /Reg#' . $data['master']['bike_reg_no'] : null }}</strong><br>
-                                        {{ $data['master']['customer_address'] }}<br>
-                                        Phone: {{ $data['master']['customer_contact'] }}<br>
-                                        Email: {{ $data['master']['customer_email'] }}<br>
-                                    </address>
-                                </div>
-                              <div class="col-sm-4 invoice-col">
-                                  <b>Invoice #{{ $data['master']['invoice_no'] }}</b><br>
-                                  <br>
-                                  <p><span><svg class="barcode"></svg></span></p>
-                              </div>
+                          <div class="row">
+                            <div class="col-sm-12 d-flex justify-content-end">
+                                <p><span><svg class="barcode"></svg></span></p>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-sm-6">
+                                Sender Info
+                                <hr>
+                                <address>
+                                    <strong>{{ $data['master']['sender_name'] }}</strong><br>
+                                    Phone: {{ $data['master']['sender_phone'] }}<br>
+                                    Post Code: {{ $data['master']['sender_post_code'] }}<br>
+                                    Address: {{ $data['master']['sender_address'] }}<br>
+                                </address>
+                            </div>
+                            <div class="col-sm-6">
+                                Receiver Info
+                                <hr>
+                                <address>
+                                    <strong>{{ $data['master']['receiver_name'] }}</strong><br>
+                                    Phone: {{ $data['master']['receiver_phone'] }}<br>
+                                    Country Name: {{ $data['master']['country_name'] }}<br>
+                                    Post Code: {{ $data['master']['receiver_post_code'] }}<br>
+                                    Address: {{ $data['master']['receiver_address'] }}<br>
+                                </address>
+                            </div>
                           </div>
                           <div class="row">
                               <div class="col-12 table-responsive">
-                                  <table class="table table-striped">
+                                  <table class="table table-striped text-center">
                                       <thead>
                                         <tr>
                                             <th>SN</th>
@@ -59,14 +60,8 @@
                                             @foreach ($data['details'] as $sd)
                                                 <tr>
                                                     <td>{{ $loop->iteration }}</td>
-                                                    <td>
-                                                        @if ($sd['item_type']==0)
-                                                            {{ $sd['item_name'] }}
-                                                        @else
-                                                            {{ $sd['service_name'] }}
-                                                        @endif
-                                                    </td>
-                                                    <td>{{ $sd['quantity'] }} {{ $sd['unit_name'] ?? "Service" }}</td>
+                                                    <td>{{ ucwords($sd['item_name']) }}</td>
+                                                    <td>{{ $sd['quantity'] }}</td>
                                                     <td>{{ $data['basicInfo']['currency_symbol'] }} {{ number_format($sd['unit_price'], 2) }}</td>
                                                     <td>{{ $data['basicInfo']['currency_symbol'] }} {{ number_format($sd['unit_price'] * $sd['quantity'], 2) }}</td>
                                                 </tr>
@@ -77,7 +72,6 @@
                           </div>
                           <div class="row">
                               <div class="col-6">
-                                  <p class="lead">Payment Methods: {{ $data['master']['payment_method'] }}</p>
                               </div>
                               <div class="col-6">
                                   <div class="table-responsive">
@@ -132,8 +126,8 @@
         });
         JsBarcode(".barcode", "{{ $data['master']['invoice_no'] }}", {
             width: 1,
-            height: 30,
-            displayValue: false
+            height: 20,
+            displayValue: true
         });
         function customPrint(){
           var printContents = document.getElementById('my-invoice').innerHTML;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 24, 2025 at 01:26 PM
+-- Generation Time: Jul 27, 2025 at 11:32 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.2.28
 
@@ -1531,7 +1531,7 @@ INSERT INTO `menus` (`id`, `parent_id`, `srln`, `menu_name`, `navicon`, `is_side
 (136, 124, 5, 'Customers', '<i class=\"far fa-dot-circle nav-icon\"></i>', 1, 'customers.create', 'customers.index', 1, '2025-03-22 13:17:08', '2025-03-22 13:17:35'),
 (137, 130, 3, 'Sales', '<i class=\"far fa-dot-circle nav-icon\"></i>', 1, 'sales.create', 'sales.index', 1, '2025-03-22 14:31:30', '2025-03-23 03:39:11'),
 (138, 130, 5, 'Customer Payment', '<i class=\"far fa-dot-circle nav-icon\"></i>', 1, 'customer-payments.create', 'customer-payments.index', 1, '2025-03-23 02:47:00', '2025-03-23 02:47:00'),
-(139, 0, 12, 'Loan Manage', '<i class=\"nav-icon fas fa-hand-holding-usd\"></i>', 1, NULL, NULL, 1, '2025-04-08 23:37:41', '2025-04-08 23:37:41'),
+(139, 0, 12, 'Loan Manage', '<i class=\"nav-icon fas fa-hand-holding-usd\"></i>', 1, NULL, NULL, 0, '2025-04-08 23:37:41', '2025-07-27 05:40:32'),
 (140, 139, 1, 'Party Manage', '<i class=\"far fa-dot-circle nav-icon\"></i>', 1, 'parties.create', 'parties.index', 1, '2025-04-08 23:39:23', '2025-04-08 23:39:23'),
 (141, 139, 2, 'Loans', '<i class=\"far fa-dot-circle nav-icon\"></i>', 1, 'loans.create', 'loans.index', 1, '2025-04-09 22:25:30', '2025-04-09 22:25:41'),
 (142, 139, 3, 'Party Payments', '<i class=\"far fa-dot-circle nav-icon\"></i>', 1, NULL, 'party-payments.index', 1, '2025-04-10 12:01:23', '2025-04-10 12:03:56'),
@@ -1559,7 +1559,7 @@ INSERT INTO `menus` (`id`, `parent_id`, `srln`, `menu_name`, `navicon`, `is_side
 (164, 71, 2, 'Edit', NULL, 0, NULL, 'fundtransfers.edit', 1, '2025-04-21 00:57:55', '2025-04-21 00:57:55'),
 (165, 71, 3, 'Delete', NULL, 0, NULL, 'fundtransfers.destroy', 1, '2025-04-21 00:58:14', '2025-04-21 00:58:14'),
 (166, 71, 4, 'Approve', NULL, 0, NULL, 'fundtransfers.approve', 1, '2025-04-21 00:58:30', '2025-04-21 00:58:30'),
-(167, 0, 5, 'Investor Manage', '<i class=\"nav-icon fas fa-user-tie\"></i>', 1, NULL, NULL, 1, '2025-04-21 01:05:14', '2025-04-21 01:05:14'),
+(167, 0, 5, 'Investor Manage', '<i class=\"nav-icon fas fa-user-tie\"></i>', 1, NULL, NULL, 0, '2025-04-21 01:05:14', '2025-07-27 05:40:05'),
 (168, 184, 6, 'Today\'s Sale', NULL, 0, NULL, NULL, 1, '2025-04-22 04:22:35', '2025-04-22 04:22:35'),
 (169, 182, 6, 'Expense', NULL, 0, NULL, NULL, 1, '2025-04-22 04:22:53', '2025-04-22 04:22:53'),
 (170, 182, 1, 'Accessories Sales', NULL, 0, NULL, NULL, 1, '2025-04-22 04:23:13', '2025-04-22 04:23:30'),
@@ -1603,7 +1603,13 @@ INSERT INTO `menus` (`id`, `parent_id`, `srln`, `menu_name`, `navicon`, `is_side
 (210, 208, 2, 'Edit', NULL, 0, NULL, 'agents.edit', 1, '2025-07-22 05:28:28', '2025-07-22 05:28:28'),
 (211, 208, 3, 'Delete', NULL, 0, NULL, 'agents.destroy', 1, '2025-07-22 05:29:01', '2025-07-22 05:29:01'),
 (212, 0, 3, 'Parcel Manage', '<i class=\"fas fa-shipping-fast nav-icon\"></i>', 1, NULL, NULL, 1, '2025-07-23 05:13:09', '2025-07-23 05:13:23'),
-(213, 212, 1, 'Parcels', '<i class=\"far fa-dot-circle nav-icon\"></i>', 1, 'parcel-invoices.create', 'parcel-invoices.index', 1, '2025-07-23 05:15:36', '2025-07-23 12:06:18');
+(213, 212, 1, 'Parcels', '<i class=\"far fa-dot-circle nav-icon\"></i>', 1, 'parcel-invoices.create', 'parcel-invoices.index', 1, '2025-07-23 05:15:36', '2025-07-23 12:06:18'),
+(214, 213, 1, 'Add', NULL, 0, NULL, 'parcel-invoices.create', 1, '2025-07-27 11:14:06', '2025-07-27 11:14:06'),
+(215, 213, 2, 'Edit', NULL, 0, NULL, 'parcel-invoices.edit', 1, '2025-07-27 11:14:16', '2025-07-27 11:14:16'),
+(216, 213, 3, 'Delete', NULL, 0, NULL, 'parcel-invoices.destroy', 1, '2025-07-27 11:14:36', '2025-07-27 11:14:36'),
+(217, 213, 4, 'Approve', NULL, 0, NULL, 'parcel-invoices.approve', 1, '2025-07-27 11:15:03', '2025-07-27 11:15:03'),
+(218, 213, 5, 'Invoice View', NULL, 0, NULL, 'parcel-invoices.invoice', 1, '2025-07-27 11:15:41', '2025-07-27 11:15:41'),
+(219, 213, 6, 'Invoice Print', NULL, 0, NULL, 'parcel-invoices.invoice.print', 1, '2025-07-27 11:16:02', '2025-07-27 11:16:02');
 
 -- --------------------------------------------------------
 
@@ -1712,6 +1718,7 @@ CREATE TABLE `parcel_invoices` (
   `receiver_country_id` int DEFAULT NULL,
   `created_by_id` int DEFAULT NULL,
   `updated_by_id` int DEFAULT NULL,
+  `is_packed` tinyint NOT NULL DEFAULT '0' COMMENT '0=no, 1=yes',
   `payment_status` enum('unpaid','partial','paid') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'unpaid',
   `parcel_status` enum('pending','approve','in_transit','delivered','cancelled') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
   `created_at` timestamp NULL DEFAULT NULL,
@@ -1722,12 +1729,11 @@ CREATE TABLE `parcel_invoices` (
 -- Dumping data for table `parcel_invoices`
 --
 
-INSERT INTO `parcel_invoices` (`id`, `created_branch_id`, `agent_id`, `current_branch_id`, `invoice_no`, `date`, `total_price`, `vat_tax`, `discount_method`, `discount_rate`, `discount`, `total_payable`, `paid_amount`, `reference_number`, `note`, `sender_name`, `sender_phone`, `sender_post_code`, `sender_address`, `receiver_name`, `receiver_phone`, `receiver_post_code`, `receiver_address`, `receiver_country_id`, `created_by_id`, `updated_by_id`, `payment_status`, `parcel_status`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, '1000001', '1996-02-28', 1000.00, NULL, 1, 36.00, 36.00, 964.00, 964.00, '320', 'Expedita sit incidu', 'Casey Ellis', '82', '71', 'Dolore explicabo Pl', 'Gillian Wolfe', '6', '52', 'Mollit similique aut', 111, 1, NULL, 'paid', 'pending', '2025-07-24 13:04:26', '2025-07-24 13:04:26'),
-(2, 1, 1, 1, '1000002', '2020-05-04', 3000.00, NULL, 1, 0.00, 0.00, 3000.00, 3000.00, '592', 'Est pariatur Eos p', 'Nola Mcfadden', '81', '84', 'Dolore molestias vol', 'Regan Simmons', '81', '81', 'Ratione temporibus p', 231, 1, NULL, 'paid', 'pending', '2025-07-24 13:16:44', '2025-07-24 13:16:44'),
-(3, 1, 1, 1, '1000003', '2022-12-20', 3000.00, NULL, 1, 37.00, 37.00, 2963.00, 2963.00, '689', 'Non pariatur Neque', 'Indigo Baxter', '80', '15', 'Rem unde dolore et q', 'Holmes Calhoun', '92', '9', 'Consectetur sit pro', 116, 1, NULL, 'paid', 'pending', '2025-07-24 13:19:12', '2025-07-24 13:19:12'),
-(4, 1, 1, 1, '1000004', '1980-12-15', 5000.00, NULL, 1, 52.00, 52.00, 4948.00, 4948.00, '500', 'Incididunt sed qui a', 'Glenna Knapp', '40', '7', 'Officia in soluta su', 'Irma Beasley', '72', '40', 'Natus velit qui lab', 26, 1, NULL, 'paid', 'pending', '2025-07-24 13:20:47', '2025-07-24 13:20:47'),
-(5, 1, 1, 1, '1000005', '2010-04-11', 1000.00, NULL, 0, 75.00, 750.00, 250.00, 250.00, '319', 'Sapiente officia pro', 'Sebastian Travis', '89', '19', 'Deserunt ut tempora', 'Addison Morrow', '29', '68', 'Obcaecati officiis i', 149, 1, NULL, 'paid', 'pending', '2025-07-24 13:21:50', '2025-07-24 13:21:50');
+INSERT INTO `parcel_invoices` (`id`, `created_branch_id`, `agent_id`, `current_branch_id`, `invoice_no`, `date`, `total_price`, `vat_tax`, `discount_method`, `discount_rate`, `discount`, `total_payable`, `paid_amount`, `reference_number`, `note`, `sender_name`, `sender_phone`, `sender_post_code`, `sender_address`, `receiver_name`, `receiver_phone`, `receiver_post_code`, `receiver_address`, `receiver_country_id`, `created_by_id`, `updated_by_id`, `is_packed`, `payment_status`, `parcel_status`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, -1, '1000001', '1996-02-28', 1000.00, NULL, 1, 36.00, 36.00, 964.00, 964.00, '320', 'Expedita sit incidu', 'Casey Ellis', '82', '71', 'Dolore explicabo Pl', 'Gillian Wolfe', '6', '52', 'Mollit similique aut', 111, 1, NULL, 0, 'paid', 'pending', '2025-07-24 13:04:26', '2025-07-24 13:04:26'),
+(2, 1, 1, 1, '1000002', '2020-05-04', 3000.00, NULL, 1, 0.00, 0.00, 3000.00, 3000.00, '592', 'Est pariatur Eos p', 'Nola Mcfadden', '81', '84', 'Dolore molestias vol', 'Regan Simmons', '81', '81', 'Ratione temporibus p', 231, 1, NULL, 1, 'paid', 'pending', '2025-07-24 13:16:44', '2025-07-24 13:16:44'),
+(4, 1, 1, 1, '1000004', '1980-12-15', 5000.00, NULL, 1, 52.00, 52.00, 4948.00, 4948.00, '500', 'Incididunt sed qui a', 'Glenna Knapp', '40', '7', 'Officia in soluta su', 'Irma Beasley', '72', '40', 'Natus velit qui lab', 26, 1, NULL, 0, 'paid', 'approve', '2025-07-24 13:20:47', '2025-07-27 10:56:17'),
+(5, 1, 1, 1, '1000005', '2010-04-11', 2000.00, NULL, 0, 75.00, 1500.00, 500.00, 500.00, NULL, NULL, 'Shoriful Islam', '01839317038', '23456789', '742 Evergreen Terrace Springfield, IL 62704 United States', 'Addison Morrow', '01739317077', '234567890', '742 GreenOld Jrfas Springfield, IL 62704 Canada', 38, 1, 1, 0, 'paid', 'approve', '2025-07-24 13:21:50', '2025-07-27 10:55:28');
 
 -- --------------------------------------------------------
 
@@ -1753,15 +1759,13 @@ INSERT INTO `parcel_invoice_details` (`id`, `parcel_invoice_id`, `item_id`, `qua
 (1, 2, 18, 1.00, 1000.00, '2025-07-24 13:16:44', '2025-07-24 13:16:44'),
 (2, 2, 17, 1.00, 1000.00, '2025-07-24 13:16:44', '2025-07-24 13:16:44'),
 (3, 2, 19, 1.00, 1000.00, '2025-07-24 13:16:44', '2025-07-24 13:16:44'),
-(4, 3, 17, 1.00, 1000.00, '2025-07-24 13:19:12', '2025-07-24 13:19:12'),
-(5, 3, 20, 1.00, 1000.00, '2025-07-24 13:19:12', '2025-07-24 13:19:12'),
-(6, 3, 21, 1.00, 1000.00, '2025-07-24 13:19:12', '2025-07-24 13:19:12'),
 (7, 4, 22, 1.00, 1000.00, '2025-07-24 13:20:47', '2025-07-24 13:20:47'),
 (8, 4, 17, 1.00, 1000.00, '2025-07-24 13:20:47', '2025-07-24 13:20:47'),
 (9, 4, 23, 1.00, 1000.00, '2025-07-24 13:20:47', '2025-07-24 13:20:47'),
 (10, 4, 24, 1.00, 1000.00, '2025-07-24 13:20:47', '2025-07-24 13:20:47'),
 (11, 4, 25, 1.00, 1000.00, '2025-07-24 13:20:47', '2025-07-24 13:20:47'),
-(12, 5, 26, 1.00, 1000.00, '2025-07-24 13:21:50', '2025-07-24 13:21:50');
+(16, 5, 5, 1.00, 1000.00, '2025-07-27 10:47:14', '2025-07-27 10:47:14'),
+(17, 5, 5, 1.00, 1000.00, '2025-07-27 10:47:14', '2025-07-27 10:47:14');
 
 -- --------------------------------------------------------
 
@@ -1806,7 +1810,10 @@ INSERT INTO `parcel_items` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (23, 'lotion', '2025-07-24 13:20:19', '2025-07-24 13:20:19'),
 (24, 'bottol', '2025-07-24 13:20:41', '2025-07-24 13:20:41'),
 (25, 'pant', '2025-07-24 13:20:44', '2025-07-24 13:20:44'),
-(26, 'cap', '2025-07-24 13:21:44', '2025-07-24 13:21:44');
+(26, 'cap', '2025-07-24 13:21:44', '2025-07-24 13:21:44'),
+(27, 'mog', '2025-07-27 05:42:13', '2025-07-27 05:42:13'),
+(28, 'ambrella', '2025-07-27 05:42:19', '2025-07-27 05:42:19'),
+(29, 'shirt', '2025-07-27 10:42:42', '2025-07-27 10:42:42');
 
 -- --------------------------------------------------------
 
@@ -3054,7 +3061,7 @@ ALTER TABLE `items`
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=214;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=220;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -3072,13 +3079,13 @@ ALTER TABLE `parcel_invoices`
 -- AUTO_INCREMENT for table `parcel_invoice_details`
 --
 ALTER TABLE `parcel_invoice_details`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `parcel_items`
 --
 ALTER TABLE `parcel_items`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `parties`

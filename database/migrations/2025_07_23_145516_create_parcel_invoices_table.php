@@ -39,7 +39,8 @@ return new class extends Migration
 
             $table->integer('created_by_id')->nullable();
             $table->integer('updated_by_id')->nullable();
-
+            
+            $table->tinyInteger('is_packed')->default(0)->comment('0=no, 1=yes');
             $table->enum('payment_status', ['unpaid', 'partial', 'paid'])->default('unpaid');
             $table->enum('parcel_status', ['pending','approve', 'in_transit', 'delivered', 'cancelled'])->default('pending');
 

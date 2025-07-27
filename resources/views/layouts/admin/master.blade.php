@@ -11,6 +11,13 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>{{ $basicInfo->title ?? 'Admin Panel' }}</title>
     @include('layouts.admin.links')
+    <style>
+        th {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">

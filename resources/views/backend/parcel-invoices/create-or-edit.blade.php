@@ -139,7 +139,6 @@
                                                         <tr>
                                                             <th width="5%">SN</th>
                                                             <th width="30%">Item</th>
-                                                            {{-- <th width="10%">Unit</th> --}}
                                                             <th width="10%">Quantity</th>
                                                             <th width="10%">Unit Price</th>
                                                             <th width="10%">Sub Total</th>
@@ -147,34 +146,24 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody id="tbody">
-                                                        @isset($data['saleDetails'])
-                                                            @foreach ($data['saleDetails'] as $sd)
+                                                        @isset($data['parcelInvoiceDetails'])
+                                                            @foreach ($data['parcelInvoiceDetails'] as $pid)
                                                                 <tr>
                                                                     <td class="serial">{{ $loop->iteration }}</td>
                                                                     <td class="text-left">
-                                                                       {{ $sd['item_name'] }}
-                                                                        <input type="hidden" value="{{  $sd['item_id'] }}" name="item_id[]">
+                                                                       {{ ucwords($pid['item_name']) }}
+                                                                        <input type="hidden" value="{{  $pid['parcel_invoice_id'] }}" name="item_id[]">
                                                                     </td>
-                                                                    {{-- <td>{{ $sd['unit_name'] }}</td> --}}
-                                                                    <td><input type="number"
-                                                                            value="{{ $sd['current_stock'] }}"
-                                                                            class="form-control form-control-sm"
-                                                                            name="stock_quantity[]" placeholder="0.00"
-                                                                            readonly></td>
-                                                                    <td><input type="number" value="{{ $sd['quantity'] }}"
+                                                                    <td><input type="number" value="{{ $pid['quantity'] }}"
                                                                             class="form-control form-control-sm calculate"
                                                                             name="quantity[]" placeholder="0.00" required>
                                                                     </td>
-                                                                    <td><input type="number"
-                                                                            value="{{ $sd['purchase_price'] }}"
-                                                                            class="form-control form-control-sm"
-                                                                            placeholder="0.00" readonly></td>
-                                                                    <td><input type="number" value="{{ $sd['unit_price'] }}"
+                                                                    <td><input type="number" value="{{ $pid['unit_price'] }}"
                                                                             class="form-control form-control-sm calculate"
                                                                             name="unit_price[]" placeholder="0.00" required>
                                                                     </td>
                                                                     <td><input type="number"
-                                                                            value="{{ $sd['unit_price'] * $sd['quantity'] }}"
+                                                                            value="{{ $pid['unit_price'] * $pid['quantity'] }}"
                                                                             class="form-control form-control-sm"
                                                                             name="sub_total[]" placeholder="0.00" disabled>
                                                                     </td>
@@ -216,20 +205,20 @@
                                                 type="number" class="form-control" name="total_price" id="total_price"
                                                 placeholder="0.00" readonly>
                                         </div>
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
                                             <label>Vat</label>
                                             <input value="{{ isset($data['item']) ? $data['item']->vat_tax : null }}"
                                                 readonly value="0.00" type="number" class="form-control"
                                                 name="vat_tax" id="vat_tax" placeholder="0.00">
                                         </div>
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
                                             <label>Total Payable</label>
                                             <input
                                                 value="{{ isset($data['item']) ? $data['item']->total_payable : null }}"
                                                 readonly type="number" class="form-control" name="total_payable"
                                                 id="total_payable" placeholder="0.00">
                                         </div>
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                        <div class="form-group col-sm-4 col-md-4 col-lg-4" hidden>
                                             <label>Paid Amount</label>
                                             <input value="{{ isset($data['item']) ? $data['item']->paid_amount : null }}"
                                                 value="0.00" step="0.01" type="number" class="form-control"

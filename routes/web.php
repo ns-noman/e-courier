@@ -182,11 +182,10 @@ Route::prefix('backend')->group(function () {
                 Route::post('store','store')->name('parcel-invoices.store');
                 Route::put('update/{id}','update')->name('parcel-invoices.update');
                 Route::get('create','createOrEdit')->name('parcel-invoices.create');
-                Route::get('invoice/{id}','inovice')->name('parcel-invoices.invoice');
-                Route::get('invoice/{id}/{print}','inovice')->name('parcel-invoices.invoice.print');
-                Route::post('payment/store','payment')->name('parcel-invoices.payment.store');
-                Route::get('list','list')->name('parcel-invoices.list');
                 Route::get('edit/{id?}','createOrEdit')->name('parcel-invoices.edit');
+                Route::get('invoice/{id}','invoice')->name('parcel-invoices.invoice');
+                Route::get('invoice/{id}/{print}','invoice')->name('parcel-invoices.invoice.print');
+                Route::get('list','list')->name('parcel-invoices.list');
                 Route::delete('delete/{id}','destroy')->name('parcel-invoices.destroy');
                 Route::get('approve/{id}','approve')->name('parcel-invoices.approve');
                 Route::post('items','items')->name('parcel-invoices.items');
