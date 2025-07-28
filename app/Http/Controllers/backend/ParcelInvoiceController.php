@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\backend;
 
 use App\Models\ParcelInvoiceDetails;
+use App\Models\Flight;
 use App\Models\BasicInfo;
 use App\Models\ParcelItem;
 use App\Models\ParcelInvoice;
@@ -50,6 +51,7 @@ class ParcelInvoiceController extends Controller
         $data['currency_symbol'] = BasicInfo::first()->currency_symbol;
         $data['breadcrumb'] = $this->breadcrumb;
         $data['counties'] = Country::where('status', '=', 1)->get();
+        $data['flights'] = Flight::where('status', '=', 1)->get();
         return view('backend.parcel-invoices.create-or-edit',compact('data'));
     }
 

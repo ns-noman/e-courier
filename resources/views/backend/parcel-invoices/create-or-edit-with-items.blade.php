@@ -131,81 +131,123 @@
                                             <label>Weight (kg)</label>
                                             <input value="{{ $data['item']->weight ?? '' }}" type="number" step="0.01" name="weight" class="form-control" placeholder="Weight in kg" readonly>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card card-primary">
-                                <div class="card-header">
-                                    <h3 class="card-title">Service Information</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        {{-- <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>Created Branch ID <span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="created_branch_id" placeholder="Enter Created Branch ID"
-                                                value="{{ isset($data['item']) ? $data['item']->created_branch_id : '' }}" required>
-                                        </div> --}}
 
-                                        {{-- <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>Agent ID <span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="agent_id" placeholder="Enter Agent ID"
-                                                value="{{ isset($data['item']) ? $data['item']->agent_id : '' }}" required>
-                                        </div> --}}
 
-                                        {{-- <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>Current Branch ID <span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="current_branch_id" placeholder="Enter Current Branch ID"
-                                                value="{{ isset($data['item']) ? $data['item']->current_branch_id : '' }}" required>
-                                        </div> --}}
 
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>Hub ID <span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="hub_id" placeholder="Enter Hub ID"
-                                                value="{{ isset($data['item']) ? $data['item']->hub_id : '' }}" required>
+                                        <div class="form-group col-sm-12 col-md-12 col-lg-12 mt-3">
+                                            <div class="table-responsive">
+                                                <table id="table"
+                                                    class="table table-striped table-bordered table-centre p-0 m-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th width="5%">SN</th>
+                                                            <th width="30%">
+                                                                <div class="d-flex justify-content-center align-items-center gap-1">
+                                                                    Item Name: 
+                                                                    <input type="text" class="form-control form-control-sm" id="item_name_input" placeholder="Item Name">
+                                                                    <input type="hidden" id="item_name_temp">
+                                                                    <input type="hidden" id="item_id_temp">
+                                                                </div>
+                                                            </th>
+                                                            <th width="10%">Quantity</th>
+                                                            <th width="10%">Unit Price</th>
+                                                            <th width="10%">Sub Total</th>
+                                                            <th width="5%">Action</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="tbody">
+                                                        @isset($data['parcelInvoiceDetails'])
+                                                            @foreach ($data['parcelInvoiceDetails'] as $pid)
+                                                                <tr>
+                                                                    <td class="serial">{{ $loop->iteration }}</td>
+                                                                    <td class="text-left">
+                                                                       {{ ucwords($pid['item_name']) }}
+                                                                        <input type="hidden" value="{{  $pid['parcel_invoice_id'] }}" name="item_id[]">
+                                                                    </td>
+                                                                    <td><input type="number" value="{{ $pid['quantity'] }}"
+                                                                            class="form-control form-control-sm calculate"
+                                                                            name="quantity[]" placeholder="0.00" required>
+                                                                    </td>
+                                                                    <td><input type="number" value="{{ $pid['unit_price'] }}"
+                                                                            class="form-control form-control-sm calculate"
+                                                                            name="unit_price[]" placeholder="0.00" required>
+                                                                    </td>
+                                                                    <td><input type="number"
+                                                                            value="{{ $pid['unit_price'] * $pid['quantity'] }}"
+                                                                            class="form-control form-control-sm"
+                                                                            name="sub_total[]" placeholder="0.00" disabled>
+                                                                    </td>
+                                                                    <td><button class="btn btn-sm btn-danger btn-del"
+                                                                            type="button"><i
+                                                                                class="fa-solid fa-trash btn-del"></i></button>
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        @endisset
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
-
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>Flight <span class="text-danger">*</span></label>
-                                            <select class="form-control select2" id="flight_id" name="flight_id" required>
-                                                <option value="">Select Flight</option>
-                                                @foreach ($data['flights'] as $flight)
-                                                    <option value="{{ $flight->id }}"
-                                                        {{ isset($data['item']) ? ($data['item']->flight_id == $flight->id ? 'selected' : null) : null }}>
-                                                        {{ $flight->flight_name }} ({{ $flight->flight_code }})
-                                                    </option>
-                                                @endforeach
+                                        <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                                            <label>Discount Method</label>
+                                            <select name="discount_method" id="discount_method" class="form-control">
+                                                <option @selected(isset($data['item']) && $data['item']['discount_method'] == 0) selected value="0">In Percentage
+                                                </option>
+                                                <option @selected(isset($data['item']) && $data['item']['discount_method'] == 1) value="1">Solid Amount</option>
                                             </select>
                                         </div>
-
-                                        {{-- <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>Flight ID <span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="flight_id" placeholder="Enter Flight ID"
-                                                value="{{ isset($data['item']) ? $data['item']->flight_id : '' }}" required>
-                                        </div> --}}
-
+                                        <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                                            <label>Discount Rate</label>
+                                            <input
+                                                value="{{ isset($data['item']) ? $data['item']->discount_rate : null }}"
+                                                step="0.01" type="number" class="form-control" name="discount_rate"
+                                                id="discount_rate" placeholder="0.00">
+                                        </div>
+                                        <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                                            <label>Discount Amount</label>
+                                            <input value="{{ isset($data['item']) ? $data['item']->discount : null }}"
+                                                readonly type="number" class="form-control" name="discount"
+                                                id="discount" placeholder="0.00">
+                                        </div>
+                                        <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                                            <label>Total</label>
+                                            <input value="{{ isset($data['item']) ? $data['item']->total_price : null }}"
+                                                type="number" class="form-control" name="total_price" id="total_price"
+                                                placeholder="0.00" readonly>
+                                        </div>
+                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                            <label>Vat</label>
+                                            <input value="{{ isset($data['item']) ? $data['item']->vat_tax : null }}"
+                                                readonly value="0.00" type="number" class="form-control"
+                                                name="vat_tax" id="vat_tax" placeholder="0.00">
+                                        </div>
+                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                            <label>Total Payable</label>
+                                            <input
+                                                value="{{ isset($data['item']) ? $data['item']->total_payable : null }}"
+                                                readonly type="number" class="form-control" name="total_payable"
+                                                id="total_payable" placeholder="0.00">
+                                        </div>
+                                        <div class="form-group col-sm-4 col-md-4 col-lg-4" hidden>
+                                            <label>Paid Amount</label>
+                                            <input value="{{ isset($data['item']) ? $data['item']->paid_amount : null }}"
+                                                value="0.00" step="0.01" type="number" class="form-control"
+                                                name="paid_amount" id="paid_amount" placeholder="0.00">
+                                        </div>
                                         <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>Service ID <span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="service_id" placeholder="Enter Service ID"
-                                                value="{{ isset($data['item']) ? $data['item']->service_id : '' }}" required>
+                                            <label>Refference Number</label>
+                                            <input
+                                                value="{{ isset($data['item']) ? $data['item']->reference_number : null }}"
+                                                class="form-control" type="text" name="reference_number"
+                                                id="reference_number" placeholder="Reference Number">
                                         </div>
-
-                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                            <label>Payment Type <span class="text-danger">*</span></label>
-                                            <select name="payment_type" class="form-control" required>
-                                                <option value="">Select Payment Type</option>
-                                                <option value="Cash" {{ isset($data['item']) && $data['item']->payment_type == 'Cash' ? 'selected' : '' }}>Cash</option>
-                                                <option value="Due" {{ isset($data['item']) && $data['item']->payment_type == 'Due' ? 'selected' : '' }}>Due</option>
-                                            </select>
+                                        <div class="form-group col-sm-8 col-md-8 col-lg-8">
+                                            <label>Note</label>
+                                            <input value="{{ isset($data['item']) ? $data['item']->note : null }}"
+                                                class="form-control" type="text" name="note" id="note"
+                                                placeholder="Note">
                                         </div>
-                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                            <label>USA Country Code</label>
-                                            <input type="text" class="form-control" name="usa_country_code" placeholder="e.g. US, CA"
-                                            value="{{ isset($data['item']) ? $data['item']->usa_country_code : '' }}">
-                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -259,7 +301,7 @@
                                                 <option value="">Select Country</option>
                                                 @foreach ($data['counties'] as $key => $country)
                                                     <option value="{{ $country->id }}"
-                                                        {{ isset($data['item']) ? ($data['item']->sender_country_id == $country->id ? 'selected' : null) : ($country->id == 18 ? 'selected' : null) }}>
+                                                        {{ isset($data['item']) ? ($data['item']->sender_country_id == $country->id ? 'selected' : null) : null }}>
                                                         {{ $country->country_name }} ({{ $country->country_code }})
                                                     </option>
                                                 @endforeach
@@ -328,7 +370,7 @@
                                                 <option value="">Select Country</option>
                                                 @foreach ($data['counties'] as $key => $country)
                                                     <option value="{{ $country->id }}"
-                                                        {{ isset($data['item']) ? ($data['item']->receiver_country_id == $country->id ? 'selected' : null) : null }}>
+                                                        {{ isset($data['item']) ? ($data['item']->receiver_country_id == $country->id ? 'selected' : null) :  ($country->id == 18 ? 'selected' : null)}}>
                                                         {{ $country->country_name }} ({{ $country->country_code }})
                                                     </option>
                                                 @endforeach

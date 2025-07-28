@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jul 27, 2025 at 11:32 AM
+-- Generation Time: Jul 28, 2025 at 12:33 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.2.28
 
@@ -498,7 +498,7 @@ INSERT INTO `branches` (`id`, `parent_id`, `branch_type`, `code`, `title`, `phon
 (4, 3, 'Hub', '34567890-', 'Companigonj', '5467890', NULL, 0, 6.89, 1, 0, 0, '2025-07-21 10:48:56', '2025-07-23 05:32:49'),
 (5, 4, 'Branch', '567890', 'Hazarihat', '7890-', NULL, 0, 5.00, 1, 0, 0, '2025-07-21 10:49:41', '2025-07-21 10:49:41'),
 (6, 5, 'Branch', '567890-', 'Charparboti', '34567890', 'fghjk', 0, 7.00, 1, 0, 0, '2025-07-21 11:27:10', '2025-07-21 11:27:10'),
-(7, 2, 'Branch', '23456', 'Moulvibazar', '+88 01839317038', 'Moulvibazar, Karamotiya.', 0, 8.50, 1, 0, 0, '2025-07-21 11:46:22', '2025-07-23 05:06:00');
+(7, 2, 'Hub', '23456', 'Moulvibazar', '+88 01839317038', 'Moulvibazar, Karamotiya.', 0, 8.50, 1, 0, 0, '2025-07-21 11:46:22', '2025-07-28 10:17:18');
 
 -- --------------------------------------------------------
 
@@ -1154,6 +1154,30 @@ CREATE TABLE `failed_jobs` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `flights`
+--
+
+CREATE TABLE `flights` (
+  `id` bigint UNSIGNED NOT NULL,
+  `hub_id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `flight_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `flight_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `status` tinyint NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `flights`
+--
+
+INSERT INTO `flights` (`id`, `hub_id`, `flight_name`, `flight_code`, `status`, `created_at`, `updated_at`) VALUES
+(1, '1', 'AIRSHIP', 'FL0043', 1, '2025-07-28 10:32:42', '2025-07-28 10:32:42'),
+(2, '4', 'Kessie Wall', 'FL0043', 1, '2025-07-28 10:35:17', '2025-07-28 11:21:36');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `frontend_menus`
 --
 
@@ -1609,7 +1633,8 @@ INSERT INTO `menus` (`id`, `parent_id`, `srln`, `menu_name`, `navicon`, `is_side
 (216, 213, 3, 'Delete', NULL, 0, NULL, 'parcel-invoices.destroy', 1, '2025-07-27 11:14:36', '2025-07-27 11:14:36'),
 (217, 213, 4, 'Approve', NULL, 0, NULL, 'parcel-invoices.approve', 1, '2025-07-27 11:15:03', '2025-07-27 11:15:03'),
 (218, 213, 5, 'Invoice View', NULL, 0, NULL, 'parcel-invoices.invoice', 1, '2025-07-27 11:15:41', '2025-07-27 11:15:41'),
-(219, 213, 6, 'Invoice Print', NULL, 0, NULL, 'parcel-invoices.invoice.print', 1, '2025-07-27 11:16:02', '2025-07-27 11:16:02');
+(219, 213, 6, 'Invoice Print', NULL, 0, NULL, 'parcel-invoices.invoice.print', 1, '2025-07-27 11:16:02', '2025-07-27 11:16:02'),
+(220, 0, 5, 'Flight', '<i class=\"fa-solid fa-plane-departure nav-icon\"></i>', 1, 'flights.create', 'flights.index', 1, '2025-07-28 10:03:40', '2025-07-28 10:06:38');
 
 -- --------------------------------------------------------
 
@@ -1681,9 +1706,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (131, '2025_07_22_111101_add_agent_id_to_admins_table', 67),
 (134, '2025_07_22_112244_add_commission_percentage_to_branches_table', 68),
 (135, '2025_07_22_111634_create_agents_table', 69),
-(136, '2025_07_23_145516_create_parcel_invoices_table', 70),
 (137, '2025_07_23_161922_create_parcel_invoice_details_table', 70),
-(138, '2025_07_24_162500_create_parcel_items_table', 71);
+(138, '2025_07_24_162500_create_parcel_items_table', 71),
+(139, '2025_07_23_145516_create_parcel_invoices_table', 72),
+(140, '2025_07_28_154725_create_flights_table', 73);
 
 -- --------------------------------------------------------
 
@@ -1693,11 +1719,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 
 CREATE TABLE `parcel_invoices` (
   `id` bigint UNSIGNED NOT NULL,
-  `created_branch_id` int DEFAULT NULL,
-  `agent_id` int DEFAULT NULL,
-  `current_branch_id` int DEFAULT NULL,
   `invoice_no` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `date` date NOT NULL,
   `total_price` double(20,2) NOT NULL,
   `vat_tax` double(20,2) DEFAULT '0.00',
   `discount_method` tinyint NOT NULL DEFAULT '1' COMMENT '0=Percentage, 1=Solid',
@@ -1707,33 +1729,64 @@ CREATE TABLE `parcel_invoices` (
   `paid_amount` double(20,2) NOT NULL,
   `reference_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `note` text COLLATE utf8mb4_unicode_ci,
-  `sender_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `hawb_no` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'house air waybill no',
+  `reference` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `pieces` int NOT NULL,
+  `product_value` int DEFAULT NULL,
+  `billing_weight_kg` int NOT NULL,
+  `billing_weight_gm` int NOT NULL,
+  `gross_weight_kg` decimal(10,2) DEFAULT NULL,
+  `payment_mode` enum('Prepaid','Collect') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `cod_amount` decimal(10,2) NOT NULL COMMENT 'Cash On Delivery',
+  `item_type` enum('SPX','DOCS') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `all_item_names` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `item_description` text COLLATE utf8mb4_unicode_ci,
+  `length` decimal(10,2) DEFAULT NULL COMMENT 'weight in cm',
+  `height` decimal(10,2) DEFAULT NULL COMMENT 'weight in cm',
+  `width` decimal(10,2) DEFAULT NULL COMMENT 'weight in cm',
+  `weight` decimal(10,2) DEFAULT NULL COMMENT 'weight in kg',
+  `sender_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sender_company` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sender_address` text COLLATE utf8mb4_unicode_ci,
+  `sender_city` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sender_zip` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sender_country_id` int NOT NULL,
   `sender_phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sender_post_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sender_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `receiver_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `receiver_phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `receiver_post_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `receiver_address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `receiver_country_id` int DEFAULT NULL,
-  `created_by_id` int DEFAULT NULL,
+  `sender_email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sender_origin` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `receiver_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `receiver_company` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `receiver_address` text COLLATE utf8mb4_unicode_ci,
+  `receiver_city` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `receiver_zip` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `receiver_country_id` int NOT NULL,
+  `receiver_phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `receiver_email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `receiver_origin` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `booking_date` date NOT NULL,
+  `export_date` date NOT NULL,
+  `created_branch_id` int NOT NULL,
+  `agent_id` int NOT NULL,
+  `current_branch_id` int NOT NULL,
+  `hub_id` int NOT NULL,
+  `flight_id` int NOT NULL,
+  `service_id` int NOT NULL,
+  `payment_type` enum('Cash','Due') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `usa_country_code` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `picked_up_by` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `picked_up_date_time` timestamp NOT NULL,
+  `mawb_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Master Air Waybill',
+  `remarks` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `updated_by_id` int DEFAULT NULL,
+  `showing_weight_kgs` int DEFAULT NULL,
+  `showing_weight_gms` int DEFAULT NULL,
+  `created_by_id` int DEFAULT NULL,
   `is_packed` tinyint NOT NULL DEFAULT '0' COMMENT '0=no, 1=yes',
   `payment_status` enum('unpaid','partial','paid') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'unpaid',
   `parcel_status` enum('pending','approve','in_transit','delivered','cancelled') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `parcel_invoices`
---
-
-INSERT INTO `parcel_invoices` (`id`, `created_branch_id`, `agent_id`, `current_branch_id`, `invoice_no`, `date`, `total_price`, `vat_tax`, `discount_method`, `discount_rate`, `discount`, `total_payable`, `paid_amount`, `reference_number`, `note`, `sender_name`, `sender_phone`, `sender_post_code`, `sender_address`, `receiver_name`, `receiver_phone`, `receiver_post_code`, `receiver_address`, `receiver_country_id`, `created_by_id`, `updated_by_id`, `is_packed`, `payment_status`, `parcel_status`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, -1, '1000001', '1996-02-28', 1000.00, NULL, 1, 36.00, 36.00, 964.00, 964.00, '320', 'Expedita sit incidu', 'Casey Ellis', '82', '71', 'Dolore explicabo Pl', 'Gillian Wolfe', '6', '52', 'Mollit similique aut', 111, 1, NULL, 0, 'paid', 'pending', '2025-07-24 13:04:26', '2025-07-24 13:04:26'),
-(2, 1, 1, 1, '1000002', '2020-05-04', 3000.00, NULL, 1, 0.00, 0.00, 3000.00, 3000.00, '592', 'Est pariatur Eos p', 'Nola Mcfadden', '81', '84', 'Dolore molestias vol', 'Regan Simmons', '81', '81', 'Ratione temporibus p', 231, 1, NULL, 1, 'paid', 'pending', '2025-07-24 13:16:44', '2025-07-24 13:16:44'),
-(4, 1, 1, 1, '1000004', '1980-12-15', 5000.00, NULL, 1, 52.00, 52.00, 4948.00, 4948.00, '500', 'Incididunt sed qui a', 'Glenna Knapp', '40', '7', 'Officia in soluta su', 'Irma Beasley', '72', '40', 'Natus velit qui lab', 26, 1, NULL, 0, 'paid', 'approve', '2025-07-24 13:20:47', '2025-07-27 10:56:17'),
-(5, 1, 1, 1, '1000005', '2010-04-11', 2000.00, NULL, 0, 75.00, 1500.00, 500.00, 500.00, NULL, NULL, 'Shoriful Islam', '01839317038', '23456789', '742 Evergreen Terrace Springfield, IL 62704 United States', 'Addison Morrow', '01739317077', '234567890', '742 GreenOld Jrfas Springfield, IL 62704 Canada', 38, 1, 1, 0, 'paid', 'approve', '2025-07-24 13:21:50', '2025-07-27 10:55:28');
 
 -- --------------------------------------------------------
 
@@ -1750,22 +1803,6 @@ CREATE TABLE `parcel_invoice_details` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `parcel_invoice_details`
---
-
-INSERT INTO `parcel_invoice_details` (`id`, `parcel_invoice_id`, `item_id`, `quantity`, `unit_price`, `created_at`, `updated_at`) VALUES
-(1, 2, 18, 1.00, 1000.00, '2025-07-24 13:16:44', '2025-07-24 13:16:44'),
-(2, 2, 17, 1.00, 1000.00, '2025-07-24 13:16:44', '2025-07-24 13:16:44'),
-(3, 2, 19, 1.00, 1000.00, '2025-07-24 13:16:44', '2025-07-24 13:16:44'),
-(7, 4, 22, 1.00, 1000.00, '2025-07-24 13:20:47', '2025-07-24 13:20:47'),
-(8, 4, 17, 1.00, 1000.00, '2025-07-24 13:20:47', '2025-07-24 13:20:47'),
-(9, 4, 23, 1.00, 1000.00, '2025-07-24 13:20:47', '2025-07-24 13:20:47'),
-(10, 4, 24, 1.00, 1000.00, '2025-07-24 13:20:47', '2025-07-24 13:20:47'),
-(11, 4, 25, 1.00, 1000.00, '2025-07-24 13:20:47', '2025-07-24 13:20:47'),
-(16, 5, 5, 1.00, 1000.00, '2025-07-27 10:47:14', '2025-07-27 10:47:14'),
-(17, 5, 5, 1.00, 1000.00, '2025-07-27 10:47:14', '2025-07-27 10:47:14');
 
 -- --------------------------------------------------------
 
@@ -1813,7 +1850,9 @@ INSERT INTO `parcel_items` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (26, 'cap', '2025-07-24 13:21:44', '2025-07-24 13:21:44'),
 (27, 'mog', '2025-07-27 05:42:13', '2025-07-27 05:42:13'),
 (28, 'ambrella', '2025-07-27 05:42:19', '2025-07-27 05:42:19'),
-(29, 'shirt', '2025-07-27 10:42:42', '2025-07-27 10:42:42');
+(29, 'shirt', '2025-07-27 10:42:42', '2025-07-27 10:42:42'),
+(30, 'cloth', '2025-07-28 04:47:15', '2025-07-28 04:47:15'),
+(31, 'paper', '2025-07-28 09:03:39', '2025-07-28 09:03:39');
 
 -- --------------------------------------------------------
 
@@ -2687,6 +2726,12 @@ ALTER TABLE `failed_jobs`
   ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
 
 --
+-- Indexes for table `flights`
+--
+ALTER TABLE `flights`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `frontend_menus`
 --
 ALTER TABLE `frontend_menus`
@@ -3022,6 +3067,12 @@ ALTER TABLE `failed_jobs`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT for table `flights`
+--
+ALTER TABLE `flights`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `frontend_menus`
 --
 ALTER TABLE `frontend_menus`
@@ -3061,31 +3112,31 @@ ALTER TABLE `items`
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=220;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=221;
 
 --
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=139;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=141;
 
 --
 -- AUTO_INCREMENT for table `parcel_invoices`
 --
 ALTER TABLE `parcel_invoices`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `parcel_invoice_details`
 --
 ALTER TABLE `parcel_invoice_details`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `parcel_items`
 --
 ALTER TABLE `parcel_items`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `parties`

@@ -192,6 +192,16 @@ Route::prefix('backend')->group(function () {
                 Route::post('store-new-item','storeNewItem')->name('parcel-invoices.store-new-item');
             });
 
+            Route::prefix('flights')->controller(FlightController::class)->group(function(){
+                Route::get('','index')->name('flights.index');
+                Route::get('create','createOrEdit')->name('flights.create');
+                Route::get('edit/{id?}','createOrEdit')->name('flights.edit');
+                Route::post('store','store')->name('flights.store');
+                Route::put('update/{id}','update')->name('flights.update');
+                Route::delete('delete/{id}','destroy')->name('flights.destroy');
+                Route::get('list','list')->name('flights.list');
+            });
+
 
             Route::prefix('designations')->controller(DesignationController::class)->group(function(){
                 Route::get('','index')->name('designations.index');

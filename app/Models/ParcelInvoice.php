@@ -10,11 +10,8 @@ class ParcelInvoice extends Model
     use HasFactory;
     protected $fillable = 
     [
-        'created_branch_id',
-        'current_branch_id',
-        'agent_id',
+        // Payment Information
         'invoice_no',
-        'date',
         'total_price',
         'vat_tax',
         'discount_method',
@@ -25,22 +22,74 @@ class ParcelInvoice extends Model
         'reference_number',
         'note',
 
-        'sender_name',
-        'sender_phone',
-        'sender_post_code',
-        'sender_address',
-        
-        'receiver_name',
-        'receiver_phone',
-        'receiver_post_code',
-        'receiver_address',
-        'receiver_country_id',
+        // Shipment Information
+        'hawb_no',
+        'reference',
+        'pieces',
+        'product_value',
+        'billing_weight_kg',
+        'billing_weight_gm',
+        'gross_weight_kg',
+        'payment_mode',
+        'cod_amount',
+        'item_type',
+        'all_item_names',
+        'item_description',
 
-        'created_by_id',
+        'length',
+        'height',
+        'width',
+        'weight',
+
+        // Sender Information
+        'sender_name',
+        'sender_company',
+        'sender_address',
+        'sender_city',
+        'sender_zip',
+        'sender_country_id',
+        'sender_phone',
+        'sender_email',
+        'sender_origin',
+
+        // Receiver Information
+        'receiver_name',
+        'receiver_company',
+        'receiver_address',
+        'receiver_city',
+        'receiver_zip',
+        'receiver_country_id',
+        'receiver_phone',
+        'receiver_email',
+        'receiver_origin',
+
+        // Booking/Export Date
+        'booking_date',
+        'export_date',
+
+        // Service Information
+        'created_branch_id',
+        'agent_id',
+        'current_branch_id',
+        'hub_id',
+        'flight_id',
+        'service_id',
+        'payment_type',
+        'usa_country_code',
+
+        // Others
+        'picked_up_by',
+        'picked_up_date_time',
+        'mawb_no',
+        'remarks',
         'updated_by_id',
-        
+        'showing_weight_kgs',
+        'showing_weight_gms',
+        'created_by_id',
+
         'is_packed',
         'payment_status',
         'parcel_status',
     ];
+
 }
