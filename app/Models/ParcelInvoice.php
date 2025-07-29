@@ -50,7 +50,6 @@ class ParcelInvoice extends Model
         'sender_country_id',
         'sender_phone',
         'sender_email',
-        'sender_origin',
 
         // Receiver Information
         'receiver_name',
@@ -61,7 +60,6 @@ class ParcelInvoice extends Model
         'receiver_country_id',
         'receiver_phone',
         'receiver_email',
-        'receiver_origin',
 
         // Booking/Export Date
         'booking_date',
@@ -85,6 +83,7 @@ class ParcelInvoice extends Model
         'updated_by_id',
         'showing_weight_kgs',
         'showing_weight_gms',
+        'showing_weight_kgs_total',
         'created_by_id',
 
         'is_packed',

@@ -18,9 +18,9 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                            <label>Branch *</label>
+                                            <label>Hub *</label>
                                             <select class="form-control select2" name="hub_id" required>
-                                                <option value=''>Select Branch</option>
+                                                <option value=''>Select Flight</option>
                                                 @foreach ($data['branches'] as $branch)
                                                     <option class="{{ $branch->is_main_branch ? 'bg-warning' : null }}"  @selected(isset($data['item']) && $data['item']->hub_id == $branch->id) value="{{ $branch->id }}">
                                                         {{ $branch->title }} {{ $branch->is_main_branch? '(Main)' : null }}

@@ -66,17 +66,17 @@
 
                                         <div class="form-group col-sm-4 col-md-4 col-lg-4">
                                             <label>Billing Weight (kg) <span class="text-danger">*</span></label>
-                                            <input value="{{ $data['item']->billing_weight_kg ?? '' }}" type="number" name="billing_weight_kg" class="form-control" placeholder="Kg" required>
+                                            <input value="{{ $data['item']->billing_weight_kg ?? '' }}" type="number" name="billing_weight_kg" id="billing_weight_kg" class="form-control" placeholder="Kg" required>
                                         </div>
 
                                         <div class="form-group col-sm-4 col-md-4 col-lg-4">
                                             <label>Billing Weight (gm) <span class="text-danger">*</span></label>
-                                            <input value="{{ $data['item']->billing_weight_gm ?? '' }}" type="number" name="billing_weight_gm" class="form-control" placeholder="Gm" required>
+                                            <input value="{{ $data['item']->billing_weight_gm ?? '' }}" type="number" name="billing_weight_gm" id="billing_weight_gm" class="form-control" placeholder="Gm" required>
                                         </div>
 
                                         <div class="form-group col-sm-4 col-md-4 col-lg-4">
                                             <label>Gross Weight (kg)</label>
-                                            <input value="{{ $data['item']->gross_weight_kg ?? '' }}" type="number" step="0.01" name="gross_weight_kg" class="form-control" placeholder="Gross Weight in Kg" readonly>
+                                            <input value="{{ $data['item']->gross_weight_kg ?? '' }}" type="number" step="0.01" name="gross_weight_kg" id="gross_weight_kg" class="form-control" placeholder="Gross Weight in Kg" readonly>
                                         </div>
 
                                         <div class="form-group col-sm-4 col-md-4 col-lg-4">
@@ -114,22 +114,22 @@
 
                                         <div class="form-group col-sm-3 col-md-3 col-lg-3">
                                             <label>Length (cm)</label>
-                                            <input value="{{ $data['item']->length ?? '' }}" type="number" step="0.01" name="length" class="form-control" placeholder="Length in cm">
+                                            <input value="{{ $data['item']->length ?? '' }}" type="number" step="0.01" name="length" id="length" class="form-control" placeholder="Length in cm">
                                         </div>
 
                                         <div class="form-group col-sm-3 col-md-3 col-lg-3">
                                             <label>Height (cm)</label>
-                                            <input value="{{ $data['item']->height ?? '' }}" type="number" step="0.01" name="height" class="form-control" placeholder="Height in cm">
+                                            <input value="{{ $data['item']->height ?? '' }}" type="number" step="0.01" name="height" id="height" class="form-control" placeholder="Height in cm">
                                         </div>
 
                                         <div class="form-group col-sm-3 col-md-3 col-lg-3">
                                             <label>Width (cm)</label>
-                                            <input value="{{ $data['item']->width ?? '' }}" type="number" step="0.01" name="width" class="form-control" placeholder="Width in cm">
+                                            <input value="{{ $data['item']->width ?? '' }}" type="number" step="0.01" name="width"  id="width" class="form-control" placeholder="Width in cm">
                                         </div>
 
                                         <div class="form-group col-sm-3 col-md-3 col-lg-3">
                                             <label>Weight (kg)</label>
-                                            <input value="{{ $data['item']->weight ?? '' }}" type="number" step="0.01" name="weight" class="form-control" placeholder="Weight in kg" readonly>
+                                            <input value="{{ $data['item']->weight ?? '' }}" type="number" step="0.01" name="weight" id="weight" class="form-control" placeholder="Weight in kg" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -265,23 +265,17 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
                                             <label>Phone</label>
                                             <input value="{{ isset($data['item']) ? $data['item']->sender_phone : null }}"
                                                 type="number" class="form-control" name="sender_phone"
                                                 placeholder="+8801XXXXXXXXX">
                                         </div>
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
                                             <label>Email</label>
                                             <input value="{{ isset($data['item']) ? $data['item']->sender_email : null }}"
                                                 type="email" class="form-control" name="sender_email"
                                                 placeholder="example@gmail.com">
-                                        </div>
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>Origin</label>
-                                            <input value="{{ isset($data['item']) ? $data['item']->sender_origin : null }}"
-                                                type="text" class="form-control" name="sender_origin"
-                                                placeholder="Origin">
                                         </div>
                                     </div>
 
@@ -334,23 +328,17 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
                                             <label>Phone <span class="text-danger">*</span></label>
                                             <input value="{{ isset($data['item']) ? $data['item']->receiver_phone : null }}"
                                                 type="number" class="form-control" name="receiver_phone"
                                                 placeholder="+8801XXXXXXXXX" required>
                                         </div>
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
                                             <label>Email</label>
                                             <input value="{{ isset($data['item']) ? $data['item']->receiver_email : null }}"
                                                 type="email" class="form-control" name="receiver_email"
                                                 placeholder="example@gmail.com">
-                                        </div>
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>Origin</label>
-                                            <input value="{{ isset($data['item']) ? $data['item']->receiver_origin : null }}"
-                                                type="text" class="form-control" name="receiver_origin"
-                                                placeholder="Origin">
                                         </div>
                                     </div>
                                 </div>
@@ -382,218 +370,97 @@
                             </div>
                         </div>
                     </div>
-                
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card card-primary">
+                                <div class="card-header">
+                                    <h3 class="card-title">Other Information</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
 
-                                {{-- <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </div> --}}
+                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                            <label>Picked Up By <span class="text-danger">*</span></label>
+                                            <input type="text" class="form-control" name="picked_up_by"
+                                                value="{{ isset($data['item']) ? $data['item']->picked_up_by : '' }}"
+                                                placeholder="Picked Up By" required>
+                                        </div>
+
+                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                            <label>Picked Up Date & Time <span class="text-danger">*</span></label>
+                                            <input type="datetime-local" class="form-control" name="picked_up_date_time"
+                                                value="{{ isset($data['item']) ? \Carbon\Carbon::parse($data['item']->picked_up_date_time)->format('Y-m-d\TH:i') : '' }}"
+                                                required>
+                                        </div>
+
+                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                            <label>MAWB No</label>
+                                            <input type="text" class="form-control" name="mawb_no"
+                                                value="{{ isset($data['item']) ? $data['item']->mawb_no : '' }}"
+                                                placeholder="Master Air Waybill Number">
+                                        </div>
+
+                                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                                            <label>Remarks</label>
+                                            <textarea class="form-control" name="remarks" placeholder="Enter any remarks"
+                                                rows="1">{{ isset($data['item']) ? $data['item']->remarks : '' }}</textarea>
+                                        </div>
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                            <label>Showing Weight (kg)</label>
+                                            <input type="number" class="form-control" id="showing_weight_kgs" name="showing_weight_kgs"
+                                                value="{{ isset($data['item']) ? $data['item']->showing_weight_kgs : '' }}"
+                                                placeholder="e.g. 5">
+                                        </div>
+                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                            <label>Showing Weight (gm)</label>
+                                            <input type="number" class="form-control" id="showing_weight_gms" name="showing_weight_gms"
+                                                value="{{ isset($data['item']) ? $data['item']->showing_weight_gms : '' }}"
+                                                placeholder="e.g. 500">
+                                        </div>
+                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                            <label>Total Showing Weight (kg)</label>
+                                            <input type="number" class="form-control" id="showing_weight_kgs_total" name="showing_weight_kgs_total"
+                                                value="{{ isset($data['item']) ? $data['item']->showing_weight_kgs_total : '' }}"
+                                                placeholder="e.g. 5.50" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
                 </form>
             </div>
         </section>
     </div>
 @endsection
-
 @section('script')
-    <script>
-        $(document).ready(function() {
-            $('#table').bind('keyup, input', function(e) {
-                if ($(e.target).is('.calculate')) {
-                    calculate();
-                }
-            });
-            $('#tbody').bind('click', function(e) {
-                $(e.target).is('.btn-del') && e.target.closest('tr').remove();
-                $(".serial").each(function(index) {
-                    $(this).html(index + 1);
-                });
-                calculate();
-            });
-        });
-        $('#form-submit').submit(function(e) {
-            if (!$('input[name="item_id[]"]').length) {
-                e.preventDefault();
-                Swal.fire("Please Insert Item!");
-            }
-            if (parseFloat($('#paid_amount').val()) > parseFloat($('#total_payable').val())) {
-                e.preventDefault();
-                Swal.fire("Couldn't be pay more then payable!");
-            }
-        });
-        $('#discount_rate').on('keyup', function(e) {
-            calculate();
-        });
-
-        $('#discount_method').on('change', function(e) {
-            calculate();
-        });
-
-        function calculate() {
-            let item_id = $('input[name="item_id[]"]');
-            let total_price = 0;
-            for (let i = 0; i < item_id.length; i++) {
-                let quantity = $('input[name="quantity[]"]')[i].value;
-                let unit_price = $('input[name="unit_price[]"]')[i].value;
-                let sub_total = $('input[name="sub_total[]"]')[i].value;
-                sub_total = unit_price * quantity;
-                total_price += sub_total;
-                $('input[name="sub_total[]"]')[i].value = sub_total;
-            }
-            $('#total_price').val(total_price.toFixed(2));
-            let discount_method = $('#discount_method').val();
-            let discount_rate = parseFloat($('#discount_rate').val()) || 0;
-            let vat_tax = parseFloat($('#vat_tax').val()) || 0;
-            let discount = 0;
-            let total_payable = 0;
-            if (discount_method == 0) {
-                discount = total_price * (discount_rate / 100);
-            } else {
-                discount = discount_rate;
-            }
-            total_payable = total_price + vat_tax - discount;
-            $('#paid_amount').val(total_payable.toFixed(2));
-            $('#discount').val(discount.toFixed(2));
-            $('#total_payable').val(total_payable.toFixed(2));
-        }
-
-        function checkDuplicate(item_id) {
-            let isDuplicate = false;
-            $('#tbody tr').each(function() {
-                let existingItemId = $(this).find('input[name="item_id[]"]').val();
-                if (existingItemId == item_id) {
-                    isDuplicate = true;
-                    return false;
-                }
-            });
-            return isDuplicate;
-        }
-
-        function duplicateAlert() {
-            Swal.fire({
-                icon: 'error',
-                title: 'Duplicate Item',
-                text: 'This Item has already been added!'
-            });
-        }
-
-        function isLowStock(itemType, stockQty, insertQty) {
-            return itemType == '0' && insertQty > stockQty;
-        }
-
-        function stockAlert() {
-            Swal.fire({
-                icon: 'error',
-                title: 'Warning!',
-                text: 'Exceed Product Stock!'
-            });
-        }
-    </script>
-
 <script>
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-    });
-
-    $("#item_name_input").autocomplete({
-        source: function(request, response) {
-            $.ajax({
-                url: "{{ route('parcel-invoices.items') }}",
-                type: "POST",
-                dataType: "json",
-                data: {
-                    search: request.term
-                },
-                success: function(data) {
-                    console.log(data);
-                    response(data);
-                    
-                }
-            });
-        },
-
-        change: function(event, ui) {
-            if (!ui.item) {
-                event.currentTarget.value = '';
-                event.currentTarget.focus();
-            }
-        },
-        select: function(event, ui) {
-            $('#item_name_input').val(ui.item.label);
-            $('#item_name_temp').val(ui.item.label);
-            $('#item_id_temp').val(ui.item.item_id);
-            return false;
-        }
-    });
-
-
-    $("#item_name_input").on("keydown", async function (e) {
-        if (e.key === "Enter" || e.keyCode === 13) {
-            e.preventDefault();
-            const item_name_input = $("#item_name_input").val();
-            const item_name_temp = $("#item_name_temp").val();
-            const item_id_temp = $("#item_id_temp").val();
-            if(!item_id_temp && item_name_input){
-                const item = await storeItem(item_name_input);
-                $("#item_name_temp").val(item.name);
-                $("#item_id_temp").val(item.id);
-            }
-            generateRow();
-            $("#item_name_input").val('');
-            $("#item_name_temp").val('');
-            $("#item_id_temp").val('');
-        }
-    });
-
-    function generateRow()
-    {
-        let item_id = $('#item_id_temp').val();
-        let item_name = $('#item_name_temp').val();
-        let item_price = 1000;
-        let unit_price_temp = 1000;
-        let quantity_temp = 1;
-        let total_temp = unit_price_temp * quantity_temp;
-        let tbody = ``;
-
-
-        tbody += `<tr>
-                    <td class="serial"></td>
-                    <td class="text-left">
-                        ${item_name}
-                        <input type="hidden" value="${item_id}" name="item_id[]">
-                    </td>
-                    <td><input type="number" value="${quantity_temp}" class="form-control form-control-sm calculate" name="quantity[]" placeholder="0.00" required></td>
-                    <td><input type="number" value="${unit_price_temp}" class="form-control form-control-sm calculate" name="unit_price[]" placeholder="0.00" required></td>
-                    <td><input type="number" value="${total_temp}" class="form-control form-control-sm" name="sub_total[]" placeholder="0.00" disabled></td>
-                    <td><button class="btn btn-sm btn-danger btn-del" type="button"><i class="fa-solid fa-trash btn-del"></i></button></td>
-                </tr>`;
-
-        $('#tbody').append(tbody);
-        $(".serial").each(function(index) {
-            $(this).html(index + 1);
+    $(document).ready(function() {
+        $('#length, #height, #width').on('input', ()=>{
+            const length = parseInt($('#length').val()) | 0;
+            const height = parseInt($('#height').val()) | 0;
+            const width = parseInt($('#width').val()) | 0;
+            let weight = (length * height * width) / 5000;
+            $('#weight').val(fNum(weight));
         });
-        calculate();
-    }
-
-    async function storeItem(itemName)
-    {
-        try {
-            const item = await $.ajax({
-                url: "{{ route('parcel-invoices.store-new-item') }}",
-                type: "POST",
-                dataType: "json",
-                data: {
-                    name: itemName,
-                }
-            });
-            return item;
-        } catch (error) {
-            console.error("Error: ", error);
-            return null
-        }
-    }
-
-
+        $('#billing_weight_kg, #billing_weight_gm').on('input', ()=>{
+            const billing_weight_kg = parseInt($('#billing_weight_kg').val()) | 0;
+            const billing_weight_gm = parseInt($('#billing_weight_gm').val()) | 0;
+            let gross_weight_kg = billing_weight_kg + (billing_weight_gm/1000);
+            $('#gross_weight_kg').val(fNum(gross_weight_kg));
+        });
+        $('#showing_weight_kgs, #showing_weight_gms').on('input', ()=>{
+            const showing_weight_kgs = parseInt($('#showing_weight_kgs').val()) | 0;
+            const showing_weight_gms = parseInt($('#showing_weight_gms').val()) | 0;
+            let showing_weight_kgs_total = showing_weight_kgs + (showing_weight_gms/1000);
+            $('#showing_weight_kgs_total').val(fNum(showing_weight_kgs_total));
+        });
+    });
 </script>
-
 @endsection

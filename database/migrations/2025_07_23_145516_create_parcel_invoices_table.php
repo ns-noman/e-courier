@@ -52,8 +52,6 @@ return new class extends Migration
             $table->integer('sender_country_id');
             $table->string('sender_phone')->nullable();
             $table->string('sender_email')->nullable();
-            $table->string('sender_origin')->nullable();
-
 
             $table->string('receiver_name');
             $table->string('receiver_company');
@@ -63,7 +61,6 @@ return new class extends Migration
             $table->integer('receiver_country_id');
             $table->string('receiver_phone');
             $table->string('receiver_email')->nullable();
-            $table->string('receiver_origin')->nullable();
 
             //Booking/Export Date
             $table->date('booking_date');
@@ -89,6 +86,7 @@ return new class extends Migration
             $table->integer('updated_by_id')->nullable();
             $table->integer('showing_weight_kgs')->nullable();
             $table->integer('showing_weight_gms')->nullable();
+            $table->decimal('showing_weight_kgs_total', 10, 2)->default(0.00);
             $table->integer('created_by_id')->nullable();
             
             
