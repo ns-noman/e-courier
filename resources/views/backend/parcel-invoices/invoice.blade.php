@@ -7,12 +7,59 @@
               <div class="row">
                   <div class="col-12">
                       <div class="invoice p-3 mb-3" id="my-invoice">
+                        <style>
+                            .c-table {
+                                width: 100%;
+                                margin-bottom: 1rem;
+                                color: #212529;
+                                border-collapse: collapse;
+                            }
+
+                            .c-table th,
+                            .c-table td {
+                                padding: 5px;
+                                vertical-align: top;
+                                border: 1px solid #dee2e6;
+                            }
+
+                            .c-table thead th {
+                                vertical-align: bottom;
+                                background-color: #f8f9fa;
+                                font-weight: bold;
+                            }
+
+                            .c-table tbody + tbody {
+                                border-top: 2px solid #dee2e6;
+                            }
+
+                            /* Optional - Striped rows */
+                            .c-table-striped tbody tr:nth-of-type(odd) {
+                                background-color: #f2f2f2;
+                            }
+
+                            /* Optional - Hover effect */
+                            .c-table-hover tbody tr:hover {
+                                background-color: #f1f1f1;
+                            }
+
+                            /* Optional - Bordered */
+                            .c-table-bordered {
+                                border: 1px solid #dee2e6;
+                            }
+
+                            /* Responsive wrapper */
+                            .c-table-responsive {
+                                width: 100%;
+                                overflow-x: auto;
+                            }
+                        </style>
                           <div class="row">
                               <div class="col-12">
                                   <h4>
+                                    {{-- , strtotime($data['master']['']) --}}
                                     <img style="height: 50px;width: px;" src="{{ asset('public/uploads/basic-info/' . $data['basicInfo']['logo']) }}" alt="Logo" />
                                       {{ $data['basicInfo']['title'] }}
-                                      <small class="float-right">Date: {{ date('dS M Y', strtotime($data['master']['date'])) }}</small>
+                                      <small class="float-right">Date: {{ date('dS M Y') }}</small>
                                   </h4>
                               </div>
                           </div>
@@ -22,88 +69,63 @@
                             </div>
                           </div>
                           <div class="row">
-                            <div class="col-sm-6">
-                                Sender Info
-                                <hr>
-                                <address>
-                                    <strong>{{ $data['master']['sender_name'] }}</strong><br>
-                                    Phone: {{ $data['master']['sender_phone'] }}<br>
-                                    Post Code: {{ $data['master']['sender_post_code'] }}<br>
-                                    Address: {{ $data['master']['sender_address'] }}<br>
-                                </address>
-                            </div>
-                            <div class="col-sm-6">
-                                Receiver Info
-                                <hr>
-                                <address>
-                                    <strong>{{ $data['master']['receiver_name'] }}</strong><br>
-                                    Phone: {{ $data['master']['receiver_phone'] }}<br>
-                                    Country Name: {{ $data['master']['country_name'] }}<br>
-                                    Post Code: {{ $data['master']['receiver_post_code'] }}<br>
-                                    Address: {{ $data['master']['receiver_address'] }}<br>
-                                </address>
-                            </div>
-                          </div>
-                          <div class="row">
-                              <div class="col-12 table-responsive">
-                                  <table class="table table-striped text-center">
-                                      <thead>
+                            <div class="col-sm-12">
+                                <h5>Shipper & Consignee Information</h5>
+                                <table class="c-table">
+                                    <thead>
                                         <tr>
-                                            <th>SN</th>
-                                            <th>Item Name</th>
-                                            <th>Quantity</th>
-                                            <th>Unit Price</th>
-                                            <th>Sub Total</th>
+                                            <th>Field</th>
+                                            <th>Shipper</th>
+                                            <th>Consignee</th>
                                         </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach ($data['details'] as $sd)
-                                                <tr>
-                                                    <td>{{ $loop->iteration }}</td>
-                                                    <td>{{ ucwords($sd['item_name']) }}</td>
-                                                    <td>{{ $sd['quantity'] }}</td>
-                                                    <td>{{ $data['basicInfo']['currency_symbol'] }} {{ number_format($sd['unit_price'], 2) }}</td>
-                                                    <td>{{ $data['basicInfo']['currency_symbol'] }} {{ number_format($sd['unit_price'] * $sd['quantity'], 2) }}</td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                  </table>
-                              </div>
-                          </div>
-                          <div class="row">
-                              <div class="col-6">
-                              </div>
-                              <div class="col-6">
-                                  <div class="table-responsive">
-                                      <table class="table">
-                                          <tr>
-                                              <th style="width:50%">Subtotal:</th>
-                                              <td>{{ $data['basicInfo']['currency_symbol'] }} {{ number_format($data['master']['total_price'], 2) }}</td>
-                                          </tr>
-                                          <tr>
-                                              <th>Tax</th>
-                                              <td>{{ $data['basicInfo']['currency_symbol'] }} {{ number_format($data['master']['vat_tax'], 2) }}</td>
-                                          </tr>
-                                          <tr>
-                                              <th>Discount:</th>
-                                              <td>{{ $data['basicInfo']['currency_symbol'] }} {{ number_format($data['master']['discount'], 2) }}</td>
-                                          </tr>
-                                          <tr>
-                                              <th>Total:</th>
-                                              <td>{{ $data['basicInfo']['currency_symbol'] }} {{ number_format($data['master']['total_payable'], 2) }}</td>
-                                          </tr>
-                                          <tr>
-                                              <th>Paid Amount:</th>
-                                              <td>{{ $data['basicInfo']['currency_symbol'] }} {{ number_format($data['master']['paid_amount'], 2) }}</td>
-                                          </tr>
-                                          <tr>
-                                              <th>Due Amount:</th>
-                                              <td>{{ $data['basicInfo']['currency_symbol'] }} {{ number_format($data['master']['total_payable'] - $data['master']['paid_amount'], 2) }}</td>
-                                          </tr>
-                                      </table>
-                                  </div>
-                              </div>
-                          </div>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th>Name</th>
+                                            <td>{{ $data['master']['sender_name'] }}</td>
+                                            <td>{{ $data['master']['receiver_name'] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Company</th>
+                                            <td>{{ $data['master']['sender_company'] }}</td>
+                                            <td>{{ $data['master']['receiver_company'] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Phone</th>
+                                            <td>{{ $data['master']['sender_phone'] }}</td>
+                                            <td>{{ $data['master']['receiver_phone'] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Email</th>
+                                            <td>{{ $data['master']['sender_email'] }}</td>
+                                            <td>{{ $data['master']['receiver_email'] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Address</th>
+                                            <td>{{ $data['master']['sender_address'] }}</td>
+                                            <td>{{ $data['master']['receiver_address'] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>City</th>
+                                            <td>{{ $data['master']['sender_city'] }}</td>
+                                            <td>{{ $data['master']['receiver_city'] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Post Code</th>
+                                            <td>{{ $data['master']['sender_zip'] }}</td>
+                                            <td>{{ $data['master']['receiver_zip'] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Country</th>
+                                            <td>{{ $data['master']['sender_country_name'] ?? '' }}</td>
+                                            <td>{{ $data['master']['receiver_country_name'] ?? '' }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
                           <div class="row no-print">
                               <div class="col-12">
                                   <a href="javascript:void(0)" onclick="customPrint()" rel="noopener" class="btn btn-default">

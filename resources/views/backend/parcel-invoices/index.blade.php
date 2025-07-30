@@ -33,12 +33,10 @@
                                             <thead>
                                                 <tr>
                                                     <th>SN</th>
-                                                    <th>InvoiceNo</th>
-                                                    <th>Date</th>
-                                                    <th>Total Price</th>
-                                                    <th>Vat/Tax</th>
-                                                    <th>Discount</th>
-                                                    <th>Payable</th>
+                                                    <th>Invoice No</th>
+                                                    <th>HAWB No</th>
+                                                    <th>Booking Date</th>
+                                                    <th>Export Date</th>
                                                     <th>Note</th>
                                                     <th>Origin Branch</th>
                                                     <th>Current Location</th>
@@ -96,11 +94,19 @@
                                 return `<a href="${view}" class=""><b>${row.invoice_no}</b></a>`;
                             }
                         },
-                        { data: 'date', name: 'parcel_invoices.date'},
-                        { data: 'total_price', name: 'parcel_invoices.total_price'},
-                        { data: 'vat_tax', name: 'parcel_invoices.vat_tax'},
-                        { data: 'discount', name: 'parcel_invoices.discount'},
-                        { data: 'total_payable', name: 'parcel_invoices.total_payable'},
+                        {
+                            data: null, 
+                            name: 'parcel_invoices.hawb_no', 
+                            orderable: true, 
+                            searchable: true, 
+                            render: function(data, type, row, meta) {
+                                let view = `{{ route('parcel-invoices.invoice', ":id") }}`.replace(':id', row.id) && '#';
+                                return `<a href="${view}" class=""><b>${row.hawb_no}</b></a>`;
+                            }
+                        },
+                        { data: 'booking_date', name: 'parcel_invoices.booking_date'},
+                        { data: 'export_date', name: 'parcel_invoices.export_date'},
+
                         { data: 'note', name: 'parcel_invoices.note'},
                         { data: 'creator_branch_title', name: 'branches.creator_branch_title'},
                         {

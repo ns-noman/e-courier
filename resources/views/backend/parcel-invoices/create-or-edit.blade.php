@@ -144,24 +144,6 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        {{-- <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>Created Branch ID <span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="created_branch_id" placeholder="Enter Created Branch ID"
-                                                value="{{ isset($data['item']) ? $data['item']->created_branch_id : '' }}" required>
-                                        </div> --}}
-
-                                        {{-- <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>Agent ID <span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="agent_id" placeholder="Enter Agent ID"
-                                                value="{{ isset($data['item']) ? $data['item']->agent_id : '' }}" required>
-                                        </div> --}}
-
-                                        {{-- <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>Current Branch ID <span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="current_branch_id" placeholder="Enter Current Branch ID"
-                                                value="{{ isset($data['item']) ? $data['item']->current_branch_id : '' }}" required>
-                                        </div> --}}
-
                                         <div class="form-group col-sm-4 col-md-4 col-lg-4">
                                             <label>Hub ID <span class="text-danger">*</span></label>
                                             <input type="number" class="form-control" name="hub_id" placeholder="Enter Hub ID"
@@ -180,13 +162,6 @@
                                                 @endforeach
                                             </select>
                                         </div>
-
-                                        {{-- <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>Flight ID <span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="flight_id" placeholder="Enter Flight ID"
-                                                value="{{ isset($data['item']) ? $data['item']->flight_id : '' }}" required>
-                                        </div> --}}
-
                                         <div class="form-group col-sm-4 col-md-4 col-lg-4">
                                             <label>Service ID <span class="text-danger">*</span></label>
                                             <input type="number" class="form-control" name="service_id" placeholder="Enter Service ID"
