@@ -11,10 +11,12 @@ Route::get('/clear', function() {
     return 'View cache has been cleared';
 });
 
-Route::get('/',function(){return redirect()->route('admin.login');});
+
 Route::get('admin',function(){return redirect()->route('admin.login');});
 Route::get('login',function(){return redirect()->route('admin.login');});
 Route::get('backend',function(){return redirect()->route('admin.login');});
+
+ Route::get('/',[ App\Http\Controllers\frontend\HomeController::class, 'index'])->name('home.index');
 
     
 
@@ -155,6 +157,16 @@ Route::prefix('backend')->group(function () {
                 Route::match(['get', 'post'],'purchase-report','purchaseReport')->name('reports.purchase-report');
                 Route::match(['get', 'post'],'sales-report','salesReport')->name('reports.sales-report');
                 Route::match(['get', 'post'],'bike-profit','bikeProfit')->name('reports.bike-profit');
+            });
+
+            Route::prefix('boxes')->controller(BoxController::class)->group(function(){
+                Route::get('','index')->name('boxes.index');
+                Route::get('create','createOrEdit')->name('boxes.create');
+                Route::get('edit/{id?}','createOrEdit')->name('boxes.edit');
+                Route::post('store','store')->name('boxes.store');
+                Route::put('update/{id}','update')->name('boxes.update');
+                Route::delete('delete/{id}','destroy')->name('boxes.destroy');
+                Route::get('list','list')->name('boxes.list');
             });
 
             Route::prefix('branches')->controller(BranchController::class)->group(function(){

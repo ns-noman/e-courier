@@ -9,7 +9,7 @@
                         <div class="card">
                             <div class="card-header bg-primary p-1">
                                 <h3 class="card-title">
-                                    <a href="{{ route('bike-service-categories.create') }}"class="btn btn-light shadow rounded m-0"><i
+                                    <a href="{{ route('boxes.create') }}"class="btn btn-light shadow rounded m-0"><i
                                             class="fas fa-plus"></i>
                                         <span>Add New</span></i></a>
                                 </h3>
@@ -21,21 +21,17 @@
                                             <thead>
                                                 <tr>
                                                     <th>SN</th>
-                                                    <th>Name</th>
+                                                    <th>Box Name</th>
+                                                    <th>Code</th>
+                                                    <th>Type</th>
+                                                    <th>Weight (kg)</th>
+                                                    <th>Dimensions</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                             </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>SN</th>
-                                                    <th>Name</th>
-                                                    <th>Status</th>
-                                                    <th>Action</th>
-                                                </tr>
-                                            </tfoot>
                                         </table>
                                     </div>
                                 </div>
@@ -51,15 +47,19 @@
     <script>
         $(document).ready(function(){
             const options = {};
-            options.url = '{{ route("bike-service-categories.list") }}';
+            options.url = '{{ route("boxes.list") }}';
             options.type = 'GET';
             options.columns = 
                     [
                         { data: null, orderable: false, searchable: false },
-                        { data: 'name', name: 'bike_service_categories.name'},
+                        { data: 'box_name', name: 'boxes.box_name'},
+                        { data: 'box_code', name: 'boxes.box_code'},
+                        { data: 'box_type', name: 'boxes.box_type'},
+                        { data: 'weight', name: 'boxes.weight'},
+                        { data: 'dimensions', name: 'boxes.dimensions'},
                         { 
                             data: null, 
-                            name: 'bike_service_categories.status', 
+                            name: 'boxes.status', 
                             orderable: true, 
                             searchable: false, 
                             render: function(data, type, row, meta) {
@@ -71,8 +71,8 @@
                             orderable: false, 
                             searchable: false, 
                             render: function(data, type, row, meta) {
-                                let edit = `{{ route('bike-service-categories.edit', ":id") }}`.replace(':id', row.id);
-                                let destroy = `{{ route('bike-service-categories.destroy', ":id") }}`.replace(':id', row.id);
+                                let edit = `{{ route('boxes.edit', ":id") }}`.replace(':id', row.id);
+                                let destroy = `{{ route('boxes.destroy', ":id") }}`.replace(':id', row.id);
 
                                 return (` <div class="d-flex justify-content-center">
                                                 <a href="${edit}"
