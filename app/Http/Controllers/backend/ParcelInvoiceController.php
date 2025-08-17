@@ -242,7 +242,7 @@ class ParcelInvoiceController extends Controller
         try {
             DB::beginTransaction();
             $parcelInvoice = ParcelInvoice::findOrFail($id);
-            $parcelInvoice->update(['parcel_status'=> 'approve']);
+            $parcelInvoice->update(['parcel_status'=> 'approved']);
             DB::commit();
             return response()->json([
                 'success' => true,
@@ -337,36 +337,13 @@ class ParcelInvoiceController extends Controller
             'creator_branches.title as creator_branch_title',
             'current_branches.title as current_branch_title',
             'admins.name as creator_name',
-
-            // 'parcel_invoices.id',
-            // 'parcel_invoices.created_branch_id',
-            // 'parcel_invoices.current_branch_id',
-            // 'parcel_invoices.agent_id',
-            // 'parcel_invoices.invoice_no',
-            // 'parcel_invoices.date',
-            // 'parcel_invoices.total_price',
-            // 'parcel_invoices.vat_tax',
-            // 'parcel_invoices.discount_method',
-            // 'parcel_invoices.discount_rate',
-            // 'parcel_invoices.discount',
-            // 'parcel_invoices.total_payable',
-            // 'parcel_invoices.paid_amount',
-            // 'parcel_invoices.reference_number',
-            // 'parcel_invoices.note',
-            // 'parcel_invoices.created_by_id',
-            // 'parcel_invoices.updated_by_id',
-            // 'parcel_invoices.is_packed',
-            // 'parcel_invoices.payment_status',
-            // 'parcel_invoices.parcel_status',
-
-
         ];
         $query = ParcelInvoice::join('admins', 'admins.id', '=', 'parcel_invoices.created_by_id')
             ->join('branches as creator_branches', 'creator_branches.id', '=', 'parcel_invoices.created_branch_id')
             ->leftJoin('branches as current_branches', 'current_branches.id', '=', 'parcel_invoices.current_branch_id')
             ->select($select);
         if (!$request->has('order')) {
-            $query = $query->orderBy('parcel_invoices.id', 'desc');
+            $query = $query->orderBy('parcel_invoices.updated_at', 'desc');
         }
 
         return DataTables::of($query)

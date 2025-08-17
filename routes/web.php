@@ -188,6 +188,18 @@ Route::prefix('backend')->group(function () {
                 Route::delete('delete/{id}','destroy')->name('agents.destroy');
             });
 
+            Route::prefix('shipment-boxes')->controller(ShipmentBoxController::class)->group(function(){
+                Route::get('','index')->name('shipment-boxes.index');
+                Route::post('store','store')->name('shipment-boxes.store');
+                Route::put('update/{id}','update')->name('shipment-boxes.update');
+                Route::get('create','createOrEdit')->name('shipment-boxes.create');
+                Route::get('invoice/{id}','invoice')->name('shipment-boxes.invoice');
+                Route::get('invoice/{id}/{print}','invoice')->name('shipment-boxes.invoice.print');
+                Route::get('list','list')->name('shipment-boxes.list');
+                Route::get('edit/{id?}','createOrEdit')->name('shipment-boxes.edit');
+                Route::delete('delete/{id}','destroy')->name('shipment-boxes.destroy');
+                Route::get('approve/{id}','approve')->name('shipment-boxes.approve');
+            });
 
             Route::prefix('parcel-invoices')->controller(ParcelInvoiceController::class)->group(function(){
                 Route::get('','index')->name('parcel-invoices.index');

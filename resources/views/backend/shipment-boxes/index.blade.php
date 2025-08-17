@@ -1,17 +1,5 @@
 @extends('layouts.admin.master')
 @section('content')
-    <style>
-        td:nth-child(3){
-            white-space: nowrap;
-        }
-        td:nth-child(4),
-        td:nth-child(5),
-        td:nth-child(6),
-        td:nth-child(7)
-        {
-            text-align: right!important;
-        }
-    </style>
     <div class="content-wrapper">
         @include('layouts.admin.content-header')
         <section class="content">
@@ -21,7 +9,7 @@
                         <div class="card">
                             <div class="card-header bg-primary p-1">
                                 <h3 class="card-title">
-                                    <a href="{{ route('parcel-invoices.create') }}"class="btn btn-light shadow rounded m-0"><i
+                                    <a href="{{ route('shipment-boxes.create') }}"class="btn btn-light shadow rounded m-0"><i
                                             class="fas fa-plus"></i>
                                         <span>Add New</span></i></a>
                                 </h3>
@@ -33,15 +21,8 @@
                                             <thead>
                                                 <tr>
                                                     <th>SN</th>
-                                                    <th>Invoice No</th>
-                                                    <th>HAWB No</th>
-                                                    <th>Booking Date</th>
-                                                    <th>Export Date</th>
-                                                    <th>Note</th>
-                                                    <th>Origin Branch</th>
-                                                    <th>Current Location</th>
-                                                    <th>Agent Name</th>
-                                                    <th>Is Packed?</th>
+                                                    <th>Box No</th>
+                                                    <th>Invoices</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -79,79 +60,43 @@
             processing: true,
             serverSide: true,
             ajax: {
-                url: '{{ route("parcel-invoices.list") }}',
+                url: '{{ route("shipment-boxes.list") }}',
                 type: 'GET',
             },
             columns: [
                         { data: null, orderable: false, searchable: false },
                         {
                             data: null, 
-                            name: 'parcel_invoices.invoice_no', 
+                            name: 'shipment_boxes.shipment_no', 
                             orderable: true, 
                             searchable: true, 
                             render: function(data, type, row, meta) {
-                                let view = `{{ route('parcel-invoices.invoice', ":id") }}`.replace(':id', row.id);
-                                return `<a href="${view}" class=""><b>${row.invoice_no}</b></a>`;
+                                let view = `{{ route('shipment-boxes.invoice', ":id") }}`.replace(':id', row.id);
+                                return `<a href="${view}" class=""><b>${row.shipment_no}</b></a>`;
                             }
                         },
                         {
-                            data: null, 
-                            name: 'parcel_invoices.hawb_no', 
-                            orderable: true, 
-                            searchable: true, 
-                            render: function(data, type, row, meta) {
-                                let view = `{{ route('parcel-invoices.invoice', ":id") }}`.replace(':id', row.id) && '#';
-                                return `<a href="${view}" class=""><b>${row.hawb_no}</b></a>`;
-                            }
-                        },
-                        { data: 'booking_date', name: 'parcel_invoices.booking_date'},
-                        { data: 'export_date', name: 'parcel_invoices.export_date'},
-
-                        { data: 'note', name: 'parcel_invoices.note'},
-                        { data: 'creator_branch_title', name: 'branches.creator_branch_title'},
-                        {
-                            data: null, 
-                            name: 'parcel_invoices.invoice_no', 
-                            orderable: true, 
-                            searchable: true, 
-                            render: function(data, type, row, meta) {
-                                if(row.current_branch_title == null){
-                                    if(row.current_branch_id == '-1'){
-                                        row.current_branch_title = 'In Transit';
-                                    }
-                                }
-                                return `${row.current_branch_title}`;
-                            }
-                        },
-                        { data: 'creator_name', name: 'admins.name'},
-
-                        {
-                            data: null, 
-                            name: 'parcel_invoices.is_packed', 
-                            orderable: true, 
-                            searchable: true, 
-                            render: function(data, type, row, meta) {
-                                let txt = 'No';
-                                let bg = 'danger';
-                                if(row.is_packed == '1'){
-                                    txt = 'Yes';
-                                    bg = 'success';
-                                }
-                                return `<span class="badge bg-${bg}">${txt}</span>`;
-                            }
-                        },
-
-                    
-                        {
-                            data: null, 
-                            name: 'parcel_invoices.parcel_status', 
-                            orderable: true, 
+                            data: 'invoice_numbers',
+                            orderable: false, 
                             searchable: false, 
+                            render: function(data, type, row, meta) {
+                              return data;
+                            }
+                        },
+                        {
+                            data: null,
+                            name: 'shipment_boxes.status',
+                            orderable: true,
+                            searchable: false,
                             render: function(data, type, row, meta) {
                                 let color;
                                 let text;
                                 let eventClass = '';
-                                switch (row.parcel_status) {
+
+                                console.log(row.status);
+                                
+
+                                switch (row.status) {
                                     case 'pending':
                                         color = 'warning';
                                         text = 'Pending';
@@ -160,10 +105,6 @@
                                     case 'approved':
                                         color = 'primary';
                                         text = 'Approved';
-                                        break;
-                                    case 'in_transit':
-                                        color = 'info';
-                                        text = 'In Transit';
                                         break;
                                     case 'delivered':
                                         color = 'success';
@@ -175,39 +116,31 @@
                                         break;
                                     default:
                                         color = 'secondary';
-                                        text = 'Unknown';
-                                        break;
+                                        text = row.status;
                                 }
-                                return `<button transaction_id=${row.id} type="button" class="btn btn-sm btn-${color} ${eventClass}">${text}</button>`;
+                                return `<button transaction_id="${row.id}" type="button" class="btn btn-sm btn-${color} ${eventClass}">${text}</button>`;
                             }
                         },
+
                         { 
                             data: null,
                             orderable: false, 
                             searchable: false, 
                             render: function(data, type, row, meta) {
-                                let edit = `{{ route('parcel-invoices.edit', ":id") }}`.replace(':id', row.id);
-                                let print = `{{ route('parcel-invoices.invoice.print', [":id", "print"]) }}`.replace(':id', row.id);
-                                let view = `{{ route('parcel-invoices.invoice', [":id"]) }}`.replace(':id', row.id);
-                                let destroy = `{{ route('parcel-invoices.destroy', ":id") }}`.replace(':id', row.id);
-                                return (` <div class="d-flex justify-content-center" gap-4">
-                                                <a href="${print}" class="btn btn-sm btn-dark">
-                                                    <i class="fa-solid fa-print"></i>
-                                                </a>
-                                                <a href="${view}" class="btn btn-sm btn-primary">
-                                                    <i class="fa-solid fa-eye"></i>
-                                                </a>
-                                                <a href="${edit}" class="btn btn-sm btn-info ${row.parcel_status != 'pending' ? 'disabled' : null}">
+                                let edit = `{{ route('shipment-boxes.edit', ":id") }}`.replace(':id', row.id);
+                                let print = `{{ route('shipment-boxes.invoice.print', [":id", "print"]) }}`.replace(':id', row.id);
+                                let destroy = `{{ route('shipment-boxes.destroy', ":id") }}`.replace(':id', row.id);
+                                return (` <div class="d-flex justify-content-center">
+                                                <a href="${edit}" class="btn btn-sm btn-info ${row.status == 'approved' ? 'disabled' : null}">
                                                         <i class="fa-solid fa-pen-to-square"></i>
                                                 </a>
                                                 <form class="delete" action="${destroy}" method="post">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger" ${row.parcel_status != 'pending' ? "disabled" : null}>
+                                                    <button type="submit" class="btn btn-sm btn-danger" ${row.status == 'approved' ? "disabled" : null}>
                                                         <i class="fa-solid fa-trash-can"></i>
                                                     </button>
                                                 </form>
-                                               
                                             </div>
                                         `);
                             }
@@ -262,7 +195,7 @@
                     cancelButtonText: "Cancel",
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        const url = `{{ route('parcel-invoices.approve', ":id") }}`.replace(':id', transaction_id);
+                        const url = `{{ route('shipment-boxes.approve', ":id") }}`.replace(':id', transaction_id);
                         $.ajax({
                             url: url,
                             method: 'GET',
