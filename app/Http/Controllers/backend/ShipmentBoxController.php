@@ -12,7 +12,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\HtmlString;
-use Auth;
 
 class ShipmentBoxController extends Controller
 {

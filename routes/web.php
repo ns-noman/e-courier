@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\backend\ParcelTransferController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/clear', function() {   
@@ -158,6 +159,43 @@ Route::prefix('backend')->group(function () {
                 Route::match(['get', 'post'],'sales-report','salesReport')->name('reports.sales-report');
                 Route::match(['get', 'post'],'bike-profit','bikeProfit')->name('reports.bike-profit');
             });
+
+            Route::prefix('parcel-transfers')->controller(ParcelTransferController::class)->group(function(){
+                Route::get('','index')->name('parcel-transfers.index');
+                // Route::get('create','create')->name('parcel-transfers.create');
+
+                // Route::post('store-wrq','storeTransferFromRequisition')->name('parcel-transfers.storeTransferFromRequisition');
+                // Route::post('store-worq','storeTransferWithoutRequisition')->name('parcel-transfers.storeTransferWithoutRequisition');
+                // Route::get('asset-list-worq/{cat_id}','getAssetListByCat')->name('parcel-transfers.asset-list-worq');;
+                // Route::delete('delete/{id}','destroy')->name('parcel-transfers.destroy');
+                // Route::get('parcel-transfers-outgoing-list','assetsTransferOutgoingList')->name('parcel-transfers.outgoing-list');
+                // Route::get('parcel-transfers-incoming-list','assetsTransferIncomingList')->name('parcel-transfers.incoming-list');
+                // Route::get('requisition-details/{req_id}','requisitionDetails')->name('parcel-transfers.requisition-details');
+            });
+
+            // Route::prefix('assets-transfers')->controller(ParcelTransferController::class)->group(function(){
+                
+            //     Route::prefix('outgoing')->group(function(){
+            //         Route::get('','outgoing')->name('assets-transfers.outgoing');
+            //         Route::get('create','create')->name('assets-transfers.create');
+
+            //         Route::post('store-wrq','storeTransferFromRequisition')->name('assets-transfers.storeTransferFromRequisition');
+            //         Route::post('store-worq','storeTransferWithoutRequisition')->name('assets-transfers.storeTransferWithoutRequisition');
+            //         Route::get('asset-list-worq/{cat_id}','getAssetListByCat')->name('assets-transfers.asset-list-worq');;
+
+
+            //         Route::delete('delete/{id}','destroy')->name('assets-transfers.destroy');
+            //         Route::get('assets-transfers-outgoing-list','assetsTransferOutgoingList')->name('assets-transfers.outgoing-list');
+            //         Route::get('assets-transfers-incoming-list','assetsTransferIncomingList')->name('assets-transfers.incoming-list');
+            //         Route::get('requisition-details/{req_id}','requisitionDetails')->name('assets-transfers.requisition-details');
+            //     });
+            //     // Route::prefix('incoming')->group(function(){
+            //     //     Route::get('','incoming')->name('assets-transfers.incoming');
+            //     //     Route::get('assets-transfers-list','assetsTransferList')->name('assets-transfers.list');
+            //     //     Route::get('asset-list/{cat_id}','assetList')->name('assets-transfers.asset-list');
+            //     //     Route::get('receive/{id}','receive')->name('assets-transfers.receive');
+            //     // });
+            // });
 
             Route::prefix('boxes')->controller(BoxController::class)->group(function(){
                 Route::get('','index')->name('boxes.index');
