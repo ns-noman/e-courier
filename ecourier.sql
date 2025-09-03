@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Aug 17, 2025 at 12:28 PM
+-- Generation Time: Sep 03, 2025 at 01:24 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.2.28
 
@@ -1648,7 +1648,8 @@ INSERT INTO `menus` (`id`, `parent_id`, `srln`, `menu_name`, `navicon`, `is_side
 (221, 0, 4, 'Box Manage', '<i class=\"fas fa-box nav-icon\"></i>', 1, 'boxes.create', 'boxes.index', 1, '2025-07-31 04:45:02', '2025-07-31 04:57:00'),
 (222, 221, 1, 'Add', NULL, 0, NULL, 'boxes.create', 1, '2025-07-31 05:21:56', '2025-07-31 05:21:56'),
 (223, 221, 2, 'Edit', NULL, 0, NULL, 'boxes.edit', 1, '2025-07-31 05:22:09', '2025-07-31 05:22:09'),
-(224, 212, 2, 'Shipment Box', '<i class=\"far fa-dot-circle nav-icon\"></i>', 1, 'shipment-boxes.create', 'shipment-boxes.index', 1, '2025-08-17 04:47:39', '2025-08-17 04:47:39');
+(224, 212, 2, 'Shipment Box', '<i class=\"far fa-dot-circle nav-icon\"></i>', 1, 'shipment-boxes.create', 'shipment-boxes.index', 1, '2025-08-17 04:47:39', '2025-08-17 04:47:39'),
+(225, 212, 3, 'Parcel Transfer', '<i class=\"far fa-dot-circle nav-icon\"></i>', 1, 'parcel-transfers.create', 'parcel-transfers.index', 1, '2025-08-18 09:19:21', '2025-08-18 09:19:21');
 
 -- --------------------------------------------------------
 
@@ -3225,7 +3226,7 @@ ALTER TABLE `items`
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=225;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=226;
 
 --
 -- AUTO_INCREMENT for table `migrations`
