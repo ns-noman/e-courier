@@ -12,9 +12,10 @@ return new class extends Migration
             $table->id();
             $table->integer('box_id');
             $table->string('shipment_no')->unique();
-            $table->unsignedBigInteger('from_branch_id');
-            $table->unsignedBigInteger('to_branch_id');
-            $table->enum('status', ['pending', 'in_transit', 'delivered', 'cancelled'])->default('pending');
+            $table->unsignedBigInteger('from_branch_id')->nullable();
+            $table->unsignedBigInteger('to_branch_id')->nullable();
+            $table->tinyInteger('is_loaded')->default(0);
+            $table->enum('status', ['pending','approved', 'in_transit', 'delivered', 'cancelled'])->default('pending');
             $table->timestamps();
         });
     }

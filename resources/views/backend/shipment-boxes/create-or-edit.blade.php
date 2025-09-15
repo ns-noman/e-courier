@@ -68,7 +68,11 @@
                                                                     <td>{{ $invoice->invoice_no }}</td>
                                                                     <td>{{ $invoice->booking_date }}</td>
                                                                     <td>
-                                                                        <input type="checkbox" name="selected_invoices[]" class="select-invoice" value="{{ $invoice->id }}" {{ in_array($invoice->id,$data['parcel_invoice_ids']->toArray()) ? 'checked' : '' }}>
+                                                                        <input type="checkbox" name="selected_invoices[]" class="select-invoice" value="{{ $invoice->id }}" 
+                                                                            @isset($data['item'])
+                                                                                {{ in_array($invoice->id,$data['parcel_invoice_ids']) ? 'checked' : '' }}
+                                                                            @endisset
+                                                                        >
                                                                     </td>
                                                                 </tr>
                                                             @endforeach

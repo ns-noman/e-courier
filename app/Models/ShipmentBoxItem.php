@@ -14,7 +14,6 @@ class ShipmentBoxItem extends Model
 
     public function invoice()
     {
-        // Each item belongs to ONE invoice
         return $this->belongsTo(ParcelInvoice::class, 'invoice_id', 'id')
                     ->select('id', 'invoice_no'); 
     }

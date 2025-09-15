@@ -36,6 +36,11 @@ class ParcelTransferController extends Controller
                                         ->orderByDesc('tr_no')
                                         ->get()
                                         ->toArray();
+
+        $shipmentBox = ShipmentBox::get();
+        $data['shipmentBoxIds'] = $shipmentBox ? $shipmentBox->toArray() : []; 
+  
+
         $data['categories'] = Category::with('subcategories')->where(['parent_cat_id'=> 0,'status'=> 1])->orderBy('title')->get()->toArray();
         $data['branches'] = Branch::where('id','!=', $branch_id)->where('status',1)->orderBy('title')->get();
         return view('backend.asset-transfers.create-or-edit-direct-transfer',compact('data'));

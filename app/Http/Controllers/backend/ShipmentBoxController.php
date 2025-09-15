@@ -31,7 +31,8 @@ class ShipmentBoxController extends Controller
         if($id){
             $data['title'] = 'Edit';
             $data['item'] = ShipmentBox::find($id);
-            $data['parcel_invoice_ids'] = ShipmentBox::find($id)->shipmentBoxItems->pluck('invoice_id');
+            $shipmentBoxParcelIds = ShipmentBox::find($id)->shipmentBoxItems->pluck('invoice_id');
+            $data['parcel_invoice_ids'] = count($shipmentBoxParcelIds) ? $shipmentBoxParcelIds->toArray() : [];
         }else{
             $data['title'] = 'Create';
         }
@@ -170,8 +171,7 @@ class ShipmentBoxController extends Controller
                         return '';
                     })
                     ->implode(', ');
-
-                return new HtmlString($html); // <- important
+                return new HtmlString($html);
             })
             ->rawColumns(['invoice_numbers'])
             ->filterColumn('shipment_no', function ($q, $keyword) {

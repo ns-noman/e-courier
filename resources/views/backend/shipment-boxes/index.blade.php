@@ -23,6 +23,7 @@
                                                     <th>SN</th>
                                                     <th>Box No</th>
                                                     <th>Invoices</th>
+                                                    <th>Loaded?</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -84,6 +85,16 @@
                             }
                         },
                         {
+                            data: 'is_loaded',
+                            orderable: false, 
+                            searchable: false, 
+                            render: function(data, type, row, meta) {
+                                console.log(data);
+                                
+                              return data==1? 'Yes' : 'No';
+                            }
+                        },
+                        {
                             data: null,
                             name: 'shipment_boxes.status',
                             orderable: true,
@@ -92,10 +103,6 @@
                                 let color;
                                 let text;
                                 let eventClass = '';
-
-                                console.log(row.status);
-                                
-
                                 switch (row.status) {
                                     case 'pending':
                                         color = 'warning';

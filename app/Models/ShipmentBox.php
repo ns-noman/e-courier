@@ -11,6 +11,9 @@ class ShipmentBox extends Model
     protected $fillable = [
         'box_id',
         'shipment_no',
+        'from_branch_id',
+        'to_branch_id',
+        'is_loaded',
         'status',
     ];
     public function shipmentBoxItems()
