@@ -23,7 +23,10 @@
                                                     <th>SN</th>
                                                     <th>Box No</th>
                                                     <th>Invoices</th>
-                                                    <th>Loaded?</th>
+                                                    <th>Origin Branch</th>
+                                                    <th>Current Branch</th>
+                                                    <th>Destination Branch</th>
+                                                    <th>Is Packed?</th>
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
@@ -84,16 +87,53 @@
                               return data;
                             }
                         },
+
                         {
-                            data: 'is_loaded',
+                            data: null, 
+                            name: null, 
                             orderable: false, 
                             searchable: false, 
                             render: function(data, type, row, meta) {
-                                console.log(data);
-                                
-                              return data==1? 'Yes' : 'No';
+                                let fromBranch_title = row.from_branch ? row.from_branch.title : 'N/A';
+                                return `${fromBranch_title}`;
                             }
-                        },
+                        },  
+                        {
+                            data: null, 
+                            name: null, 
+                            orderable: false, 
+                            searchable: false, 
+                            render: function(data, type, row, meta) {
+                                let currentBranch_title = row.current_branch ? row.current_branch.title : 'N/A';
+                                return `${currentBranch_title}`;
+                            }
+                        },  
+                        {
+                            data: null, 
+                            name: null, 
+                            orderable: false, 
+                            searchable: false, 
+                            render: function(data, type, row, meta) {
+                                let destinationBranch_title = row.destination_branch ? row.destination_branch.title : 'N/A';
+                                return `${destinationBranch_title}`;
+                            }
+                        },  
+                        {
+                            data: null, 
+                            name: 'shipment_boxes.is_packed', 
+                            orderable: true, 
+                            searchable: true, 
+                            render: function(data, type, row, meta) {
+                                let txt = 'No';
+                                let bg = 'danger';
+                                if(row.is_packed == '1'){
+                                    txt = 'Yes';
+                                    bg = 'success';
+                                }
+                                return `<span class="badge bg-${bg}">${txt}</span>`;
+                            }
+                        },  
+                        
                         {
                             data: null,
                             name: 'shipment_boxes.status',
@@ -112,6 +152,10 @@
                                     case 'approved':
                                         color = 'primary';
                                         text = 'Approved';
+                                        break;
+                                    case 'in_transit':
+                                        color = 'warning';
+                                        text = 'In transit';
                                         break;
                                     case 'delivered':
                                         color = 'success';
@@ -138,13 +182,13 @@
                                 let print = `{{ route('shipment-boxes.invoice.print', [":id", "print"]) }}`.replace(':id', row.id);
                                 let destroy = `{{ route('shipment-boxes.destroy', ":id") }}`.replace(':id', row.id);
                                 return (` <div class="d-flex justify-content-center">
-                                                <a href="${edit}" class="btn btn-sm btn-info ${row.status == 'approved' ? 'disabled' : null}">
+                                                <a href="${edit}" class="btn btn-sm btn-info ${row.status != 'pending' ? "disabled" : null}">
                                                         <i class="fa-solid fa-pen-to-square"></i>
                                                 </a>
                                                 <form class="delete" action="${destroy}" method="post">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-sm btn-danger" ${row.status == 'approved' ? "disabled" : null}>
+                                                    <button type="submit" class="btn btn-sm btn-danger" ${row.status != 'pending' ? "disabled" : null}>
                                                         <i class="fa-solid fa-trash-can"></i>
                                                     </button>
                                                 </form>

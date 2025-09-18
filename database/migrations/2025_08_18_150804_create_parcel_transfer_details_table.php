@@ -11,9 +11,8 @@ return new class extends Migration
         Schema::create('parcel_transfer_details', function (Blueprint $table) {
             $table->id();
             $table->integer('parcel_transfer_id');
-            $table->integer('parcel_id');
+            $table->integer('shipment_box_id')->nullable();
             $table->integer('invoice_id')->nullable();
-            $table->integer('quantity')->default(1);
             $table->text('note')->nullable();
             $table->timestamps();
         });

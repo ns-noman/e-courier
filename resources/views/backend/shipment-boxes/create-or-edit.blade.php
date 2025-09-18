@@ -98,36 +98,7 @@
 @section('script')
 <script>
 
-    $('#box_id').change(function() {
-        $.ajax({
-            url: "{{ url('admin/get-schedule-trainee') }}/"+$(this).val(),
-            method: "GET",
-            dataType: "json",
-            success: function(data){
-                let td = '';
-                let i = 1;
-                data.forEach((element) => {
-                    td += '<tr>';
-                    td += '<td align="center" valign="middle">'+i+'</td>';
-                    td += '<td align="left" valign="middle">' + element.trainee.name + ' - ' + element.trainee.id + '</td>';
-                    td += '<td align="left" valign="middle"><input class="form-control" name="comment[]" placeholder="Comment"></td>';
-                    td += '<td>';
-                    td +=   '<div class="col-12">';
-                    td +=     '<div class="custom-control custom-switch custom-switch-off-gray custom-switch-on-success child-menu">';
-                    td +=       '<input name="attendance_status[]" type="checkbox" class="custom-control-input" id="ats-'+element.id+'" value="'+element.id+'">';
-                    td +=       '<label class="custom-control-label" for="ats-'+element.id+'" ></label>';
-                    td +=     '</div>';
-                    td +=   '</div>';
-                    td += '</td>';
-                    td += '</tr>';
-                    i++;
-                });
-                if(!data.length) td = 'No Data Found!';
-
-                $('#table-data').html(td);
-            }
-        });
-    });
+    
 
     $('#select').click(function(){
         let checkboxes = $('input[type="checkbox"]');

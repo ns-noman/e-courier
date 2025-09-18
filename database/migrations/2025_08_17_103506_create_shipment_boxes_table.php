@@ -14,7 +14,8 @@ return new class extends Migration
             $table->string('shipment_no')->unique();
             $table->unsignedBigInteger('from_branch_id')->nullable();
             $table->unsignedBigInteger('to_branch_id')->nullable();
-            $table->tinyInteger('is_loaded')->default(0);
+            $table->unsignedBigInteger('current_branch_id')->nullable();
+            $table->tinyInteger('is_packed')->default(0);
             $table->enum('status', ['pending','approved', 'in_transit', 'delivered', 'cancelled'])->default('pending');
             $table->timestamps();
         });

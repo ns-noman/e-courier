@@ -60,9 +60,6 @@ class ParcelInvoiceController extends Controller
         $data['print'] = $print;
 
          $select = [
-
-
-
             'parcel_invoices.id',
             'parcel_invoices.invoice_no',
             'parcel_invoices.total_price',
@@ -111,7 +108,8 @@ class ParcelInvoiceController extends Controller
 
             'parcel_invoices.booking_date',
             'parcel_invoices.export_date',
-            'parcel_invoices.created_branch_id',
+            'parcel_invoices.from_branch_id',
+            'parcel_invoices.to_branch_id',
             'parcel_invoices.agent_id',
             'parcel_invoices.current_branch_id',
             'parcel_invoices.hub_id',
@@ -132,7 +130,7 @@ class ParcelInvoiceController extends Controller
             'parcel_invoices.payment_status',
             'parcel_invoices.parcel_status',
             
-            'creator_branches.title as creator_branch_title',
+            'from_branches.title as from_branch_title',
             'current_branches.title as current_branch_title',
             'admins.name as creator_name',
             'receiver_countries.country_name as sender_country_name',
@@ -152,8 +150,9 @@ class ParcelInvoiceController extends Controller
         $data['basicInfo'] = BasicInfo::first()->toArray();
 
         $data['master'] = ParcelInvoice::join('admins', 'admins.id', '=', 'parcel_invoices.created_by_id')
-                        ->join('branches as creator_branches', 'creator_branches.id', '=', 'parcel_invoices.created_branch_id')
-                        ->leftJoin('branches as current_branches', 'current_branches.id', '=', 'parcel_invoices.current_branch_id')
+                        ->join('branches as from_branches', 'from_branches.id', '=', 'parcel_invoices.from_branch_id')
+                        ->leftJoin('branches as to_branches', 'to_branches.id', '=', 'parcel_invoices.to_branch_id')
+                        ->join('branches as current_branches', 'current_branches.id', '=', 'parcel_invoices.current_branch_id')
                         ->join('countries as receiver_countries', 'receiver_countries.id', '=', 'parcel_invoices.receiver_country_id')
                         ->join('countries as sender_countries', 'sender_countries.id', '=', 'parcel_invoices.sender_country_id')
                         ->where('parcel_invoices.id',$id)
@@ -182,7 +181,7 @@ class ParcelInvoiceController extends Controller
         try {
 
             $data = $request->all();
-            $data['created_branch_id'] = $this->getUserInfo()->branch_id;
+            $data['from_branch_id'] = $this->getUserInfo()->branch_id;
             $data['current_branch_id'] = $this->getUserInfo()->branch_id;
             $data['agent_id'] = $this->getUserInfo()->id;
             $data['invoice_no'] = $this->formatNumber(ParcelInvoice::latest()->limit(1)->max('invoice_no') + 1);;
@@ -314,9 +313,10 @@ class ParcelInvoiceController extends Controller
             'parcel_invoices.receiver_email',
             'parcel_invoices.booking_date',
             'parcel_invoices.export_date',
-            'parcel_invoices.created_branch_id',
-            'parcel_invoices.agent_id',
+            'parcel_invoices.from_branch_id',
+            'parcel_invoices.to_branch_id',
             'parcel_invoices.current_branch_id',
+            'parcel_invoices.agent_id',
             'parcel_invoices.hub_id',
             'parcel_invoices.flight_id',
             'parcel_invoices.service_id',
@@ -334,13 +334,15 @@ class ParcelInvoiceController extends Controller
             'parcel_invoices.is_packed',
             'parcel_invoices.payment_status',
             'parcel_invoices.parcel_status',
-            'creator_branches.title as creator_branch_title',
+            'from_branches.title as from_branch_title',
             'current_branches.title as current_branch_title',
             'admins.name as creator_name',
         ];
         $query = ParcelInvoice::join('admins', 'admins.id', '=', 'parcel_invoices.created_by_id')
-            ->join('branches as creator_branches', 'creator_branches.id', '=', 'parcel_invoices.created_branch_id')
-            ->leftJoin('branches as current_branches', 'current_branches.id', '=', 'parcel_invoices.current_branch_id')
+            ->join('branches as from_branches', 'from_branches.id', '=', 'parcel_invoices.from_branch_id')
+            ->leftJoin('branches as to_branches', 'to_branches.id', '=', 'parcel_invoices.to_branch_id')
+            ->join('branches as current_branches', 'current_branches.id', '=', 'parcel_invoices.current_branch_id')
+            ->where('parcel_invoices.current_branch_id', $this->getUserInfo()->branch_id)
             ->select($select);
         if (!$request->has('order')) {
             $query = $query->orderBy('parcel_invoices.updated_at', 'desc');

@@ -108,21 +108,8 @@
                         { data: 'export_date', name: 'parcel_invoices.export_date'},
 
                         { data: 'note', name: 'parcel_invoices.note'},
-                        { data: 'creator_branch_title', name: 'branches.creator_branch_title'},
-                        {
-                            data: null, 
-                            name: 'parcel_invoices.invoice_no', 
-                            orderable: true, 
-                            searchable: true, 
-                            render: function(data, type, row, meta) {
-                                if(row.current_branch_title == null){
-                                    if(row.current_branch_id == '-1'){
-                                        row.current_branch_title = 'In Transit';
-                                    }
-                                }
-                                return `${row.current_branch_title}`;
-                            }
-                        },
+                        { data: 'from_branch_title', name: 'from_branches.title'},
+                        { data: 'current_branch_title', name: 'current_branches.title'},
                         { data: 'creator_name', name: 'admins.name'},
 
                         {

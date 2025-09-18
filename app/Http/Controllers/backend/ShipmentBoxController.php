@@ -31,13 +31,12 @@ class ShipmentBoxController extends Controller
         if($id){
             $data['title'] = 'Edit';
             $data['item'] = ShipmentBox::find($id);
-            $shipmentBoxParcelIds = ShipmentBox::find($id)->shipmentBoxItems->pluck('invoice_id');
+            $shipmentBoxParcelIds = $data['item'] ? $data['item']->shipmentBoxItems->pluck('invoice_id') : [];
             $data['parcel_invoice_ids'] = count($shipmentBoxParcelIds) ? $shipmentBoxParcelIds->toArray() : [];
+
         }else{
             $data['title'] = 'Create';
         }
-        $data['paymentMethods'] = $this->paymentMethods();
-        $data['currency_symbol'] = BasicInfo::first()->currency_symbol;
 
         $data['parcel_invoices'] = ParcelInvoice::where(['parcel_invoices.is_packed'=> 0, 'parcel_invoices.parcel_status'=> 'approved'])
                             ->select('parcel_invoices.id','parcel_invoices.invoice_no', 'parcel_invoices.booking_date')
@@ -53,7 +52,10 @@ class ShipmentBoxController extends Controller
         try {
             $data = $request->all();
             $data['shipment_no'] = $this->formatNumber(ShipmentBox::latest()->limit(1)->max('shipment_no') + 1);
+            $data['from_branch_id'] = $this->getUserInfo()->branch_id;
+            $data['current_branch_id'] = $this->getUserInfo()->branch_id;
             $selected_invoices = $data['selected_invoices'];
+
             $shipmentbox = ShipmentBox::create($data);
             for ($i = 0; $i < count($selected_invoices); $i++) {
                 ShipmentBoxItem::create([
@@ -153,7 +155,7 @@ class ShipmentBoxController extends Controller
 
     public function list(Request $request)
     {
-        $query = ShipmentBox::with('shipmentBoxItems.invoice');
+        $query = ShipmentBox::with(['shipmentBoxItems.invoice', 'fromBranch', 'toBranch', 'currentBranch']);
 
         // Apply default order if no custom order is provided
         if (!$request->has('order')) {

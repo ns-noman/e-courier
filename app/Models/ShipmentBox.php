@@ -12,8 +12,9 @@ class ShipmentBox extends Model
         'box_id',
         'shipment_no',
         'from_branch_id',
+        'current_branch_id',
         'to_branch_id',
-        'is_loaded',
+        'is_packed',
         'status',
     ];
     public function shipmentBoxItems()
@@ -24,5 +25,21 @@ class ShipmentBox extends Model
             'invoice_id',
         ]);
     }
+
+    public function fromBranch()
+    {
+        return $this->belongsTo(Branch::class, 'from_branch_id')->select(['id', 'title']);
+    }
+
+    public function toBranch()
+    {
+        return $this->belongsTo(Branch::class, 'to_branch_id')->select(['id', 'title']);
+    }
+
+    public function currentBranch()
+    {
+        return $this->belongsTo(Branch::class, 'current_branch_id')->select(['id', 'title']);
+    }
+    
 
 }

@@ -66,9 +66,10 @@ class ParcelInvoice extends Model
         'export_date',
 
         // Service Information
-        'created_branch_id',
-        'agent_id',
+        'from_branch_id',
+        'to_branch_id',
         'current_branch_id',
+        'agent_id',
         'hub_id',
         'flight_id',
         'service_id',

@@ -2,176 +2,197 @@
 
 namespace App\Http\Controllers\backend;
 
-use App\Models\AssignAsset;
-use App\Models\TransferRequisition;
-use App\Models\RequisitionDetails;
+use App\Models\ParcelTransfer;
+use App\Models\ParcelTransferDetails;
+use App\Models\ShipmentBox;
 use App\Models\Branch;
-use App\Models\AssetTransfer;
-use App\Models\Category;
-use App\Models\Asset;
+use App\Models\ParcelInvoice;
 
-use App\Http\Controllers\Controller;
+use App\Models\ShipmentBoxItem;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
+use DB;
 use Auth;
 
 class ParcelTransferController extends Controller
-{    
+{
     protected $breadcrumb;
-    public function __construct(){$this->breadcrumb = ['title'=>'Parcel Transfer'];}
-    public function index()
+
+    public function __construct()
     {
-        $data['breadcrumb'] = $this->breadcrumb;
-        return view('backend.parcel-transfers.index', compact('data'));
+        $this->breadcrumb = ['title' => 'Parcel Transfer'];
     }
 
-    public function create()
+    // ========== Outgoing ==========
+    public function indexOutgoing()
     {
-        $branch_id = Auth::guard('admin')->user()->branch_id;
-        $data['title'] = 'Create';
         $data['breadcrumb'] = $this->breadcrumb;
-        $data['transfer_requistions'] = TransferRequisition::where('status',1)
-                                        ->where('from_branch_id', $branch_id)
-                                        ->select('id','tr_no')
-                                        ->orderByDesc('tr_no')
-                                        ->get()
-                                        ->toArray();
-
-        $shipmentBox = ShipmentBox::get();
-        $data['shipmentBoxIds'] = $shipmentBox ? $shipmentBox->toArray() : []; 
-  
-
-        $data['categories'] = Category::with('subcategories')->where(['parent_cat_id'=> 0,'status'=> 1])->orderBy('title')->get()->toArray();
-        $data['branches'] = Branch::where('id','!=', $branch_id)->where('status',1)->orderBy('title')->get();
-        return view('backend.asset-transfers.create-or-edit-direct-transfer',compact('data'));
+        return view('backend.parcel-transfers.index-outgoing', compact('data'));
     }
-    
-    public function storeTransferFromRequisition(Request $request)
+    public function indexIncoming()
     {
-        $transfer_requistion_id = $request->transfer_requistion_id;
-        $tr = TransferRequisition::find($transfer_requistion_id);
-        $from_branch_id = $tr->from_branch_id;
-        $to_branch_id = $tr->to_branch_id;
-        $created_by_id = Auth::guard('admin')->user()->id;
-        $asset_ids = $request->asset_ids;
-        foreach ($asset_ids as $key => $asset_id) {
-            $data['asset_id'] = $asset_id;
-            $data['date'] = date('Y-m-d');
-            $data['status'] = 0;
-            $data['from_branch_id'] = $from_branch_id;
-            $data['to_branch_id'] = $to_branch_id;
-            $data['created_by_id'] = $created_by_id;
-            AssignAsset::where(['branch_id'=> $from_branch_id, 'asset_id'=> $asset_id, 'in_branch'=> 1])->first()
-                        ->update(['in_branch'=>0,'updated_by_id'=>$created_by_id]);
-            Asset::find($asset_id)->update(['location'=>2]);
-            AssetTransfer::create($data);
+        $data['breadcrumb'] = $this->breadcrumb;
+        return view('backend.parcel-transfers.index-incoming', compact('data'));
+    }
+
+    public function createOrEdit($id=null)
+    {
+        if($id){
+            $data['title'] = 'Edit';
+            $data['item'] = ShipmentBox::find($id);
+            $shipmentBoxParcelIds = $data['item'] ? $data['item']->shipmentBoxItems->pluck('invoice_id') : [];
+            $data['parcel_invoice_ids'] = count($shipmentBoxParcelIds) ? $shipmentBoxParcelIds->toArray() : [];
+
+        }else{
+            $data['title'] = 'Create';
         }
-        $tr->update(['status'=>4]);
-        return redirect()->route('assets-transfers.outgoing')->with('alert',['messageType'=>'success','message'=>'Data Inserted Successfully!']);
+
+        $data['shipment_boxes'] = ShipmentBox::where(['shipment_boxes.is_packed'=> 0, 'shipment_boxes.status'=> 'approved'])
+                            ->select('shipment_boxes.id','shipment_boxes.shipment_no')
+                            ->get();
+        $data['branches'] = Branch::where('status', 1)->where('id', '!=', $this->getUserInfo()->branch_id)->select(['code','title', 'id'])->get();
+        $data['breadcrumb'] = $this->breadcrumb;
+        return view('backend.parcel-transfers.create-or-edit',compact('data'));
     }
 
-    public function storeTransferWithoutRequisition(Request $request)
+    public function store(Request $request)
     {
-        $from_branch_id = Auth::guard('admin')->user()->branch_id;
-        $to_branch_id = $request->branch_id;
-        $created_by_id = Auth::guard('admin')->user()->id;
-        $asset_id = $request->asset_id;
+        DB::beginTransaction();
+        try {
+            $data = $request->all();
 
-        $data['asset_id'] = $asset_id;
-        $data['date'] = date('Y-m-d');
-        $data['status'] = 0;
-        $data['from_branch_id'] = $from_branch_id;
-        $data['to_branch_id'] = $to_branch_id;
-        $data['created_by_id'] = $created_by_id;
+            // Auto-generate parcel transfer number
+            $lastNo = ParcelTransfer::latest()->limit(1)->max('parcel_transfer_no');
+            $nextNo = $lastNo ? (intval(str_replace('PT-', '', $lastNo)) + 1) : 1;
+            $data['parcel_transfer_no'] = 'PT-' . str_pad($nextNo, 6, '0', STR_PAD_LEFT);
 
-        AssignAsset::where(['branch_id'=> $from_branch_id, 'asset_id'=> $asset_id, 'in_branch'=> 1])->first()
-                    ->update(['in_branch'=>0,'updated_by_id'=>$created_by_id]);
+            // Branch & user info
+            $data['from_branch_id'] = Auth::guard('admin')->user()->branch_id;
+            $data['to_branch_id']   = $request->to_branch_id;
+            $data['transfer_date']  = now()->toDateString();
+            $data['status']         = 'pending';
+            $data['created_by_id']  = Auth::guard('admin')->user()->id;
 
-        Asset::find($asset_id)->update(['location'=>2]);
-        AssetTransfer::create($data);
-        return redirect()->route('assets-transfers.outgoing')->with('alert',['messageType'=>'success','message'=>'Data Inserted Successfully!']);
+            // Create main transfer
+            $parcelTransfer = ParcelTransfer::create($data);
+
+            // Insert related items (multiple boxes)
+            if ($request->has('selected_boxes')) {
+                foreach ($request->selected_boxes as $box_id) {
+                    ParcelTransferDetails::create([
+                        'parcel_transfer_id' => $parcelTransfer->id,
+                        'shipment_box_id'    => $box_id,
+                        'note'               => $request->note ?? null,
+                    ]);
+                }
+            }
+
+            DB::commit();
+            return redirect()->route('parcel-transfer-outgoing.index')
+                ->with('alert', ['messageType' => 'success', 'message' => 'Parcel Transfer Created Successfully!']);
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+
+            dd($e->getMessage());
+            return redirect()->back()->with('alert', [
+                'messageType' => 'warning',
+                'message' => 'Something went wrong! ' . $e->getMessage()
+            ]);
+        }
     }
-    
-    public function assetsTransferOutgoingList(Request $request)
+
+
+    public function outgoingList(Request $request)
     {
-        $select = [
-            'asset_transfers.id',
-            'asset_transfers.date',
-            'asset_transfers.status',
-            'assets.title as asset_title',
-            'assets.code as code_title',
-            'branches.title as to_branch_title',
-            'admins_creator.name as created_by',
-            'admins_receiver.name as received_by',
-        ];
         $branch_id = Auth::guard('admin')->user()->branch_id;
-
-        $query = AssetTransfer::join('assets','assets.id','=','asset_transfers.asset_id')
-                            ->join('branches','branches.id','=','asset_transfers.to_branch_id')
-                            ->leftJoin('admins as admins_creator','admins_creator.id','=','asset_transfers.created_by_id')
-                            ->leftJoin('admins as admins_receiver','admins_receiver.id','=','asset_transfers.updated_by_id')
-                            ->where(['asset_transfers.from_branch_id'=> $branch_id]);
-        if(!$request->has('order')) $query = $query->orderBy('asset_transfers.id','desc');
-        $query = $query->select($select);
+        $query = ParcelTransfer::with(['fromBranch', 'toBranch', 'creator', 'receiver'])
+                    ->where('from_branch_id', $branch_id);
+        if (!$request->has('order')) {
+            $query = $query->orderBy('id', 'desc');
+        }
+        return DataTables::of($query)->make(true);
+    }
+    public function incomingList(Request $request)
+    {
+        $branch_id = Auth::guard('admin')->user()->branch_id;
+        $query = ParcelTransfer::with(['fromBranch', 'toBranch', 'creator', 'receiver'])
+                    ->where('to_branch_id', $branch_id);
+        if (!$request->has('order')) {
+            $query = $query->orderBy('id', 'desc');
+        }
         return DataTables::of($query)->make(true);
     }
 
-
-    public function requisitionDetails($req_id)
+    // ========== Incoming ==========
+    public function incoming()
     {
-        $tr = TransferRequisition::find($req_id)->toArray();
-        $trdSelect = 
-        [
-            'requisition_details.id as req_details_id',
-            'requisition_details.quantity',
-            'categories.id as cat_id',
-            'categories.title as category_title'
-        ];
-        $tr['trd'] = RequisitionDetails::join('categories', 'categories.id','=', 'requisition_details.category_id')
-                                    ->where('requisition_details.requisition_id', $req_id)
-                                    ->select($trdSelect)
-                                    ->get()
-                                    ->toArray();
-        $tr['branch'] = Branch::select('id', 'title')->where('id', $tr['to_branch_id'])->first()->toArray();
+        $data['breadcrumb'] = $this->breadcrumb;
+        return view('backend.parcel-transfers.incoming', compact('data'));
+    }
 
 
-        foreach ($tr['trd'] as $key => &$trd)
-        {
-            $category_id = $trd['cat_id'];
-            $branch_id = $tr['from_branch_id'];
-            $trd['assets'] = AssetTransferController::getAssetList($category_id, $branch_id);
+
+   public function approve($id)
+    {
+        DB::beginTransaction();
+        try {
+            $transfer = ParcelTransfer::findOrFail($id);
+            $transfer->status = 'approved';
+            $transfer->save();
+            $to_branch_id = $transfer->to_branch_id;
+
+            $parcelTransferDetails = ParcelTransferDetails::where('parcel_transfer_id', $id)->get();
+            foreach ($parcelTransferDetails as $detail) {
+                $box = ShipmentBox::find($detail->shipment_box_id);
+                if (! $box) {
+                    continue;
+                }
+
+                $shipmentBoxItems = ShipmentBoxItem::where('box_shipment_id', $box->id)->get();
+                foreach ($shipmentBoxItems as $item) {
+                    $invoice = ParcelInvoice::find($item->invoice_id);
+                    if ($invoice) {
+                        $invoice->to_branch_id = $to_branch_id;
+                        $invoice->parcel_status = 'in_transit';
+                        $invoice->save();
+                    }
+                }
+
+                $box->update([
+                    'to_branch_id' => $to_branch_id,
+                    'is_packed'    => 1,
+                    'status'       => 'in_transit'
+                ]);
+            }
+
+            DB::commit();
+            return response()->json(['success' => true, 'message' => 'Parcel Transfer Approved Successfully!']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['success' => false, 'message' => 'Approval failed: ' . $e->getMessage()], 500);
         }
-
-
-        return response()->json($tr, 200);
     }
-
-
-    public function getAssetListByCat($category_id)
+    
+    public function receive($id)
     {
-        $branch_id = Auth::guard('admin')->user()->branch_id;
-        $data = AssetTransferController::getAssetList($category_id, $branch_id);
-        return response()->json($data, 200);
-    }
-    public function getAssetList($cat_id, $branch_id)
-    {
-        $category_ids = $this->getRelatedCatIds($cat_id);
-        
-        return AssignAsset::join('assets','assets.id','=','assign_assets.asset_id')
-                            ->whereIn('assets.category_id', $category_ids)
-                            ->where('assign_assets.branch_id', $branch_id)
-                            ->where(['assets.status'=> 1,'assign_assets.in_branch'=> 1])
-                            ->select(['assets.id', 'assets.title', 'assets.code'])
-                            ->get()->toArray();
-    }
+        $transfer = ParcelTransfer::findOrFail($id);
+        $transfer->is_received = true;
+        $transfer->status = 'delivered';
+        $transfer->received_by_id = Auth::guard('admin')->user()->id;
+        $transfer->save();
 
+        return response()->json(['success' => true, 'message' => 'Parcel Received Successfully!']);
+    }
+    
     public function destroy($id)
     {
         try {
-            AssetTransfer::destroy($id);
+            ParcelTransfer::destroy($id);
             return redirect()->back()->with('alert', [
                 'messageType' => 'success',
-                'message' => 'Data Deleted successfully!'
+                'message' => 'Parcel Transfer Deleted successfully!'
             ]);
         } catch (\Exception $e) {
             return redirect()->back()->with('alert', [
@@ -180,52 +201,4 @@ class ParcelTransferController extends Controller
             ]);
         }
     }
-    
-    public function incoming()
-    {
-        $data['breadcrumb'] = $this->breadcrumb;
-        return view('backend.asset-transfers.incoming', compact('data'));
-    }
-    public function assetsTransferIncomingList(Request $request)
-    {
-        $select = [
-            'asset_transfers.id',
-            'asset_transfers.date',
-            'asset_transfers.status',
-            'assets.title as asset_title',
-            'assets.code as code_title',
-            'branches.title as to_branch_title',
-            'admins_creator.name as created_by',
-            'admins_receiver.name as received_by',
-        ];
-        $branch_id = Auth::guard('admin')->user()->branch_id;
-
-        $query = AssetTransfer::join('assets','assets.id','=','asset_transfers.asset_id')
-                            ->join('branches','branches.id','=','asset_transfers.to_branch_id')
-                            ->leftJoin('admins as admins_creator','admins_creator.id','=','asset_transfers.created_by_id')
-                            ->leftJoin('admins as admins_receiver','admins_receiver.id','=','asset_transfers.updated_by_id')
-                            ->where(['asset_transfers.to_branch_id'=> $branch_id]);
-        if(!$request->has('order')) $query = $query->orderBy('asset_transfers.id','desc');
-        $query = $query->select($select);
-        return DataTables::of($query)->make(true);
-    }
-    
-    public function receive($id)
-    {
-        $assetTransfer = AssetTransfer::find($id);
-        $from_branch_id = $assetTransfer->from_branch_id;
-        $to_branch_id = $assetTransfer->to_branch_id;
-        $asset_id = $assetTransfer->asset_id;
-        $received_by = Auth::guard('admin')->user()->id;
-        $data['branch_id'] = $to_branch_id;
-        $data['asset_id'] = $asset_id;
-        $data['in_branch'] = 1;
-        $data['created_by_id'] = $received_by;
-        AssignAsset::create($data);
-        Asset::find($asset_id)->update(['location'=>1]);
-        AssetTransfer::find($id)->update(['updated_by_id'=>$received_by,'status'=>1]);
-        return 1;
-    }
-
-
 }

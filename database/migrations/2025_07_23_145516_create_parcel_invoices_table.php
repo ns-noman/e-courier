@@ -68,9 +68,10 @@ return new class extends Migration
 
 
             //Service Information
-            $table->integer('created_branch_id');
+            $table->bigInteger('from_branch_id')->nullable();
+            $table->bigInteger('to_branch_id')->nullable();
+            $table->bigInteger('current_branch_id')->nullable();
             $table->integer('agent_id');
-            $table->integer('current_branch_id');
             $table->integer('hub_id');
             $table->integer('flight_id');
             $table->integer('service_id');

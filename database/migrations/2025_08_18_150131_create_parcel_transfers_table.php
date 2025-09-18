@@ -10,15 +10,18 @@ return new class extends Migration
     {
         Schema::create('parcel_transfers', function (Blueprint $table) {
             $table->id();
-            $table->string('transfer_no')->unique()->comment('Unique transfer number');
-            $table->integer('from_branch_id');
-            $table->integer('to_branch_id');
+            $table->string('parcel_transfer_no')->unique();
+            $table->unsignedBigInteger('from_branch_id');
+            $table->unsignedBigInteger('to_branch_id');
             $table->date('transfer_date');
-            $table->enum('status', ['pending', 'in_transit', 'delivered', 'cancelled'])->default('pending');
+            $table->enum('status', ['pending', 'approved', 'in_transit', 'delivered', 'cancelled'])->default('pending');
+            $table->boolean('is_received')->default(false);
             $table->text('note')->nullable();
-            $table->integer('created_by_id');
+            $table->unsignedBigInteger('created_by_id')->nullable();
+            $table->unsignedBigInteger('received_by_id')->nullable();
             $table->timestamps();
         });
+
     }
     public function down()
     {
