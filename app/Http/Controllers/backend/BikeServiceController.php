@@ -5,7 +5,6 @@ namespace App\Http\Controllers\backend;
 use App\Models\BikeService;
 use App\Models\BikeServiceCategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
 use Auth;
@@ -13,7 +12,7 @@ use Auth;
 class BikeServiceController extends Controller
 {
     protected $breadcrumb;
-    public function __construct(){$this->breadcrumb = ['title'=>'Bike Services'];}
+    public function __construct(){$this->breadcrumb = ['title'=>'Services'];}
     public function index()
     {
         $data['breadcrumb'] = $this->breadcrumb;

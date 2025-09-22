@@ -10,7 +10,7 @@ use Yajra\DataTables\Facades\DataTables;
 class BikeServiceCategoryController extends Controller
 {
     protected $breadcrumb;
-    public function __construct(){$this->breadcrumb = ['title'=>'Bike Service Category'];}
+    public function __construct(){$this->breadcrumb = ['title'=>'Service Category'];}
     public function index()
     {
         $data['breadcrumb'] = $this->breadcrumb;
