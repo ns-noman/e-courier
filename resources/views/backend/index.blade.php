@@ -1,7 +1,7 @@
 @inject('authorization', 'App\Services\AuthorizationService')
 @extends('layouts.admin.master')
 @section('content')
-    @php
+    {{-- @php
         $investor_id = Auth::guard('admin')->user()->investor_id;
     @endphp
     <style>
@@ -379,49 +379,49 @@
                 </div>
             </div>
         </section>
-    </div>
+    </div> --}}
 @endsection
 
 @section('script')
     <script>
-        let isAssetTableInitialized = false;
-        $(document).ready(function() {
-            loadSummeryData();
-        });
+        // let isAssetTableInitialized = false;
+        // $(document).ready(function() {
+        //     loadSummeryData();
+        // });
 
 
-        $('#reservation').daterangepicker();
+        // $('#reservation').daterangepicker();
 
 
-        $('#reservation').on('change', function(e) {
-            loadSummeryData();
-        });
+        // $('#reservation').on('change', function(e) {
+        //     loadSummeryData();
+        // });
 
-        function loadSummeryData() {
-            if ($('#reservation').length) {
-                let dateRange = $('#reservation').val().replace(/\//g, '_');
-                const url = `{{ route('dashboard.summery-data', [':dateRange']) }}`.replace(':dateRange', dateRange);
-                $.ajax({
-                    url: url,
-                    method: 'GET',
-                    dataType: 'JSON',
-                    success: function(res) {
-                        let accessories = parseFloat(res.accessories || 0);
-                        let spareparts = parseFloat(res.spareparts || 0);
-                        let services = parseFloat(res.services || 0);
-                        let expenses = parseFloat(res.expenses || 0);
-                        let purchase = parseFloat(res.purchase || 0);
-                        let total_service_and_item_sales = accessories + spareparts + services;
+        // function loadSummeryData() {
+        //     if ($('#reservation').length) {
+        //         let dateRange = $('#reservation').val().replace(/\//g, '_');
+        //         const url = ` route('dashboard.summery-data', [':dateRange']) }}`.replace(':dateRange', dateRange);
+        //         $.ajax({
+        //             url: url,
+        //             method: 'GET',
+        //             dataType: 'JSON',
+        //             success: function(res) {
+        //                 let accessories = parseFloat(res.accessories || 0);
+        //                 let spareparts = parseFloat(res.spareparts || 0);
+        //                 let services = parseFloat(res.services || 0);
+        //                 let expenses = parseFloat(res.expenses || 0);
+        //                 let purchase = parseFloat(res.purchase || 0);
+        //                 let total_service_and_item_sales = accessories + spareparts + services;
 
-                        $('#accessoriesSale').html(formatNumber(accessories));
-                        $('#sparePartsSale').html(formatNumber(spareparts));
-                        $('#serviceSale').html(formatNumber(services));
-                        $('#expenses').html(formatNumber(expenses));
-                        $('#total_service_and_item_sales').html(formatNumber(total_service_and_item_sales));
-                        $('#purchase').html(formatNumber(purchase));
-                    }
-                });
-            }
-        }
+        //                 $('#accessoriesSale').html(formatNumber(accessories));
+        //                 $('#sparePartsSale').html(formatNumber(spareparts));
+        //                 $('#serviceSale').html(formatNumber(services));
+        //                 $('#expenses').html(formatNumber(expenses));
+        //                 $('#total_service_and_item_sales').html(formatNumber(total_service_and_item_sales));
+        //                 $('#purchase').html(formatNumber(purchase));
+        //             }
+        //         });
+        //     }
+        // }
     </script>
 @endsection
