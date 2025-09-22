@@ -36,37 +36,40 @@
                                 @endif 
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="form-group col-sm-3 col-md-3 col-lg-3">
-                                            <label>Customer *</label>
-                                            <select name="customer_id" id="customer_id" class="form-control select2">
-                                                @foreach ($data['customers'] as $customer)
-                                                    <option
-                                                        {{ 
-                                                            isset($data['item'])
-                                                            ?
-                                                            ($customer->id == $data['item']->customer_id ? 'selected' : null)
-                                                            :
-                                                            ($customer->customer_type == 1 ? 'selected' : null)                                                                
-                                                        }} 
-                                                        value="{{ $customer->id }}"
-                                                        >
-                                                        {{ $customer->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        
-                                        <div class="form-group col-sm-3 col-md-3 col-lg-3">
-                                            <label>Customer Name</label>
-                                            <input value="{{ isset($data['item']) ? $data['item']->name : null }}" type="text" class="form-control" name="name" placeholder="Customer Name">
-                                        </div>
-                                        <div class="form-group col-sm-3 col-md-3 col-lg-3">
-                                            <label>Phone</label>
-                                            <input value="{{ isset($data['item']) ? $data['item']->phone : null }}" type="number" class="form-control" name="phone" placeholder="+8801XXXXXXXXX">
-                                        </div>
-                                        <div class="form-group col-sm-3 col-md-3 col-lg-3">
-                                            <label>Address</label>
-                                            <textarea class="form-control" name="address" placeholder="Address" cols="30" rows="1">{{ isset($data['item']) ? $data['item']->address : null }}</textarea>
+                                        <div hidden>
+                                            <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                                                <label>Customer *</label>
+                                                <select name="customer_id" id="customer_id" class="form-control select2">
+                                                    <option value="1" selected></option>
+                                                    {{-- @foreach ($data['customers'] as $customer)
+                                                        <option
+                                                            {{ 
+                                                                isset($data['item'])
+                                                                ?
+                                                                ($customer->id == $data['item']->customer_id ? 'selected' : null)
+                                                                :
+                                                                ($customer->customer_type == 1 ? 'selected' : null)                                                                
+                                                            }} 
+                                                            value="{{ $customer->id }}"
+                                                            >
+                                                            {{ $customer->name }}
+                                                        </option>
+                                                    @endforeach --}}
+                                                </select>
+                                            </div>
+                                            
+                                            <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                                                <label>Customer Name</label>
+                                                <input value="{{ isset($data['item']) ? $data['item']->name : null }}" type="text" class="form-control" name="name" placeholder="Customer Name">
+                                            </div>
+                                            <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                                                <label>Phone</label>
+                                                <input value="{{ isset($data['item']) ? $data['item']->phone : null }}" type="number" class="form-control" name="phone" placeholder="+8801XXXXXXXXX">
+                                            </div>
+                                            <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                                                <label>Address</label>
+                                                <textarea class="form-control" name="address" placeholder="Address" cols="30" rows="1">{{ isset($data['item']) ? $data['item']->address : null }}</textarea>
+                                            </div>
                                         </div>
                                         {{-- <div class="form-group col-sm-3 col-md-3 col-lg-3">
                                             <label>Bike Reg No</label>
@@ -107,7 +110,7 @@
                                                             <th width="10%">StockQTY</th>
                                                             <th width="10%">Quantity</th>
                                                             <th width="10%">TP</th>
-                                                            <th width="10%">Sales Price</th>
+                                                            {{-- <th width="10%">Sales Price</th> --}}
                                                             <th width="10%">Sub Total</th>
                                                             <th width="5%">Action</th>
                                                         </tr>
@@ -130,7 +133,7 @@
                                                                     <td><input type="number" value="{{ $sd['current_stock'] }}" class="form-control form-control-sm" name="stock_quantity[]" placeholder="0.00" readonly></td>
                                                                     <td><input type="number" value="{{ $sd['quantity'] }}" class="form-control form-control-sm calculate" name="quantity[]" placeholder="0.00" required></td>
                                                                     <td><input type="number" value="{{ $sd['purchase_price'] + $sd['service_purchase_price'] }}" class="form-control form-control-sm" placeholder="0.00" readonly></td>
-                                                                    <td><input type="number" value="{{ $sd['unit_price'] }}" class="form-control form-control-sm calculate" name="unit_price[]" placeholder="0.00" required></td>
+                                                                    {{-- <td><input type="number" value="{{ $sd['unit_price'] }}" class="form-control form-control-sm calculate" name="unit_price[]" placeholder="0.00" required></td> --}}
                                                                     <td><input type="number" value="{{ $sd['unit_price'] * $sd['quantity'] }}" class="form-control form-control-sm" name="sub_total[]" placeholder="0.00" disabled></td>
                                                                     <td><button class="btn btn-sm btn-danger btn-del" type="button"><i class="fa-solid fa-trash btn-del"></i></button></td>
                                                                 </tr>
@@ -167,7 +170,7 @@
                                             <label>Total Payable</label>
                                             <input value="{{ isset($data['item']) ? $data['item']->total_payable : null }}" readonly type="number" class="form-control" name="total_payable" id="total_payable" placeholder="0.00">
                                         </div>
-                                        <div class="form-group col-sm-3 col-md-3 col-lg-3">
+                                        <div class="form-group col-sm-3 col-md-3 col-lg-3" hidden>
                                             <label>Payment Methods *</label>
                                             <select class="form-control" name="account_id" id="account_id">
                                                 <option selected value=''>Select Payment Methods</option>
@@ -239,7 +242,7 @@
                             <td><input type="number" value="${stock_qty}" class="form-control form-control-sm" name="stock_quantity[]" placeholder="0.00" readonly></td>
                             <td><input type="number" value="${quantity_temp}" class="form-control form-control-sm calculate" name="quantity[]" placeholder="0.00" required></td>
                             <td><input type="number" value="${item_purchase_price}" class="form-control form-control-sm" placeholder="0.00" readonly></td>
-                            <td><input type="number" value="${unit_price_temp}" class="form-control form-control-sm calculate" name="unit_price[]" placeholder="0.00" required></td>
+                            <td hidden><input type="number" value="${unit_price_temp}" class="form-control form-control-sm calculate" name="unit_price[]" placeholder="0.00" required></td>
                             <td><input type="number" value="${total_temp}" class="form-control form-control-sm" name="sub_total[]" placeholder="0.00" disabled></td>
                             <td><button class="btn btn-sm btn-danger btn-del" type="button"><i class="fa-solid fa-trash btn-del"></i></button></td>
                         </tr>`;
@@ -272,10 +275,10 @@
                 e.preventDefault();
                 Swal.fire("Couldn't be pay more then payable!");
             }
-            if(parseFloat($('#paid_amount').val())>0 && !$('#account_id option:selected').val()){
-                e.preventDefault();
-                Swal.fire("Please Select Payment Method");
-            }
+            // if(parseFloat($('#paid_amount').val())>0 && !$('#account_id option:selected').val()){
+            //     e.preventDefault();
+            //     Swal.fire("Please Select Payment Method");
+            // }
         });
         $('#discount_rate').on('keyup', function(e) {
             calculate();

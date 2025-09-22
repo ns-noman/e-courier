@@ -17,7 +17,7 @@
                               </div>
                           </div>
                           <div class="row invoice-info">
-                                <div class="col-sm-4 invoice-col">
+                                <div class="col-sm-4">
                                     From
                                     <address>
                                         <strong>{{ $data['basicInfo']['title'] }}</strong><br>
@@ -27,21 +27,24 @@
                                         Email: {{ $data['basicInfo']['email'] }}
                                     </address>
                                 </div>
-                                <div class="col-sm-4 invoice-col">
-                                   
-                                    To
+                                <div class="col-sm-4">
+                                    {{-- To
                                     <address>
                                         <strong>{{ $data['master']['customer_name'] }}{{ $data['master']['bike_reg_no'] ? ' /Reg#' . $data['master']['bike_reg_no'] : null }}</strong><br>
                                         {{ $data['master']['customer_address'] }}<br>
                                         Phone: {{ $data['master']['customer_contact'] }}<br>
                                         Email: {{ $data['master']['customer_email'] }}<br>
-                                    </address>
+                                    </address> --}}
                                 </div>
-                              <div class="col-sm-4 invoice-col">
-                                  <b>Invoice #{{ $data['master']['invoice_no'] }}</b><br>
-                                  <br>
-                                  <p><span><svg class="barcode"></svg></span></p>
-                              </div>
+                              <div class="col-sm-4 d-flex justify-content-end align-items-center">
+                                {{-- <b>Invoice #{{ $data['master']['invoice_no'] }}</b><br> --}}
+                                <p class="mb-0">
+                                    <span>
+                                        <svg class="barcode"></svg>
+                                    </span>
+                                </p>
+                            </div>
+
                           </div>
                           <div class="row">
                               <div class="col-12 table-responsive">
@@ -77,10 +80,10 @@
                           </div>
                           <div class="row">
                               <div class="col-6">
-                                  <p class="lead">Payment Methods: {{ $data['master']['payment_method'] }}</p>
+                                  {{-- <p class="lead">Payment Methods: {{ $data['master']['payment_method'] }}</p> --}}
                               </div>
                               <div class="col-6">
-                                  <div class="table-responsive">
+                                  {{-- <div class="table-responsive">
                                       <table class="table">
                                           <tr>
                                               <th style="width:50%">Subtotal:</th>
@@ -107,7 +110,7 @@
                                               <td>{{ $data['basicInfo']['currency_symbol'] }} {{ number_format($data['master']['total_payable'] - $data['master']['paid_amount'], 2) }}</td>
                                           </tr>
                                       </table>
-                                  </div>
+                                  </div> --}}
                               </div>
                           </div>
                           <div class="row no-print">
@@ -133,7 +136,7 @@
         JsBarcode(".barcode", "{{ $data['master']['invoice_no'] }}", {
             width: 1,
             height: 30,
-            displayValue: false
+            displayValue: true
         });
         function customPrint(){
           var printContents = document.getElementById('my-invoice').innerHTML;

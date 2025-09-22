@@ -22,30 +22,30 @@
                                                 <tr>
                                                     <th>SN</th>
                                                     <th>InvoiceNo</th>
-                                                    <th>Customer/Reg#</th>
+                                                    {{-- <th hidden>Customer/Reg#</th> --}}
                                                     <th>Date</th>
-                                                    <th>Total Price</th>
+                                                    {{-- <th>Total Price</th>
                                                     <th>Vat/Tax</th>
                                                     <th>Discount</th>
                                                     <th>Payable</th>
                                                     <th>Paid|Due</th>
-                                                    <th>Profit</th>
-                                                    <th>Note</th>
-                                                    <th>Payment Status</th>
+                                                    <th>Profit</th> --}}
+                                                    {{-- <th>Note</th>
+                                                    <th>Payment Status</th> --}}
                                                     <th>Status</th>
                                                     <th>Action</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                             </tbody>
-                                            <tfoot>
+                                            {{-- <tfoot>
                                                 <tr>
-                                                    <td colspan="7"><b>Total:</b></td>
+                                                    <td colspan="6"><b>Total:</b></td>
                                                     <td @style('text-align: right;')><b id="totalSale"></b></td>
                                                     <td @style('text-align: right;')><b id="totalProit"></b></td>
                                                     <td colspan="5"></td>
                                                 </tr>
-                                            </tfoot>
+                                            </tfoot> --}}
                                         </table>
                                     </div>
                                 </div>
@@ -106,6 +106,49 @@
             </div>
         </section>
     </div>
+    {{-- {
+        data: null, 
+        name: 'customers.name',
+        orderable: true, 
+        searchable: false, 
+        render: function(data, type, row, meta) {
+            return `${row.customer_name}${row.bike_reg_no ? '<br>' + row.bike_reg_no : ''}`;
+        }
+    }, --}}
+
+{{-- { data: 'total_price', name: 'sales.total_price'},
+{ data: 'vat_tax', name: 'sales.vat_tax'},
+{ data: 'discount', name: 'sales.discount'},
+{ data: 'total_payable', name: 'sales.total_payable'},
+{
+    data: null, 
+    name: 'sales.paid_amount', 
+    orderable: false, 
+    searchable: false, 
+    render: function(data, type, row, meta) {
+        return `<div class="text-center"><span class="text-success fw-bold"><b>${row.paid_amount}</b></span><br><span class="text-danger fw-bold"><b>${row.total_payable - row.paid_amount}</b></span></div>`;
+    }
+},
+{ data: 'profit', name: 'sales.profit'},
+{ data: 'note', name: 'sales.note'},
+{
+    data: null, 
+    name: 'sales.payment_status', 
+    orderable: true, 
+    searchable: false, 
+    render: function(data, type, row, meta) {
+        let color;
+        let text;
+        if(row.payment_status == '0'){
+            color = 'warning';
+            text = 'Unpaid';
+        }else if(row.payment_status == '1'){
+            color = 'info';
+            text = 'Paid';
+        }
+        return `<span class="badge badge-${color}">${text}</span>`;
+    }
+}, --}}
 @endsection
 @section('script')
     <script>
@@ -147,49 +190,8 @@
                                 return `<a href="${view}" class=""><b>${row.invoice_no}</b></a>`;
                             }
                         },
-                        {
-                            data: null, 
-                            name: 'customers.name',
-                            orderable: true, 
-                            searchable: false, 
-                            render: function(data, type, row, meta) {
-                                return `${row.customer_name}${row.bike_reg_no ? '<br>' + row.bike_reg_no : ''}`;
-                            }
-                        },
                         { data: 'date', name: 'sales.date'},
-                        { data: 'total_price', name: 'sales.total_price'},
-                        { data: 'vat_tax', name: 'sales.vat_tax'},
-                        { data: 'discount', name: 'sales.discount'},
-                        { data: 'total_payable', name: 'sales.total_payable'},
-                        {
-                            data: null, 
-                            name: 'sales.paid_amount', 
-                            orderable: false, 
-                            searchable: false, 
-                            render: function(data, type, row, meta) {
-                                return `<div class="text-center"><span class="text-success fw-bold"><b>${row.paid_amount}</b></span><br><span class="text-danger fw-bold"><b>${row.total_payable - row.paid_amount}</b></span></div>`;
-                            }
-                        },
-                        { data: 'profit', name: 'sales.profit'},
-                        { data: 'note', name: 'sales.note'},
-                        {
-                            data: null, 
-                            name: 'sales.payment_status', 
-                            orderable: true, 
-                            searchable: false, 
-                            render: function(data, type, row, meta) {
-                                let color;
-                                let text;
-                                if(row.payment_status == '0'){
-                                    color = 'warning';
-                                    text = 'Unpaid';
-                                }else if(row.payment_status == '1'){
-                                    color = 'info';
-                                    text = 'Paid';
-                                }
-                                return `<span class="badge badge-${color}">${text}</span>`;
-                            }
-                        },
+                     
                         {
                             data: null, 
                             name: 'sales.status', 
@@ -233,7 +235,7 @@
                                                         <i class="fa-solid fa-trash-can"></i>
                                                     </button>
                                                 </form>
-                                                <div class="btn-group">
+                                                <div class="btn-group" hidden>
                                                     <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                                                         More
                                                     </button>

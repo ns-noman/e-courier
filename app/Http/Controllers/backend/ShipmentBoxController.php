@@ -151,13 +151,11 @@ class ShipmentBoxController extends Controller
         ShipmentBoxItem::where('box_shipment_id',$id)->delete();
         return response()->json(['success'=>true,'message'=>'Data Deleted Successfully!'], 200);
     }
-
-
     public function list(Request $request)
     {
-        $query = ShipmentBox::with(['shipmentBoxItems.invoice', 'fromBranch', 'toBranch', 'currentBranch']);
+        $query = ShipmentBox::with(['shipmentBoxItems.invoice', 'fromBranch', 'toBranch', 'currentBranch'])
+                    ->where('current_branch_id', $this->getUserInfo()->branch_id);
 
-        // Apply default order if no custom order is provided
         if (!$request->has('order')) {
             $query->orderByDesc('shipment_boxes.id');
         }

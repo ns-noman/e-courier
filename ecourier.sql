@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 18, 2025 at 12:32 PM
+-- Generation Time: Sep 22, 2025 at 10:43 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.2.28
 
@@ -45,7 +45,7 @@ CREATE TABLE `accounts` (
 --
 
 INSERT INTO `accounts` (`id`, `payment_method_id`, `account_no`, `holder_name`, `balance`, `status`, `created_by_id`, `updated_by_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Hand Cash', 'Self', '130600.00', 1, 1, 1, '2025-02-26 04:40:39', '2025-07-01 17:38:09'),
+(1, 1, 'Hand Cash', 'Self', '130550.00', 1, 1, 1, '2025-02-26 04:40:39', '2025-09-22 10:14:43'),
 (2, 2, 'Investment Capital', 'Self', '0.00', 1, 1, NULL, '2025-02-26 04:41:05', '2025-05-17 07:31:11'),
 (3, 3, '0181211111', 'Wonder Tech', '0.00', 1, 1, 1, '2025-05-30 06:46:08', '2025-06-20 06:39:43'),
 (4, 7, '0171211111', 'Khan', '10000.00', 1, 1, 1, '2025-05-30 06:46:44', '2025-06-20 06:40:41'),
@@ -117,7 +117,8 @@ INSERT INTO `account_ledgers` (`id`, `account_id`, `debit_amount`, `credit_amoun
 (38, 1, 125000.00, NULL, 150600.00, 'NA', 'Bike Purchase', '2025-06-28', '2025-06-28 10:58:58', '2025-06-28 10:58:58'),
 (39, 5, NULL, 250000.00, 250000.00, NULL, 'Investment Deposit', '2025-07-01', '2025-07-01 17:25:35', '2025-07-01 17:25:35'),
 (40, 1, 20000.00, NULL, 130600.00, NULL, 'Investment Withdrawal', '2025-07-01', '2025-07-01 17:38:09', '2025-07-01 17:38:09'),
-(41, 5, 110000.00, NULL, 140000.00, NULL, 'Bike Purchase', '2025-07-01', '2025-07-01 17:43:47', '2025-07-01 17:43:47');
+(41, 5, 110000.00, NULL, 140000.00, NULL, 'Bike Purchase', '2025-07-01', '2025-07-01 17:43:47', '2025-07-01 17:43:47'),
+(42, 1, 50.00, NULL, 130550.00, NULL, 'Regular Purchase', '2025-09-22', '2025-09-22 10:14:43', '2025-09-22 10:14:43');
 
 -- --------------------------------------------------------
 
@@ -149,7 +150,7 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `investor_id`, `employee_id`, `agent_id`, `branch_id`, `name`, `username`, `type`, `mobile`, `email`, `password`, `image`, `status`, `created_at`, `updated_at`, `remember_token`) VALUES
-(1, 1, 1, 1, 1, 'Super Admin', NULL, 1, '01763634878', 'admin@gmail.com', '$2y$10$HgJ9WCVRevM1e8yXz1ts7OCGRb29MdtDpBQLDhb.QObJmLPnP4ZOm', 'admin-1753071086.png', 1, '2024-08-30 13:03:44', '2025-07-21 11:51:29', 'AEWvPKZjyWInIIaqtutlD6ciFtm4ExkAsbjH03kCuQqhqUeHOA7JmB3X26uw'),
+(1, 1, 1, 1, 1, 'Super Admin', NULL, 1, '01763634878', 'admin@gmail.com', '$2y$10$HgJ9WCVRevM1e8yXz1ts7OCGRb29MdtDpBQLDhb.QObJmLPnP4ZOm', 'admin-1753071086.png', 1, '2024-08-30 13:03:44', '2025-07-21 11:51:29', 'nNfDxe8jHJetO89V2sufLncLDjB6hDTgS68nPwRS4UvcQ2lsGXHUkNzx9Avi'),
 (2, NULL, 3, 2, 2, 'Nowab Shorif', NULL, 3, '01839317038', 'nsanoman@gmail.com', '$2y$10$MG.kymzcIgDLbbiwTyLAe.uj2bhcB8Tef.XoM/T05tIbYj9AGuXDO', NULL, 1, '2025-07-21 06:52:23', '2025-07-21 07:26:08', NULL),
 (3, NULL, 4, NULL, 2, 'Malek Azad', NULL, 3, '01839317038', 'malekazad@gmail.com', '$2y$10$oBCsjoWQ0ei91hx3DY1kmO3oXw0mIvtFxEB5gweTlHi1nazHWgfly', NULL, 1, '2025-07-21 07:25:50', '2025-07-21 07:46:13', NULL),
 (4, NULL, NULL, 1, 6, 'Aquila Mendoza', NULL, 3, '65', 'xilyqiso@mailinator.com', '$2y$10$UuuDxN821Ge0j2H8R8694eW0BJwMcyl6f8nzcIcMzjbHSBKiq0gfq', NULL, 1, '2025-07-23 03:38:53', '2025-07-23 03:41:21', NULL),
@@ -298,135 +299,6 @@ CREATE TABLE `bike_services` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `bike_services`
---
-
-INSERT INTO `bike_services` (`id`, `bike_service_category_id`, `name`, `trade_price`, `price`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, 'General Bike Inspection', 0.00, '1200.00', 1, '2025-03-05 07:03:49', '2025-03-05 07:07:00'),
-(2, 1, 'Periodic Oil Change', 0.00, '1000.00', 1, '2025-03-05 07:04:03', '2025-03-05 07:04:03'),
-(3, 2, 'Engine Tuning', 0.00, '1500.00', 1, '2025-03-05 07:04:22', '2025-03-05 07:06:44'),
-(4, 2, 'Engine Oil (Mobil)', 0.00, '1000.00', 1, '2025-03-05 07:04:34', '2025-05-30 08:48:21'),
-(5, 3, 'Brake Pad', 0.00, '500.00', 1, '2025-03-05 07:04:51', '2025-05-30 08:47:31'),
-(6, 3, 'Clutch Cable', 0.00, '400.00', 1, '2025-03-05 07:05:04', '2025-05-30 08:47:12'),
-(7, 4, 'Fork Oil Change', 0.00, '2000.00', 1, '2025-03-05 07:05:19', '2025-03-05 07:05:19'),
-(8, 4, 'Steering Bearing Replacement', 0.00, '2000.00', 1, '2025-03-05 07:05:43', '2025-03-05 07:05:43'),
-(9, 5, 'Battery Charging', 0.00, '100.00', 1, '2025-03-05 07:06:08', '2025-05-30 08:42:30'),
-(10, 5, 'Headlight & Indicator Check', 0.00, '3000.00', 1, '2025-03-05 07:06:23', '2025-03-05 07:06:23'),
-(11, 11, 'Stamp', 0.00, '100.00', 1, '2025-05-25 09:22:48', '2025-05-25 09:22:48'),
-(12, 13, 'CAM', 0.00, '1000.00', 1, '2025-05-27 11:02:57', '2025-05-30 08:12:18'),
-(13, 14, 'Spray,Shiner,Wash', 0.00, '600.00', 1, '2025-05-30 08:42:02', '2025-05-30 08:42:02'),
-(14, 15, 'Meter Tampering', 0.00, '500.00', 1, '2025-05-30 08:44:00', '2025-05-30 08:44:00'),
-(15, 16, 'Expenses', 0.00, '100.00', 1, '2025-05-30 08:45:27', '2025-05-30 08:45:27'),
-(16, 17, 'Carrying Cost', 0.00, '1000.00', 1, '2025-05-30 08:46:18', '2025-05-30 08:46:18'),
-(17, 10, 'Grip', 0.00, '500.00', 1, '2025-05-30 08:49:15', '2025-05-30 08:49:15'),
-(18, 10, 'Gutli', 0.00, '200.00', 1, '2025-05-30 08:49:32', '2025-05-30 08:49:32'),
-(19, 7, 'Chain Set', 0.00, '2500.00', 1, '2025-05-30 08:50:13', '2025-05-30 08:50:13'),
-(20, 7, 'Front Sprocket', 0.00, '200.00', 1, '2025-05-30 08:50:47', '2025-05-30 08:50:47'),
-(21, 7, 'Rare Sprocket', 0.00, '500.00', 1, '2025-05-30 08:51:11', '2025-05-30 08:51:11'),
-(22, 8, 'Fuel Motor', 0.00, '1200.00', 1, '2025-05-30 08:51:38', '2025-05-30 08:51:38'),
-(23, 10, 'Plug', 0.00, '250.00', 1, '2025-05-30 08:51:56', '2025-05-30 08:51:56'),
-(24, 18, 'Headlight Musk', 0.00, '700.00', 1, '2025-05-30 08:54:02', '2025-05-30 08:54:02'),
-(25, 10, 'Carburetor', 0.00, '3000.00', 1, '2025-05-30 08:54:30', '2025-05-30 08:55:31'),
-(26, 10, 'Carburetor Piston', 0.00, '900.00', 1, '2025-05-30 08:55:13', '2025-05-30 08:55:13'),
-(27, 12, 'Zhalay', 0.00, '200.00', 1, '2025-05-30 08:56:22', '2025-05-30 08:56:22'),
-(28, 18, 'Fearing', 0.00, '1200.00', 1, '2025-05-30 08:56:57', '2025-05-30 08:56:57'),
-(29, 10, 'Foot Rest', 0.00, '500.00', 1, '2025-05-30 08:57:35', '2025-05-30 08:57:35'),
-(30, 2, 'Clutch Plate & Pressure Plate', 0.00, '1000.00', 1, '2025-05-30 08:58:26', '2025-05-30 08:58:26'),
-(31, 2, 'Clutch Side Full Set', 0.00, '3000.00', 1, '2025-05-30 08:59:00', '2025-05-30 08:59:00'),
-(32, 10, 'Rubber', 0.00, '100.00', 1, '2025-05-30 08:59:23', '2025-05-30 08:59:23'),
-(33, 10, 'Conduct Switch', 0.00, '400.00', 1, '2025-05-30 08:59:49', '2025-05-30 08:59:49'),
-(34, 10, 'Screw', 0.00, '100.00', 1, '2025-05-30 09:00:21', '2025-05-30 09:00:21'),
-(35, 10, 'Push Clip', 0.00, '100.00', 1, '2025-05-30 09:00:45', '2025-05-30 09:00:45'),
-(36, 10, 'Self Carbon', 0.00, '500.00', 1, '2025-05-30 09:01:36', '2025-05-30 09:01:36'),
-(37, 10, 'Looking Glass', 0.00, '300.00', 1, '2025-05-30 09:02:03', '2025-05-30 09:02:03'),
-(38, 2, 'Hub Center', 0.00, '2000.00', 1, '2025-05-30 15:04:14', '2025-05-30 15:04:14'),
-(39, 18, '7/8 Part', 0.00, '1000.00', 1, '2025-05-30 15:07:16', '2025-05-30 15:07:16'),
-(40, 10, 'ACC Cable', 0.00, '300.00', 1, '2025-05-30 15:07:43', '2025-05-30 15:07:43'),
-(41, 10, 'Back light Cover', 0.00, '1000.00', 1, '2025-05-30 15:08:23', '2025-05-30 15:08:23'),
-(42, 10, 'Back Light', 0.00, '1000.00', 1, '2025-05-30 15:08:40', '2025-05-30 15:08:40'),
-(43, 18, 'Back Panel', 0.00, '500.00', 1, '2025-05-30 15:09:10', '2025-05-30 15:09:10'),
-(44, 10, 'Ball reacher', 0.00, '1000.00', 1, '2025-05-30 15:09:47', '2025-05-30 15:09:47'),
-(45, 10, 'Bearing', 0.00, '200.00', 1, '2025-05-30 15:10:10', '2025-05-30 15:10:10'),
-(46, 10, 'Boket', 0.00, '200.00', 1, '2025-05-30 15:10:54', '2025-05-30 15:10:54'),
-(47, 10, 'Hos Pipe', 0.00, '300.00', 1, '2025-05-30 15:11:21', '2025-05-30 15:11:21'),
-(48, 10, 'Break Padel', 0.00, '1000.00', 1, '2025-05-30 15:11:49', '2025-05-30 15:11:49'),
-(49, 10, 'Back Chassis Bush', 0.00, '2000.00', 1, '2025-05-30 15:12:52', '2025-05-30 15:12:52'),
-(50, 10, 'Break Caliper', 0.00, '2000.00', 1, '2025-05-30 15:13:24', '2025-05-30 15:13:24'),
-(51, 10, 'Break Switch', 0.00, '200.00', 1, '2025-05-30 15:13:48', '2025-05-30 15:13:48'),
-(52, 2, 'Carburetor Hos Pipe', 0.00, '200.00', 1, '2025-05-30 15:15:30', '2025-05-30 15:15:30'),
-(53, 10, 'CDI', 0.00, '4000.00', 1, '2025-05-30 15:15:46', '2025-05-30 15:15:46'),
-(54, 10, 'Rectifier', 0.00, '3000.00', 1, '2025-05-30 15:16:31', '2025-05-30 15:16:31'),
-(55, 18, 'Chain Cover', 0.00, '500.00', 1, '2025-05-30 15:16:55', '2025-05-30 15:16:55'),
-(56, 10, 'Chok Cable', 0.00, '500.00', 1, '2025-05-30 15:17:13', '2025-05-30 15:17:13'),
-(57, 2, 'Cylinder', 0.00, '5000.00', 1, '2025-05-30 15:17:57', '2025-05-30 15:17:57'),
-(58, 18, '1/2 Part', 0.00, '6000.00', 1, '2025-05-30 15:18:35', '2025-05-30 15:18:35'),
-(59, 18, 'Tank Cover', 0.00, '4000.00', 1, '2025-05-30 15:18:59', '2025-05-30 15:18:59'),
-(60, 18, 'Tank Middle Part', 0.00, '1000.00', 1, '2025-05-30 15:19:22', '2025-05-30 15:19:22'),
-(61, 18, 'Engine Cover', 0.00, '2000.00', 1, '2025-05-30 15:19:48', '2025-05-30 15:19:48'),
-(62, 10, 'Crankshaft', 0.00, '8000.00', 1, '2025-05-30 15:21:19', '2025-05-30 15:21:19'),
-(63, 2, 'Connecting Rod', 0.00, '2000.00', 1, '2025-05-30 15:21:38', '2025-05-30 15:21:38'),
-(64, 10, 'Drum Rubber', 0.00, '500.00', 1, '2025-05-30 15:22:03', '2025-05-30 15:22:03'),
-(65, 10, 'Double Stand', 0.00, '1500.00', 1, '2025-05-30 15:22:21', '2025-05-30 15:22:21'),
-(66, 10, 'Single Stand', 0.00, '700.00', 1, '2025-05-30 15:22:39', '2025-05-30 15:22:39'),
-(67, 18, 'Head Light Glass', 0.00, '1200.00', 1, '2025-05-30 15:23:07', '2025-05-30 15:23:07'),
-(68, 10, 'Clutch Leaver', 0.00, '300.00', 1, '2025-05-30 15:23:34', '2025-05-30 15:23:34'),
-(69, 10, 'Break Leaver', 0.00, '300.00', 1, '2025-05-30 15:23:51', '2025-05-30 15:23:51'),
-(70, 10, 'Visor', 0.00, '1000.00', 1, '2025-05-30 15:24:15', '2025-05-30 15:24:15'),
-(71, 15, 'Meter Casing', 0.00, '1000.00', 1, '2025-05-30 15:24:39', '2025-05-30 15:24:39'),
-(72, 4, 'Suspension', 0.00, '5000.00', 1, '2025-05-30 15:25:18', '2025-05-30 15:25:18'),
-(73, 4, 'Suspension Oil', 0.00, '350.00', 1, '2025-05-30 15:25:45', '2025-05-30 15:25:45'),
-(74, 4, 'Suspension Oil Sill', 0.00, '400.00', 1, '2025-05-30 15:26:08', '2025-05-30 15:26:08'),
-(75, 4, 'Suspension Spring', 0.00, '2000.00', 1, '2025-05-30 15:26:24', '2025-05-30 15:26:24'),
-(76, 10, 'Handle', 0.00, '700.00', 1, '2025-05-30 15:26:42', '2025-05-30 15:26:42'),
-(77, 10, 'Chapa', 0.00, '1500.00', 1, '2025-05-30 15:27:02', '2025-05-30 15:27:02'),
-(78, 10, 'Lock Set', 0.00, '2000.00', 1, '2025-05-30 15:27:20', '2025-05-30 15:27:20'),
-(79, 10, 'Key', 0.00, '200.00', 1, '2025-05-30 15:27:35', '2025-05-30 15:27:35'),
-(80, 10, 'Indicator', 0.00, '300.00', 1, '2025-05-30 15:28:02', '2025-05-30 15:28:02'),
-(81, 10, 'Back Carrier', 0.00, '1200.00', 1, '2025-05-30 15:28:44', '2025-05-30 15:28:44'),
-(82, 18, 'Cover Five', 0.00, '700.00', 1, '2025-05-30 15:29:05', '2025-05-30 15:29:05'),
-(83, 10, 'Silencer Cover', 0.00, '1200.00', 1, '2025-05-30 15:29:39', '2025-05-30 15:29:39'),
-(84, 10, 'Silencer Cap', 0.00, '1000.00', 1, '2025-05-30 15:30:06', '2025-05-30 15:30:06'),
-(85, 6, 'Tyre Change', 0.00, '200.00', 1, '2025-05-30 15:31:13', '2025-05-30 15:31:13'),
-(86, 6, 'Tyre', 0.00, '4000.00', 1, '2025-05-30 15:31:30', '2025-05-30 15:31:30'),
-(87, 10, 'Logo', 0.00, '300.00', 1, '2025-05-30 15:32:05', '2025-05-30 15:32:05'),
-(88, 10, 'Sticker', 0.00, '1000.00', 1, '2025-05-30 15:32:23', '2025-05-30 15:32:23'),
-(89, 10, 'Hydraulic Disk', 0.00, '2000.00', 1, '2025-05-30 15:33:21', '2025-05-30 15:33:21'),
-(90, 10, 'Out Coil', 0.00, '1000.00', 1, '2025-05-30 15:33:52', '2025-05-30 15:33:52'),
-(91, 18, 'Tank Cap', 0.00, '1000.00', 1, '2025-05-30 15:34:15', '2025-05-30 15:34:15'),
-(92, 10, 'Battery', 0.00, '1200.00', 1, '2025-05-30 15:35:21', '2025-05-30 15:35:21'),
-(93, 10, 'Fuse', 0.00, '30.00', 1, '2025-05-30 15:35:45', '2025-05-30 15:35:45'),
-(94, 10, 'Air Filter', 0.00, '500.00', 1, '2025-05-30 15:36:02', '2025-05-30 15:36:02'),
-(95, 10, 'Oil Filter', 0.00, '300.00', 1, '2025-05-30 15:36:26', '2025-05-30 15:36:26'),
-(96, 10, 'Throttle Body', 0.00, '5000.00', 1, '2025-05-30 15:37:13', '2025-05-30 15:37:13'),
-(97, 10, 'Dim Light', 0.00, '200.00', 1, '2025-05-30 15:38:04', '2025-05-30 15:38:04'),
-(98, 10, 'Sit Cover', 0.00, '300.00', 1, '2025-05-30 15:39:50', '2025-05-30 15:39:50'),
-(99, 18, 'Side Cover', 0.00, '1000.00', 1, '2025-05-30 15:41:20', '2025-05-30 15:41:20'),
-(100, 10, 'Kick', 0.00, '1000.00', 1, '2025-05-30 15:41:57', '2025-05-30 15:41:57'),
-(101, 10, 'Fuel Pump', 0.00, '4000.00', 1, '2025-05-30 15:42:28', '2025-05-30 15:42:28'),
-(102, 10, 'Fuel Injector', 0.00, '2000.00', 1, '2025-05-30 15:42:48', '2025-05-30 15:42:48'),
-(103, 2, 'Adjuster', 0.00, '500.00', 1, '2025-05-30 15:43:16', '2025-05-30 15:43:16'),
-(104, 2, 'Guarder', 0.00, '1000.00', 1, '2025-05-30 15:44:12', '2025-05-30 15:44:12'),
-(105, 2, 'Timing Chain', 0.00, '1000.00', 1, '2025-05-30 15:45:13', '2025-05-30 15:45:13'),
-(106, 2, 'Rocker', 0.00, '2000.00', 1, '2025-05-30 15:46:25', '2025-05-30 15:46:25'),
-(107, 2, 'Piston', 0.00, '1200.00', 1, '2025-05-30 15:47:19', '2025-05-30 15:47:19'),
-(108, 2, 'Lead Work', 0.00, '500.00', 1, '2025-05-30 15:48:14', '2025-05-30 15:48:14'),
-(109, 10, 'Self Motor', 0.00, '1000.00', 1, '2025-05-30 15:50:53', '2025-05-30 15:50:53'),
-(110, 10, 'Self Roller', 0.00, '1000.00', 1, '2025-05-30 15:51:34', '2025-05-30 15:51:34'),
-(111, 2, 'Valve', 0.00, '2000.00', 1, '2025-05-30 15:52:18', '2025-05-30 15:52:18'),
-(112, 2, 'Rocker Pin', 0.00, '500.00', 1, '2025-05-30 15:53:03', '2025-05-30 15:53:03'),
-(113, 2, 'Head Rubber', 0.00, '500.00', 1, '2025-05-30 15:53:52', '2025-05-30 15:53:52'),
-(114, 2, 'Gaskit', 0.00, '500.00', 1, '2025-05-30 15:54:27', '2025-05-30 15:54:27'),
-(115, 2, 'Gear Penium', 0.00, '2000.00', 1, '2025-05-30 15:55:26', '2025-05-30 15:55:26'),
-(116, 10, 'Gear Leaver', 0.00, '500.00', 1, '2025-05-30 15:55:53', '2025-05-30 15:55:53'),
-(117, 10, 'Coolant', 0.00, '500.00', 1, '2025-05-30 15:56:42', '2025-05-30 15:56:42'),
-(118, 14, 'Kerosine', 0.00, '100.00', 1, '2025-05-30 15:57:12', '2025-05-30 15:57:12'),
-(119, 14, 'WD-40', 0.00, '350.00', 1, '2025-05-30 15:58:00', '2025-05-30 15:58:00'),
-(120, 19, 'Muster Services', 0.00, '2000.00', 1, '2025-05-30 20:26:30', '2025-05-30 20:26:30'),
-(121, 19, 'Muster Services', 0.00, '2000.00', 1, '2025-05-30 20:26:30', '2025-05-30 20:26:30'),
-(122, 19, 'General Service', 0.00, '1000.00', 1, '2025-05-30 20:27:24', '2025-05-30 20:27:24'),
-(123, 19, 'General Service', 0.00, '1000.00', 1, '2025-05-30 20:27:25', '2025-05-30 20:27:25');
-
 -- --------------------------------------------------------
 
 --
@@ -534,34 +406,22 @@ CREATE TABLE `categories` (
 --
 
 INSERT INTO `categories` (`id`, `parent_cat_id`, `cat_type_id`, `title`, `image`, `status`, `created_at`, `updated_at`) VALUES
-(1, 0, 1, 'Safety Gear', NULL, 1, '2025-03-15 04:32:37', '2025-03-15 04:32:37'),
-(2, 0, 1, 'Comfort & Convenience', NULL, 1, '2025-03-15 04:32:46', '2025-03-15 04:32:46'),
-(3, 0, 1, 'Storage & Luggage', NULL, 1, '2025-03-15 04:33:00', '2025-03-15 04:33:00'),
-(4, 0, 1, 'Lighting & Electrical', NULL, 1, '2025-03-15 04:33:11', '2025-03-15 04:33:11'),
-(5, 0, 1, 'Aesthetic & Styling', NULL, 1, '2025-03-15 04:33:27', '2025-03-15 04:33:27'),
-(6, 0, 2, 'Engine & Transmission', NULL, 1, '2025-03-15 04:33:38', '2025-03-15 04:33:38'),
-(7, 0, 2, 'Braking System', NULL, 1, '2025-03-15 04:33:48', '2025-03-15 04:33:48'),
-(8, 0, 2, 'Suspension & Chassis', NULL, 1, '2025-03-15 04:34:01', '2025-03-15 04:34:01'),
-(9, 0, 2, 'Fuel System', NULL, 1, '2025-03-15 04:34:07', '2025-03-15 04:34:07'),
-(11, 1, 1, 'Head Protection', NULL, 1, '2025-03-15 04:42:40', '2025-03-15 04:48:58'),
-(12, 1, 1, 'Body Protection', NULL, 1, '2025-03-15 04:42:49', '2025-03-15 04:49:22'),
-(13, 2, 1, 'Seating Comfort', NULL, 1, '2025-03-15 04:43:09', '2025-03-15 04:49:51'),
-(14, 2, 1, 'Handle Enhancements', NULL, 1, '2025-03-15 04:43:21', '2025-03-15 04:50:15'),
-(15, 3, 1, 'On-Bike Storage', NULL, 1, '2025-03-15 04:43:35', '2025-03-15 04:50:35'),
-(16, 3, 1, 'Lockable Storage', NULL, 1, '2025-03-15 04:43:48', '2025-03-15 04:50:47'),
-(17, 4, 1, 'Exterior Lighting', NULL, 1, '2025-03-15 04:44:00', '2025-03-15 04:52:06'),
-(18, 4, 1, 'Electrical Accessories', NULL, 1, '2025-03-15 04:53:04', '2025-03-15 04:53:04'),
-(19, 5, 1, 'Exterior Decoration', NULL, 1, '2025-03-15 04:53:21', '2025-03-15 04:53:21'),
-(20, 5, 1, 'Functional Aesthetics', NULL, 1, '2025-03-15 04:53:45', '2025-03-15 04:53:45'),
-(21, 6, 2, 'Internal Components', NULL, 1, '2025-03-15 04:54:00', '2025-03-15 04:54:00'),
-(22, 6, 2, 'Transmission Parts', NULL, 1, '2025-03-15 04:54:10', '2025-03-15 04:54:10'),
-(23, 7, 2, 'Brake Components', NULL, 1, '2025-03-15 04:54:21', '2025-03-15 04:54:21'),
-(24, 7, 2, 'Hydraulic Systems', NULL, 1, '2025-03-15 04:54:29', '2025-03-15 04:54:29'),
-(25, 0, 1, 'Helmet', NULL, 1, '2025-05-26 15:52:09', '2025-05-26 15:52:09'),
-(26, 25, 1, 'ILM', NULL, 1, '2025-05-26 15:55:26', '2025-05-26 15:55:26'),
-(27, 0, 1, 'Wheels', NULL, 1, '2025-06-14 14:09:33', '2025-06-14 14:09:56'),
-(28, 27, 1, 'Chain Badge', NULL, 1, '2025-06-14 14:11:04', '2025-06-14 14:11:04'),
-(29, 27, 1, 'Spoke', NULL, 1, '2025-06-14 14:11:25', '2025-06-14 14:11:25');
+(1, 0, 1, 'Standard Boxes', NULL, 1, '2025-09-22 09:56:11', '2025-09-22 09:56:11'),
+(2, 0, 1, 'Fragile Boxes', NULL, 1, '2025-09-22 09:56:19', '2025-09-22 09:56:19'),
+(3, 0, 1, 'Heavy-Duty Boxes', NULL, 1, '2025-09-22 09:56:34', '2025-09-22 09:56:34'),
+(4, 0, 1, 'Document Envelopes', NULL, 1, '2025-09-22 09:56:43', '2025-09-22 09:56:43'),
+(5, 0, 1, 'Palletized Shipments', NULL, 1, '2025-09-22 09:56:51', '2025-09-22 09:56:51'),
+(6, 0, 1, 'Temperature-Controlled Boxes', NULL, 1, '2025-09-22 09:57:02', '2025-09-22 09:57:02'),
+(7, 1, 1, 'Small Standard Box', NULL, 1, '2025-09-22 09:57:45', '2025-09-22 09:57:45'),
+(8, 1, 1, 'Large Standard Box', NULL, 1, '2025-09-22 09:57:57', '2025-09-22 09:57:57'),
+(9, 2, 1, 'Glass/Breakable Box', NULL, 1, '2025-09-22 09:58:09', '2025-09-22 09:58:09'),
+(10, 2, 1, 'Electronics Box', NULL, 1, '2025-09-22 09:58:23', '2025-09-22 09:58:23'),
+(11, 3, 1, 'Wooden Crate', NULL, 1, '2025-09-22 09:58:34', '2025-09-22 09:58:34'),
+(12, 3, 1, 'Reinforced Cardboard Box', NULL, 1, '2025-09-22 09:58:47', '2025-09-22 09:58:47'),
+(13, 4, 1, 'Standard Document Envelope', NULL, 1, '2025-09-22 09:59:01', '2025-09-22 09:59:01'),
+(14, 4, 1, 'Tamper-Proof Envelope', NULL, 1, '2025-09-22 09:59:12', '2025-09-22 09:59:12'),
+(15, 5, 1, 'Single-Item Pallet', NULL, 1, '2025-09-22 09:59:28', '2025-09-22 09:59:28'),
+(16, 5, 1, 'Mixed-Box Pallet', NULL, 1, '2025-09-22 09:59:38', '2025-09-22 09:59:38');
 
 -- --------------------------------------------------------
 
@@ -581,8 +441,7 @@ CREATE TABLE `category_types` (
 --
 
 INSERT INTO `category_types` (`id`, `title`, `created_at`, `updated_at`) VALUES
-(1, 'Accessories', '2025-03-15 04:05:13', '2025-03-15 04:05:13'),
-(2, 'Spare Parts', '2025-03-15 04:05:13', '2025-03-15 04:05:13');
+(1, 'Box Item', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -878,9 +737,7 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `name`, `email`, `phone`, `address`, `organization`, `current_balance`, `customer_type`, `status`, `created_by_id`, `updated_by_id`, `created_at`, `updated_at`) VALUES
-(1, 'Barun Shaha', NULL, '0145111111', 'Dhaka', NULL, 0.00, 0, '1', NULL, NULL, '2025-06-20 06:31:20', '2025-06-20 06:31:27'),
-(2, 'Rana Dash', NULL, NULL, NULL, NULL, 0.00, 0, '1', NULL, NULL, '2025-06-20 06:46:03', '2025-06-20 06:46:10'),
-(3, 'Mamun', NULL, NULL, NULL, NULL, 0.00, 0, '1', NULL, NULL, '2025-06-20 07:09:25', '2025-06-20 07:09:30');
+(1, 'Walk-in Customer', NULL, NULL, NULL, NULL, 0.00, 0, '0', NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -912,12 +769,7 @@ CREATE TABLE `customer_ledgers` (
 --
 
 INSERT INTO `customer_ledgers` (`id`, `customer_id`, `sale_id`, `payment_id`, `account_id`, `particular`, `date`, `debit_amount`, `credit_amount`, `current_balance`, `reference_number`, `note`, `created_by_id`, `updated_by_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, NULL, NULL, 'Sale', '2025-06-20', NULL, '200.00', '200.00', NULL, NULL, 1, NULL, '2025-06-20 06:31:27', '2025-06-20 06:31:27'),
-(2, 1, NULL, 1, 1, 'Payment', '2025-06-20', '200.00', NULL, '0.00', NULL, NULL, 1, NULL, '2025-06-20 06:31:27', '2025-06-20 06:31:27'),
-(3, 2, 2, NULL, NULL, 'Sale', '2025-06-20', NULL, '1900.00', '1900.00', NULL, NULL, 1, NULL, '2025-06-20 06:46:10', '2025-06-20 06:46:10'),
-(4, 2, NULL, 2, 1, 'Payment', '2025-06-20', '1900.00', NULL, '0.00', NULL, NULL, 1, NULL, '2025-06-20 06:46:10', '2025-06-20 06:46:10'),
-(5, 3, 3, NULL, NULL, 'Sale', '2025-06-20', NULL, '5500.00', '5500.00', NULL, NULL, 1, NULL, '2025-06-20 07:09:30', '2025-06-20 07:09:30'),
-(6, 3, NULL, 3, 1, 'Payment', '2025-06-20', '5500.00', NULL, '0.00', NULL, NULL, 1, NULL, '2025-06-20 07:09:30', '2025-06-20 07:09:30');
+(1, 1, 2, NULL, NULL, 'Sale', '2025-09-22', NULL, '0.00', '0.00', NULL, NULL, 1, NULL, '2025-09-22 10:31:06', '2025-09-22 10:31:06');
 
 -- --------------------------------------------------------
 
@@ -940,15 +792,6 @@ CREATE TABLE `customer_payments` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `customer_payments`
---
-
-INSERT INTO `customer_payments` (`id`, `customer_id`, `account_id`, `sale_id`, `date`, `amount`, `reference_number`, `note`, `status`, `created_by_id`, `updated_by_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, '2025-06-20', 200.00, NULL, NULL, 1, 1, NULL, '2025-06-20 06:31:27', '2025-06-20 06:31:27'),
-(2, 2, 1, 2, '2025-06-20', 1900.00, NULL, NULL, 1, 1, NULL, '2025-06-20 06:46:10', '2025-06-20 06:46:10'),
-(3, 3, 1, 3, '2025-06-20', 5500.00, NULL, NULL, 1, 1, NULL, '2025-06-20 07:09:30', '2025-06-20 07:09:30');
 
 -- --------------------------------------------------------
 
@@ -1265,7 +1108,7 @@ CREATE TABLE `investors` (
 --
 
 INSERT INTO `investors` (`id`, `name`, `email`, `contact`, `address`, `dob`, `nid`, `investment_capital`, `balance`, `is_self`, `status`, `created_by_id`, `updated_by_id`, `created_at`, `updated_at`) VALUES
-(1, 'Wonder Tech BD', 'admin@gmail.com', '01712114756', 'Shop-357,  Dhaka-1219, Bangladesh', '1994-04-11', 2402451401, 14125.00, -125400.00, 1, 1, 1, 1, '2025-04-16 04:20:15', '2025-06-28 10:58:58'),
+(1, 'Wonder Tech BD', 'admin@gmail.com', '01712114756', 'Shop-357,  Dhaka-1219, Bangladesh', '1994-04-11', 2402451401, 15125.00, -125450.00, 1, 1, 1, 1, '2025-04-16 04:20:15', '2025-09-22 10:14:43'),
 (2, 'Karim Rana', 'sohel@gmail.com', '017121111111', 'Aftabnagar, Rampura, Dhaka', '1980-01-01', 123456789, 1437000.00, 286000.00, 0, 1, 1, 1, '2025-05-31 09:58:59', '2025-06-28 08:57:52'),
 (3, 'Saju Khan', 'alauddin@gmail.com', '01611145444', 'Feni', '1995-01-01', 123456789, 790000.00, 0.00, 0, 1, 1, 1, '2025-05-31 15:57:10', '2025-06-20 06:27:19'),
 (4, 'Ravel Ullah', 'konok@gmail.com', '01712111111', 'Badda,Dhaka', '1994-04-11', 123456789, 498000.00, 0.00, 0, 1, 1, 1, '2025-05-31 16:23:06', '2025-06-20 06:26:14'),
@@ -1347,7 +1190,12 @@ INSERT INTO `investor_ledgers` (`id`, `investor_id`, `account_id`, `particular`,
 (44, 1, 1, 'Bike Purchase', '125000.00', NULL, '-125400.00', 'NA', '2025-06-28', NULL, NULL, '2025-06-28 10:58:58', '2025-06-28 10:58:58'),
 (45, 8, 5, 'Investment', NULL, '250000.00', '250000.00', NULL, '2025-07-01', NULL, NULL, '2025-07-01 17:25:35', '2025-07-01 17:25:35'),
 (46, 8, 1, 'Withdrawal', '20000.00', NULL, '230000.00', NULL, '2025-07-01', NULL, NULL, '2025-07-01 17:38:09', '2025-07-01 17:38:09'),
-(47, 8, 5, 'Bike Purchase', '110000.00', NULL, '120000.00', NULL, '2025-07-01', NULL, NULL, '2025-07-01 17:43:47', '2025-07-01 17:43:47');
+(47, 8, 5, 'Bike Purchase', '110000.00', NULL, '120000.00', NULL, '2025-07-01', NULL, NULL, '2025-07-01 17:43:47', '2025-07-01 17:43:47'),
+(48, 1, 2, 'Opening Stock Investment', NULL, '750.00', '-124650.00', NULL, '2025-09-22', NULL, NULL, '2025-09-22 10:12:21', '2025-09-22 10:12:21'),
+(49, 1, 2, 'Opening Stock Purchase', '750.00', NULL, '-125400.00', NULL, '2025-09-22', NULL, NULL, '2025-09-22 10:12:21', '2025-09-22 10:12:21'),
+(50, 1, 2, 'Opening Stock Investment', NULL, '250.00', '-125150.00', NULL, '2025-09-22', NULL, NULL, '2025-09-22 10:13:04', '2025-09-22 10:13:04'),
+(51, 1, 2, 'Opening Stock Purchase', '250.00', NULL, '-125400.00', NULL, '2025-09-22', NULL, NULL, '2025-09-22 10:13:04', '2025-09-22 10:13:04'),
+(52, 1, 1, 'Regular Purchase Payment', '50.00', NULL, '-125450.00', NULL, '2025-09-22', NULL, NULL, '2025-09-22 10:14:43', '2025-09-22 10:14:43');
 
 -- --------------------------------------------------------
 
@@ -1390,7 +1238,9 @@ INSERT INTO `investor_transactions` (`id`, `investor_id`, `account_id`, `transac
 (9, 1, 2, 1, 'Opening Stock Investment', '12500.00', NULL, '14000.00', NULL, '2025-06-14', NULL, 1, 1, NULL, '2025-06-14 14:14:59', '2025-06-14 14:14:59'),
 (10, 1, 2, 1, 'Opening Stock Investment', '125.00', NULL, '14125.00', NULL, '2025-06-16', NULL, 1, 1, NULL, '2025-06-16 17:12:16', '2025-06-16 17:12:16'),
 (11, 8, 5, 0, NULL, '250000.00', NULL, '250000.00', NULL, '2025-07-01', NULL, 1, 1, 1, '2025-07-01 17:25:07', '2025-07-01 17:25:35'),
-(12, 8, 1, 0, NULL, NULL, '20000.00', '230000.00', NULL, '2025-07-01', NULL, 1, 1, 1, '2025-07-01 17:37:59', '2025-07-01 17:38:09');
+(12, 8, 1, 0, NULL, NULL, '20000.00', '230000.00', NULL, '2025-07-01', NULL, 1, 1, 1, '2025-07-01 17:37:59', '2025-07-01 17:38:09'),
+(13, 1, 2, 1, 'Opening Stock Investment', '750.00', NULL, '14875.00', NULL, '2025-09-22', NULL, 1, 1, NULL, '2025-09-22 10:12:21', '2025-09-22 10:12:21'),
+(14, 1, 2, 1, 'Opening Stock Investment', '250.00', NULL, '15125.00', NULL, '2025-09-22', NULL, 1, 1, NULL, '2025-09-22 10:13:04', '2025-09-22 10:13:04');
 
 -- --------------------------------------------------------
 
@@ -1422,9 +1272,8 @@ CREATE TABLE `items` (
 --
 
 INSERT INTO `items` (`id`, `cat_type_id`, `cat_id`, `sub_cat_id`, `unit_id`, `name`, `description`, `image`, `purchase_price`, `sale_price`, `vat`, `sold_qty`, `current_stock`, `status`, `created_at`, `updated_at`) VALUES
-(2, 1, 27, 29, 1, 'small spoke', NULL, NULL, 150.00, 200.00, 2.00, 0.00, 9.00, 1, '2025-06-14 14:13:54', '2025-06-20 06:31:27'),
-(4, 1, 27, 28, 1, 'Chain Box', NULL, NULL, 2500.00, 2800.00, 0.00, 0.00, 20.00, 1, '2025-06-14 14:14:59', '2025-06-20 07:09:30'),
-(8, 1, 27, 28, 1, 'Short 3\"', NULL, NULL, 125.00, 180.00, 1.00, 0.00, 1.00, 1, '2025-06-16 17:12:16', '2025-06-16 17:12:16');
+(1, 1, 1, 7, 1, 'Small Standard Box', NULL, NULL, 50.00, 0.00, 0.00, 0.00, 14.00, 1, '2025-09-22 10:12:21', '2025-09-22 10:31:06'),
+(2, 1, 2, 9, 1, 'Glass Protection Box', NULL, NULL, 50.00, 0.00, 0.00, 0.00, 6.00, 1, '2025-09-22 10:13:04', '2025-09-22 10:14:43');
 
 -- --------------------------------------------------------
 
@@ -1488,7 +1337,7 @@ INSERT INTO `menus` (`id`, `parent_id`, `srln`, `menu_name`, `navicon`, `is_side
 (49, 184, 4, 'Total Sold', NULL, 0, NULL, NULL, 1, '2025-01-19 02:35:06', '2025-04-16 04:32:29'),
 (50, 184, 5, 'Today\'s Purchase', NULL, 0, NULL, NULL, 1, '2025-01-19 03:07:13', '2025-04-22 04:22:10'),
 (51, 43, 3, 'Designation', '<i class=\"far fa-dot-circle nav-icon\"></i>', 1, 'designations.create', 'designations.index', 1, '2025-01-19 12:29:53', '2025-01-19 12:32:16'),
-(52, 0, 13, 'All Reports', '<i class=\"nav-icon fas fa-file-alt\"></i>', 1, NULL, NULL, 1, '2025-01-28 22:26:54', '2025-03-19 01:35:24'),
+(52, 0, 13, 'All Reports', '<i class=\"nav-icon fas fa-file-alt\"></i>', 1, NULL, NULL, 0, '2025-01-28 22:26:54', '2025-09-22 09:46:34'),
 (53, 52, 1, 'Asset Inventory', '<i class=\"nav-icon far fa-dot-circle\"></i>', 1, NULL, 'asset-innventory.assetInventoryIndex', 0, '2025-01-28 22:29:32', '2025-02-25 23:38:09'),
 (56, 52, 4, 'Monthly Expense', '<i class=\"nav-icon far fa-dot-circle\"></i>', 1, NULL, 'reports.monthly-expenses', 1, '2025-01-28 22:33:07', '2025-03-22 12:01:30'),
 (57, 52, 5, 'Profit Loss Statement', '<i class=\"nav-icon far fa-dot-circle\"></i>', 1, NULL, 'reports.profit-loss-statement', 1, '2025-01-28 22:36:00', '2025-04-13 03:24:28'),
@@ -1564,9 +1413,9 @@ INSERT INTO `menus` (`id`, `parent_id`, `srln`, `menu_name`, `navicon`, `is_side
 (133, 73, 6, 'Print', NULL, 0, NULL, 'bike-service-records.print', 1, '2025-03-20 02:05:40', '2025-05-27 03:19:46'),
 (134, 35, 5, 'View', NULL, 0, NULL, 'bike-purchases.invoice', 1, '2025-03-20 03:05:09', '2025-03-20 03:05:09'),
 (135, 35, 6, 'Print', NULL, 0, NULL, 'bike-purchases.invoice.print', 1, '2025-03-20 03:05:32', '2025-03-20 03:05:32'),
-(136, 124, 5, 'Customers', '<i class=\"far fa-dot-circle nav-icon\"></i>', 1, 'customers.create', 'customers.index', 1, '2025-03-22 13:17:08', '2025-03-22 13:17:35'),
-(137, 130, 3, 'Sales', '<i class=\"far fa-dot-circle nav-icon\"></i>', 1, 'sales.create', 'sales.index', 1, '2025-03-22 14:31:30', '2025-03-23 03:39:11'),
-(138, 130, 5, 'Customer Payment', '<i class=\"far fa-dot-circle nav-icon\"></i>', 1, 'customer-payments.create', 'customer-payments.index', 1, '2025-03-23 02:47:00', '2025-03-23 02:47:00'),
+(136, 124, 5, 'Customers', '<i class=\"far fa-dot-circle nav-icon\"></i>', 1, 'customers.create', 'customers.index', 0, '2025-03-22 13:17:08', '2025-09-22 09:49:05'),
+(137, 130, 3, 'Consume', '<i class=\"far fa-dot-circle nav-icon\"></i>', 1, 'sales.create', 'sales.index', 1, '2025-03-22 14:31:30', '2025-09-22 09:48:37'),
+(138, 130, 5, 'Customer Payment', '<i class=\"far fa-dot-circle nav-icon\"></i>', 1, 'customer-payments.create', 'customer-payments.index', 0, '2025-03-23 02:47:00', '2025-09-22 09:49:48'),
 (139, 0, 12, 'Loan Manage', '<i class=\"nav-icon fas fa-hand-holding-usd\"></i>', 1, NULL, NULL, 0, '2025-04-08 23:37:41', '2025-07-27 05:40:32'),
 (140, 139, 1, 'Party Manage', '<i class=\"far fa-dot-circle nav-icon\"></i>', 1, 'parties.create', 'parties.index', 1, '2025-04-08 23:39:23', '2025-04-08 23:39:23'),
 (141, 139, 2, 'Loans', '<i class=\"far fa-dot-circle nav-icon\"></i>', 1, 'loans.create', 'loans.index', 1, '2025-04-09 22:25:30', '2025-04-09 22:25:41'),
@@ -1818,15 +1667,15 @@ CREATE TABLE `parcel_invoices` (
 --
 
 INSERT INTO `parcel_invoices` (`id`, `invoice_no`, `total_price`, `vat_tax`, `discount_method`, `discount_rate`, `discount`, `total_payable`, `paid_amount`, `reference_number`, `note`, `hawb_no`, `reference`, `pieces`, `product_value`, `billing_weight_kg`, `billing_weight_gm`, `gross_weight_kg`, `payment_mode`, `cod_amount`, `item_type`, `all_item_names`, `item_description`, `length`, `height`, `width`, `weight`, `sender_name`, `sender_company`, `sender_address`, `sender_city`, `sender_zip`, `sender_country_id`, `sender_phone`, `sender_email`, `sender_origin`, `receiver_name`, `receiver_company`, `receiver_address`, `receiver_city`, `receiver_zip`, `receiver_country_id`, `receiver_phone`, `receiver_email`, `receiver_origin`, `booking_date`, `export_date`, `from_branch_id`, `to_branch_id`, `current_branch_id`, `agent_id`, `hub_id`, `flight_id`, `service_id`, `payment_type`, `usa_country_code`, `picked_up_by`, `picked_up_date_time`, `mawb_no`, `remarks`, `updated_by_id`, `showing_weight_kgs`, `showing_weight_gms`, `showing_weight_kgs_total`, `created_by_id`, `is_packed`, `payment_status`, `parcel_status`, `created_at`, `updated_at`) VALUES
-(1, '0000001', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000001', 'Ut est consectetur f', 71, 15, 24, 7, '24.01', 'Collect', '64.00', 'DOCS', 'Sean Beard', 'Distinctio Hic sunt', '28.00', '39.00', '83.00', '18.13', 'Otto Bowman', 'Ayers Daniel Trading', 'Irure quaerat sunt', 'Obcaecati occaecat e', '24325', 123, '4', 'fepehucycy@mailinator.com', 'Sunt quis aliquid qu', 'Destiny Newman', 'Klein Daugherty Plc', 'Laudantium pariatur', 'Dolor facere quo lab', '60046', 58, '11', 'mezebofuzo@mailinator.com', 'Molestiae sint nisi', '2007-09-11', '1985-05-14', 1, NULL, 1, 1, 60, 2, 33, 'Cash', 'Perspiciatis veniam', 'Sed quas veritatis p', '2008-09-24 18:27:00', 'Voluptate aliqua Ut', 'Sint tenetur vel ull', NULL, 67, 5, '67.01', 1, 1, 'paid', 'approved', '2025-07-28 23:41:10', '2025-09-18 06:32:19'),
-(2, '0000002', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000002', 'Earum dolor blanditi', 98, 4, 19, 21, '19.02', 'Prepaid', '54.00', 'DOCS', 'Maryam Holman', 'Est optio aliquid e', '43.00', '22.00', '56.00', '10.60', 'Shoriful Islam', 'Ollyo', NULL, 'In ut ullam lorem cu', '26130', 163, '98', 'qylinilihu@mailinator.com', 'Irure laboris laboru', 'Imogene Bell', 'Medina and Burgess Trading', 'Et voluptates qui nu', 'Commodi dolorem est', '52540', 72, '71', 'vamejiwoq@mailinator.com', 'Optio sint id obca', '1994-05-21', '2016-03-18', 1, NULL, 1, 1, 39, 2, 94, 'Due', 'Ut dicta reprehender', 'Et nostrud deserunt', '1989-06-11 19:11:00', 'Vel enim laborum bla', 'Id pariatur Illo en', 1, 10, 1, '10.00', 1, 1, 'paid', 'approved', '2025-07-28 23:55:59', '2025-09-18 06:32:19'),
-(3, '0000003', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000003', 'Sed non modi quidem', 19, 73, 44, 37, '44.04', 'Collect', '57.00', 'SPX', 'Hayden Hopper', 'Vel voluptas dolores', '84.00', '26.00', '24.00', '10.48', 'Hanae Foreman', 'Pratt Moon Co', 'Nostrud delectus id', 'Proident dolore inc', '25122', 246, '9', 'qigosaxo@mailinator.com', NULL, 'Ivan Larson', 'Nielsen Hammond Inc', 'Enim rerum sunt labo', 'Corrupti distinctio', '11874', 193, '99', 'gidyde@mailinator.com', NULL, '1975-11-09', '2008-10-27', 1, NULL, 1, 1, 63, 2, 16, 'Due', 'Illum reprehenderit', 'Repudiandae in dolor', '1995-09-20 10:14:00', 'Reprehenderit neces', 'Inventore aliqua La', NULL, 44, 63, '44.06', 1, 1, 'paid', 'approved', '2025-08-16 22:18:46', '2025-09-18 06:32:19'),
-(4, '0000004', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000004', 'A non ab expedita ad', 16, 37, 78, 27, '78.03', 'Collect', '37.00', 'SPX', 'Austin Hull', 'Pariatur Similique', '6.00', '70.00', '71.00', '5.96', 'Ora Barry', 'Richmond and Franklin Co', 'Placeat architecto', 'In libero eum eos ei', '99532', 76, '8', 'zeqoxez@mailinator.com', NULL, 'Demetrius Wooten', 'Charles Waller Co', 'Animi explicabo Do', 'Est et delectus nih', '29385', 81, '29', 'zemenabyz@mailinator.com', NULL, '2006-07-26', '1992-07-15', 1, 3, 1, 1, 36, 2, 49, 'Cash', 'Impedit quaerat atq', 'Perspiciatis conseq', '2003-06-26 16:50:00', 'Rem velit aliquip ma', 'Minima aliquam ut qu', NULL, 46, 92, '46.09', 1, 1, 'paid', 'in_transit', '2025-08-17 00:37:51', '2025-09-18 11:52:56'),
-(5, '0000005', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000005', 'Ipsum voluptate iur', 61, 56, 63, 92, '63.09', 'Prepaid', '89.00', 'DOCS', 'Eden Roach', 'Officiis in iste nos', '47.00', '44.00', '88.00', '36.40', 'Byron Hinton', 'Hartman and Pratt Plc', 'Voluptatem vitae pr', 'Totam excepteur culp', '40520', 24, '18', 'wofyceruve@mailinator.com', NULL, 'Clarke Mayer', 'Gates Dale LLC', 'Eius expedita iste u', 'Dolor in aut et simi', '94425', 243, '20', 'qivoni@mailinator.com', NULL, '2014-10-20', '1980-09-04', 1, 3, 1, 1, 64, 2, 47, 'Due', 'Voluptas animi nisi', 'Voluptatem aliquip', '2003-02-12 16:39:00', 'Temporibus qui sed a', 'Asperiores necessita', NULL, 32, 5, '32.01', 1, 1, 'paid', 'in_transit', '2025-08-17 00:37:59', '2025-09-18 11:52:56'),
-(6, '0000006', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000006', 'Ut obcaecati rem lib', 55, 92, 23, 59, '23.06', 'Collect', '82.00', 'SPX', 'Liberty Compton', 'Tempora eius quia cu', '96.00', '5.00', '8.00', '0.77', 'Carissa Keller', 'Booker and David Co', 'Nisi asperiores cumq', 'Mollit similique lab', '31739', 68, '63', 'mevymop@mailinator.com', NULL, 'Laith Golden', 'Webster and Schwartz Co', 'Autem autem et quia', 'Reprehenderit qui vo', '51522', 208, '99', 'xikemocehi@mailinator.com', NULL, '2004-12-21', '1997-02-20', 1, 3, 1, 1, 38, 1, 14, 'Cash', 'Laudantium quasi do', 'Nam molestiae et aut', '2018-03-20 19:16:00', 'Quo quaerat consecte', 'Et debitis soluta co', NULL, 80, 65, '80.07', 1, 1, 'paid', 'in_transit', '2025-08-17 00:38:07', '2025-09-18 11:52:56'),
-(7, '0000007', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000007', 'Iure repudiandae cum', 75, 74, 17, 77, '17.08', 'Collect', '76.00', 'DOCS', 'Colleen Sellers', 'Et officiis sit ius', '17.00', '3.00', '64.00', '0.65', 'Michelle Sandoval', 'English and Miles LLC', 'Nihil et ut occaecat', 'Sunt proident adip', '62712', 118, '7', 'detiwejip@mailinator.com', NULL, 'MacKenzie Swanson', 'Terry Miller Associates', 'Vitae consequatur in', 'Sed optio veniam a', '12270', 48, '24', 'cerojeni@mailinator.com', NULL, '1987-12-12', '1970-09-20', 1, 3, 1, 1, 84, 1, 38, 'Cash', 'Aliqua Occaecat asp', 'Dolor omnis ea place', '2004-01-03 19:10:00', 'Nam nihil culpa dist', 'Odio officia nisi qu', NULL, 83, 49, '83.05', 1, 1, 'paid', 'in_transit', '2025-08-17 00:38:14', '2025-09-18 11:52:56'),
-(8, '0000008', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000008', 'Amet tempora nisi a', 21, 12, 81, 22, '81.02', 'Prepaid', '29.00', 'SPX', 'Jason Rivers', 'Explicabo Ut non qu', '81.00', '30.00', '31.00', '15.07', 'Geraldine Porter', 'Mcdowell and Franklin LLC', 'Ipsa tempora nihil', 'Et voluptates eligen', '85439', 219, '99', 'fyborewo@mailinator.com', NULL, 'Bradley Gallegos', 'Bryant Jarvis Associates', 'Cumque facere placea', 'Sequi soluta exercit', '45423', 138, '5', 'feqokezeh@mailinator.com', NULL, '2018-07-13', '2001-07-30', 1, 3, 1, 1, 7, 1, 92, 'Cash', 'Aliquid ea eiusmod b', 'Dolorem totam dolore', '2002-01-10 19:00:00', 'Voluptate atque tota', 'Aliquid sit commodi', NULL, 24, 19, '24.02', 1, 1, 'paid', 'in_transit', '2025-08-17 00:38:20', '2025-09-18 11:52:56'),
-(9, '0000009', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000009', 'Iste eos neque amet', 74, 37, 91, 97, '91.10', 'Prepaid', '52.00', 'SPX', 'Hollee Holt', 'Consequatur Praesen', '31.00', '32.00', '99.00', '19.64', 'William Travis', 'Booth Dickson Associates', 'Tenetur ut delectus', 'Consequat Dolor qui', '73691', 55, '36', 'wucikahox@mailinator.com', NULL, 'Denton Boyer', 'Burton and Guy Co', 'Ut sit deserunt quam', 'Sit consequuntur sit', '81012', 105, '38', 'namatileh@mailinator.com', NULL, '1971-07-10', '2015-02-09', 1, 3, 1, 1, 68, 2, 28, 'Due', 'Assumenda quaerat co', 'Qui esse esse dolor', '1988-08-07 00:23:00', 'Est aperiam eveniet', 'Animi cumque itaque', NULL, 67, 24, '67.02', 1, 1, 'paid', 'in_transit', '2025-08-17 00:38:28', '2025-09-18 11:52:56'),
+(1, '0000001', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000001', 'Ut est consectetur f', 71, 15, 24, 7, '24.01', 'Collect', '64.00', 'DOCS', 'Sean Beard', 'Distinctio Hic sunt', '28.00', '39.00', '83.00', '18.13', 'Otto Bowman', 'Ayers Daniel Trading', 'Irure quaerat sunt', 'Obcaecati occaecat e', '24325', 123, '4', 'fepehucycy@mailinator.com', 'Sunt quis aliquid qu', 'Destiny Newman', 'Klein Daugherty Plc', 'Laudantium pariatur', 'Dolor facere quo lab', '60046', 58, '11', 'mezebofuzo@mailinator.com', 'Molestiae sint nisi', '2007-09-11', '1985-05-14', 1, 5, 3, 1, 60, 2, 33, 'Cash', 'Perspiciatis veniam', 'Sed quas veritatis p', '2008-09-24 18:27:00', 'Voluptate aliqua Ut', 'Sint tenetur vel ull', NULL, 67, 5, '67.01', 1, 1, 'paid', 'delivered', '2025-07-28 23:41:10', '2025-09-22 09:45:22'),
+(2, '0000002', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000002', 'Earum dolor blanditi', 98, 4, 19, 21, '19.02', 'Prepaid', '54.00', 'DOCS', 'Maryam Holman', 'Est optio aliquid e', '43.00', '22.00', '56.00', '10.60', 'Shoriful Islam', 'Ollyo', NULL, 'In ut ullam lorem cu', '26130', 163, '98', 'qylinilihu@mailinator.com', 'Irure laboris laboru', 'Imogene Bell', 'Medina and Burgess Trading', 'Et voluptates qui nu', 'Commodi dolorem est', '52540', 72, '71', 'vamejiwoq@mailinator.com', 'Optio sint id obca', '1994-05-21', '2016-03-18', 1, 5, 3, 1, 39, 2, 94, 'Due', 'Ut dicta reprehender', 'Et nostrud deserunt', '1989-06-11 19:11:00', 'Vel enim laborum bla', 'Id pariatur Illo en', 1, 10, 1, '10.00', 1, 1, 'paid', 'delivered', '2025-07-28 23:55:59', '2025-09-22 09:45:22'),
+(3, '0000003', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000003', 'Sed non modi quidem', 19, 73, 44, 37, '44.04', 'Collect', '57.00', 'SPX', 'Hayden Hopper', 'Vel voluptas dolores', '84.00', '26.00', '24.00', '10.48', 'Hanae Foreman', 'Pratt Moon Co', 'Nostrud delectus id', 'Proident dolore inc', '25122', 246, '9', 'qigosaxo@mailinator.com', NULL, 'Ivan Larson', 'Nielsen Hammond Inc', 'Enim rerum sunt labo', 'Corrupti distinctio', '11874', 193, '99', 'gidyde@mailinator.com', NULL, '1975-11-09', '2008-10-27', 1, 5, 3, 1, 63, 2, 16, 'Due', 'Illum reprehenderit', 'Repudiandae in dolor', '1995-09-20 10:14:00', 'Reprehenderit neces', 'Inventore aliqua La', NULL, 44, 63, '44.06', 1, 1, 'paid', 'delivered', '2025-08-16 22:18:46', '2025-09-22 09:45:22'),
+(4, '0000004', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000004', 'A non ab expedita ad', 16, 37, 78, 27, '78.03', 'Collect', '37.00', 'SPX', 'Austin Hull', 'Pariatur Similique', '6.00', '70.00', '71.00', '5.96', 'Ora Barry', 'Richmond and Franklin Co', 'Placeat architecto', 'In libero eum eos ei', '99532', 76, '8', 'zeqoxez@mailinator.com', NULL, 'Demetrius Wooten', 'Charles Waller Co', 'Animi explicabo Do', 'Est et delectus nih', '29385', 81, '29', 'zemenabyz@mailinator.com', NULL, '2006-07-26', '1992-07-15', 1, 3, 3, 1, 36, 2, 49, 'Cash', 'Impedit quaerat atq', 'Perspiciatis conseq', '2003-06-26 16:50:00', 'Rem velit aliquip ma', 'Minima aliquam ut qu', NULL, 46, 92, '46.09', 1, 1, 'paid', 'delivered', '2025-08-17 00:37:51', '2025-09-22 09:23:55'),
+(5, '0000005', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000005', 'Ipsum voluptate iur', 61, 56, 63, 92, '63.09', 'Prepaid', '89.00', 'DOCS', 'Eden Roach', 'Officiis in iste nos', '47.00', '44.00', '88.00', '36.40', 'Byron Hinton', 'Hartman and Pratt Plc', 'Voluptatem vitae pr', 'Totam excepteur culp', '40520', 24, '18', 'wofyceruve@mailinator.com', NULL, 'Clarke Mayer', 'Gates Dale LLC', 'Eius expedita iste u', 'Dolor in aut et simi', '94425', 243, '20', 'qivoni@mailinator.com', NULL, '2014-10-20', '1980-09-04', 1, 3, 3, 1, 64, 2, 47, 'Due', 'Voluptas animi nisi', 'Voluptatem aliquip', '2003-02-12 16:39:00', 'Temporibus qui sed a', 'Asperiores necessita', NULL, 32, 5, '32.01', 1, 1, 'paid', 'delivered', '2025-08-17 00:37:59', '2025-09-22 09:23:55'),
+(6, '0000006', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000006', 'Ut obcaecati rem lib', 55, 92, 23, 59, '23.06', 'Collect', '82.00', 'SPX', 'Liberty Compton', 'Tempora eius quia cu', '96.00', '5.00', '8.00', '0.77', 'Carissa Keller', 'Booker and David Co', 'Nisi asperiores cumq', 'Mollit similique lab', '31739', 68, '63', 'mevymop@mailinator.com', NULL, 'Laith Golden', 'Webster and Schwartz Co', 'Autem autem et quia', 'Reprehenderit qui vo', '51522', 208, '99', 'xikemocehi@mailinator.com', NULL, '2004-12-21', '1997-02-20', 1, 3, 3, 1, 38, 1, 14, 'Cash', 'Laudantium quasi do', 'Nam molestiae et aut', '2018-03-20 19:16:00', 'Quo quaerat consecte', 'Et debitis soluta co', NULL, 80, 65, '80.07', 1, 1, 'paid', 'delivered', '2025-08-17 00:38:07', '2025-09-22 09:23:55'),
+(7, '0000007', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000007', 'Iure repudiandae cum', 75, 74, 17, 77, '17.08', 'Collect', '76.00', 'DOCS', 'Colleen Sellers', 'Et officiis sit ius', '17.00', '3.00', '64.00', '0.65', 'Michelle Sandoval', 'English and Miles LLC', 'Nihil et ut occaecat', 'Sunt proident adip', '62712', 118, '7', 'detiwejip@mailinator.com', NULL, 'MacKenzie Swanson', 'Terry Miller Associates', 'Vitae consequatur in', 'Sed optio veniam a', '12270', 48, '24', 'cerojeni@mailinator.com', NULL, '1987-12-12', '1970-09-20', 1, 3, 3, 1, 84, 1, 38, 'Cash', 'Aliqua Occaecat asp', 'Dolor omnis ea place', '2004-01-03 19:10:00', 'Nam nihil culpa dist', 'Odio officia nisi qu', NULL, 83, 49, '83.05', 1, 1, 'paid', 'delivered', '2025-08-17 00:38:14', '2025-09-22 09:23:55'),
+(8, '0000008', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000008', 'Amet tempora nisi a', 21, 12, 81, 22, '81.02', 'Prepaid', '29.00', 'SPX', 'Jason Rivers', 'Explicabo Ut non qu', '81.00', '30.00', '31.00', '15.07', 'Geraldine Porter', 'Mcdowell and Franklin LLC', 'Ipsa tempora nihil', 'Et voluptates eligen', '85439', 219, '99', 'fyborewo@mailinator.com', NULL, 'Bradley Gallegos', 'Bryant Jarvis Associates', 'Cumque facere placea', 'Sequi soluta exercit', '45423', 138, '5', 'feqokezeh@mailinator.com', NULL, '2018-07-13', '2001-07-30', 1, 3, 3, 1, 7, 1, 92, 'Cash', 'Aliquid ea eiusmod b', 'Dolorem totam dolore', '2002-01-10 19:00:00', 'Voluptate atque tota', 'Aliquid sit commodi', NULL, 24, 19, '24.02', 1, 1, 'paid', 'delivered', '2025-08-17 00:38:20', '2025-09-22 09:23:55'),
+(9, '0000009', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000009', 'Iste eos neque amet', 74, 37, 91, 97, '91.10', 'Prepaid', '52.00', 'SPX', 'Hollee Holt', 'Consequatur Praesen', '31.00', '32.00', '99.00', '19.64', 'William Travis', 'Booth Dickson Associates', 'Tenetur ut delectus', 'Consequat Dolor qui', '73691', 55, '36', 'wucikahox@mailinator.com', NULL, 'Denton Boyer', 'Burton and Guy Co', 'Ut sit deserunt quam', 'Sit consequuntur sit', '81012', 105, '38', 'namatileh@mailinator.com', NULL, '1971-07-10', '2015-02-09', 1, 3, 3, 1, 68, 2, 28, 'Due', 'Assumenda quaerat co', 'Qui esse esse dolor', '1988-08-07 00:23:00', 'Est aperiam eveniet', 'Animi cumque itaque', NULL, 67, 24, '67.02', 1, 1, 'paid', 'delivered', '2025-08-17 00:38:28', '2025-09-22 09:23:55'),
 (10, '0000010', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000010', 'In eum non aliquip d', 55, 7, 21, 1, '21.00', 'Collect', '1.00', 'SPX', 'Phoebe Vega', 'Veritatis irure qui', '73.00', '54.00', '59.00', '46.52', 'Mia English', 'Mccall Romero LLC', 'In consequuntur iure', 'Sit magna minima au', '87794', 113, '84', 'rynu@mailinator.com', NULL, 'Graiden Fox', 'Oneal and Jacobs LLC', 'Ut et eveniet aut q', 'Et aut dolorem aliqu', '19833', 145, '13', 'tokuciwa@mailinator.com', NULL, '1998-04-16', '1992-08-29', 1, NULL, 1, 1, 2, 1, 96, 'Due', 'Perspiciatis harum', 'Ipsum dolorem exerci', '2003-06-14 16:48:00', 'Ea distinctio Est', 'Totam ex debitis qua', NULL, 54, 4, '54.00', 1, 1, 'paid', 'approved', '2025-08-17 00:38:36', '2025-09-18 09:36:52'),
 (11, '0000011', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000011', 'Fugit aut debitis c', 87, 14, 28, 89, '28.09', 'Prepaid', '15.00', 'DOCS', 'Althea Dickson', 'Rerum harum aut ab e', '73.00', '98.00', '8.00', '11.45', 'Malachi Sparks', 'Harding Cabrera Traders', 'Do aut rerum ut pers', 'Dicta ea ipsum offic', '65218', 65, '97', 'tapu@mailinator.com', NULL, 'Aline Herman', 'Sykes and Peterson Trading', 'Laborum officia dist', 'Libero iusto tempora', '69832', 11, '77', 'giziwuh@mailinator.com', NULL, '2022-12-21', '1973-09-25', 1, NULL, 1, 1, 41, 2, 94, 'Cash', 'Facere cupidatat eaq', 'Voluptatem Nam ut s', '2024-06-24 20:26:00', 'Qui soluta voluptate', 'Lorem minim sed quis', NULL, 36, 24, '36.02', 1, 1, 'paid', 'approved', '2025-08-17 00:38:42', '2025-09-18 09:36:52'),
 (12, '0000012', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000012', 'Unde quis officia pe', 65, 92, 5, 62, '5.06', 'Collect', '95.00', 'DOCS', 'Ralph Robles', 'Blanditiis eiusmod r', '87.00', '59.00', '96.00', '98.55', 'Vladimir Waters', 'Trujillo Odom Trading', 'Est recusandae Pari', 'Voluptatem Minim id', '78701', 138, '62', 'disel@mailinator.com', NULL, 'Jenna Payne', 'Maxwell and Head Associates', 'Officiis delectus a', 'Accusamus dolore omn', '46158', 119, '20', 'wuqivu@mailinator.com', NULL, '1984-06-28', '1995-06-20', 1, NULL, 1, 1, 44, 1, 70, 'Due', 'Animi ad fugiat id', 'Nulla accusamus moll', '1971-06-11 08:43:00', 'Minim quo officiis i', 'Quidem officia fuga', NULL, 36, 22, '36.02', 1, 0, 'paid', 'approved', '2025-08-17 00:38:48', '2025-08-17 05:35:41'),
@@ -1925,7 +1774,8 @@ CREATE TABLE `parcel_transfers` (
 --
 
 INSERT INTO `parcel_transfers` (`id`, `parcel_transfer_no`, `from_branch_id`, `to_branch_id`, `transfer_date`, `status`, `is_received`, `note`, `created_by_id`, `received_by_id`, `created_at`, `updated_at`) VALUES
-(3, 'PT-000001', 1, 3, '2025-09-18', 'delivered', 1, NULL, 1, 7, '2025-09-18 10:33:42', '2025-09-18 12:26:50');
+(3, 'PT-000001', 1, 3, '2025-09-18', 'delivered', 1, NULL, 1, 7, '2025-09-18 10:33:42', '2025-09-22 09:23:55'),
+(4, 'PT-000002', 1, 3, '2025-09-22', 'delivered', 1, NULL, 1, 7, '2025-09-22 09:43:58', '2025-09-22 09:45:22');
 
 -- --------------------------------------------------------
 
@@ -1949,7 +1799,8 @@ CREATE TABLE `parcel_transfer_details` (
 
 INSERT INTO `parcel_transfer_details` (`id`, `parcel_transfer_id`, `shipment_box_id`, `invoice_id`, `note`, `created_at`, `updated_at`) VALUES
 (1, 3, 2, NULL, NULL, '2025-09-18 10:33:42', '2025-09-18 10:33:42'),
-(2, 3, 3, NULL, NULL, '2025-09-18 10:33:42', '2025-09-18 10:33:42');
+(2, 3, 3, NULL, NULL, '2025-09-18 10:33:42', '2025-09-18 10:33:42'),
+(3, 4, 1, NULL, NULL, '2025-09-22 09:43:58', '2025-09-22 09:43:58');
 
 -- --------------------------------------------------------
 
@@ -2383,8 +2234,7 @@ CREATE TABLE `purchases` (
 --
 
 INSERT INTO `purchases` (`id`, `supplier_id`, `account_id`, `vouchar_no`, `date`, `total_price`, `vat_tax`, `discount_method`, `discount_rate`, `discount`, `total_payable`, `paid_amount`, `reference_number`, `note`, `payment_status`, `status`, `created_by_id`, `updated_by_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, '0000001', '2025-06-14', 12500.00, 12500.00, 1, 0.00, 0.00, 12500.00, 12500.00, NULL, NULL, '1', '1', 1, NULL, '2025-06-14 14:17:10', '2025-06-14 14:17:16'),
-(2, 2, 1, '0000002', '2025-06-20', 30000.00, 30000.00, 1, 0.00, 300.00, 29700.00, 0.00, NULL, 'Due', '0', '1', 1, NULL, '2025-06-20 07:04:11', '2025-06-20 07:04:18');
+(1, 2, 1, '0000001', '2025-09-22', 50.00, NULL, 1, 0.00, 0.00, 50.00, 50.00, NULL, NULL, '1', '1', 1, NULL, '2025-09-22 10:14:40', '2025-09-22 10:14:43');
 
 -- --------------------------------------------------------
 
@@ -2407,8 +2257,7 @@ CREATE TABLE `purchase_details` (
 --
 
 INSERT INTO `purchase_details` (`id`, `purchase_id`, `item_id`, `quantity`, `unit_price`, `created_at`, `updated_at`) VALUES
-(1, 1, 4, '5.00', '2500.00', '2025-06-14 14:17:10', '2025-06-14 14:17:10'),
-(2, 2, 4, '12.00', '2500.00', '2025-06-20 07:04:11', '2025-06-20 07:04:11');
+(1, 1, 2, '1.00', '50.00', '2025-09-22 10:14:40', '2025-09-22 10:14:40');
 
 -- --------------------------------------------------------
 
@@ -2470,9 +2319,8 @@ CREATE TABLE `sales` (
 --
 
 INSERT INTO `sales` (`id`, `customer_id`, `bike_reg_no`, `account_id`, `invoice_no`, `date`, `total_price`, `vat_tax`, `discount_method`, `discount_rate`, `discount`, `total_payable`, `paid_amount`, `reference_number`, `note`, `payment_status`, `status`, `created_by_id`, `updated_by_id`, `created_at`, `updated_at`) VALUES
-(1, 1, NULL, 1, '0000001', '2025-06-20', 200.00, 0.00, 0, 0.00, 0.00, 200.00, 200.00, NULL, NULL, '1', '1', 1, NULL, '2025-06-20 06:31:20', '2025-06-20 06:31:27'),
-(2, 2, 'DM-T-21004', 1, '0000002', '2025-06-20', 2000.00, 0.00, 1, 100.00, 100.00, 1900.00, 1900.00, NULL, NULL, '1', '1', 1, NULL, '2025-06-20 06:46:03', '2025-06-20 06:46:10'),
-(3, 3, NULL, 1, '0000003', '2025-06-20', 5600.00, 0.00, 1, 100.00, 100.00, 5500.00, 5500.00, NULL, NULL, '1', '1', 1, NULL, '2025-06-20 07:09:25', '2025-06-20 07:09:30');
+(1, 1, NULL, NULL, '0000001', '2025-09-22', 0.00, 0.00, 0, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '1', '0', 1, NULL, '2025-09-22 10:20:59', '2025-09-22 10:20:59'),
+(2, 1, NULL, NULL, '0000002', '2025-09-22', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '1', '1', 1, NULL, '2025-09-22 10:28:16', '2025-09-22 10:31:06');
 
 -- --------------------------------------------------------
 
@@ -2501,9 +2349,9 @@ CREATE TABLE `sale_details` (
 --
 
 INSERT INTO `sale_details` (`id`, `sale_id`, `item_type`, `item_id`, `service_id`, `quantity`, `unit_price`, `purchase_price`, `profit`, `net_sale_price`, `net_profit`, `created_at`, `updated_at`) VALUES
-(1, 1, 0, 2, NULL, 1.00, 200.00, 150.00, 50.00, 200.00, 50.00, '2025-06-20 06:31:20', '2025-06-20 06:31:27'),
-(2, 2, 1, NULL, 7, 1.00, 2000.00, 1600.00, 400.00, 1900.00, 300.00, '2025-06-20 06:46:03', '2025-06-20 06:46:10'),
-(3, 3, 0, 4, NULL, 2.00, 2800.00, 2500.00, 600.00, 2750.00, 500.00, '2025-06-20 07:09:25', '2025-06-20 07:09:30');
+(1, 1, 0, 2, NULL, 1.00, 0.00, NULL, NULL, NULL, NULL, '2025-09-22 10:20:59', '2025-09-22 10:20:59'),
+(2, 1, 0, 1, NULL, 1.00, 0.00, NULL, NULL, NULL, NULL, '2025-09-22 10:20:59', '2025-09-22 10:20:59'),
+(3, 2, 0, 1, NULL, 1.00, 0.00, 50.00, -50.00, 0.00, -50.00, '2025-09-22 10:28:16', '2025-09-22 10:31:06');
 
 -- --------------------------------------------------------
 
@@ -2529,9 +2377,9 @@ CREATE TABLE `shipment_boxes` (
 --
 
 INSERT INTO `shipment_boxes` (`id`, `box_id`, `shipment_no`, `from_branch_id`, `to_branch_id`, `current_branch_id`, `is_packed`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, '0000001', 1, NULL, 1, 0, 'approved', '2025-09-18 06:28:51', '2025-09-18 06:32:19'),
-(2, 2, '0000002', 1, 3, 1, 1, 'in_transit', '2025-09-18 09:36:18', '2025-09-18 11:32:12'),
-(3, 2, '0000003', 1, 3, 1, 1, 'in_transit', '2025-09-18 09:36:33', '2025-09-18 11:52:56'),
+(1, 1, '0000001', 1, 5, 3, 1, 'delivered', '2025-09-18 06:28:51', '2025-09-22 09:45:22'),
+(2, 2, '0000002', 1, 3, 3, 1, 'delivered', '2025-09-18 09:36:18', '2025-09-22 09:23:55'),
+(3, 2, '0000003', 1, 3, 3, 1, 'delivered', '2025-09-18 09:36:33', '2025-09-22 09:23:55'),
 (4, 1, '0000004', 1, NULL, 1, 0, 'approved', '2025-09-18 09:36:48', '2025-09-18 09:36:52');
 
 -- --------------------------------------------------------
@@ -2602,7 +2450,11 @@ INSERT INTO `stock_histories` (`id`, `item_id`, `date`, `particular`, `stock_in_
 (4, 8, '2025-06-16', 'Opening Stock', 1.00, NULL, 125.00, 1.00, 1, '2025-06-16 17:12:16', '2025-06-16 17:12:16'),
 (5, 2, '2025-06-20', 'Sale', NULL, 1.00, 200.00, 9.00, 1, '2025-06-20 06:31:27', '2025-06-20 06:31:27'),
 (6, 4, '2025-06-20', 'Purchase', 12.00, NULL, 2500.00, 22.00, 1, '2025-06-20 07:04:18', '2025-06-20 07:04:18'),
-(7, 4, '2025-06-20', 'Sale', NULL, 2.00, 2800.00, 20.00, 1, '2025-06-20 07:09:30', '2025-06-20 07:09:30');
+(7, 4, '2025-06-20', 'Sale', NULL, 2.00, 2800.00, 20.00, 1, '2025-06-20 07:09:30', '2025-06-20 07:09:30'),
+(8, 1, '2025-09-22', 'Opening Stock', 15.00, NULL, 50.00, 15.00, 1, '2025-09-22 10:12:21', '2025-09-22 10:12:21'),
+(9, 2, '2025-09-22', 'Opening Stock', 5.00, NULL, 50.00, 5.00, 1, '2025-09-22 10:13:04', '2025-09-22 10:13:04'),
+(10, 2, '2025-09-22', 'Purchase', 1.00, NULL, 50.00, 6.00, 1, '2025-09-22 10:14:43', '2025-09-22 10:14:43'),
+(11, 1, '2025-09-22', 'Sale', NULL, 1.00, 0.00, 14.00, 1, '2025-09-22 10:31:06', '2025-09-22 10:31:06');
 
 -- --------------------------------------------------------
 
@@ -2632,8 +2484,8 @@ CREATE TABLE `suppliers` (
 --
 
 INSERT INTO `suppliers` (`id`, `name`, `email`, `phone`, `address`, `organization`, `opening_payable`, `opening_receivable`, `current_balance`, `status`, `created_by_id`, `updated_by_id`, `created_at`, `updated_at`) VALUES
-(1, 'Karim Traders', NULL, '0178901789', NULL, 'Karim Traders', 0.00, 0.00, 0.00, '1', 1, NULL, '2025-06-14 14:16:27', '2025-06-14 14:17:16'),
-(2, 'Jamalpur Enterprise', NULL, '017122222', 'Mirpur 10', 'Jamalpur Enterprise', 0.00, 0.00, 29700.00, '1', 1, NULL, '2025-06-20 06:29:55', '2025-06-20 07:04:18');
+(1, 'Zena Ball', 'xuqozuker@mailinator.com', '01839317038', 'Architecto est accu', 'Carlson and Baird Trading', 0.00, 0.00, 0.00, '1', 1, NULL, '2025-09-22 10:13:44', '2025-09-22 10:13:44'),
+(2, 'Nita Faulkner', 'canaboby@mailinator.com', '0176464965', 'Modi perferendis seq', 'Marquez Rollins Co', 0.00, 0.00, 0.00, '1', 1, NULL, '2025-09-22 10:14:08', '2025-09-22 10:14:43');
 
 -- --------------------------------------------------------
 
@@ -2665,9 +2517,8 @@ CREATE TABLE `supplier_ledgers` (
 --
 
 INSERT INTO `supplier_ledgers` (`id`, `supplier_id`, `purchase_id`, `payment_id`, `account_id`, `particular`, `date`, `debit_amount`, `credit_amount`, `current_balance`, `reference_number`, `note`, `created_by_id`, `updated_by_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, NULL, NULL, 'Purchase', '2025-06-14', '12500.00', NULL, '12500.00', NULL, NULL, 1, NULL, '2025-06-14 14:17:16', '2025-06-14 14:17:16'),
-(2, 1, NULL, 1, 1, 'Payment', '2025-06-14', NULL, '12500.00', '0.00', NULL, NULL, 1, NULL, '2025-06-14 14:17:16', '2025-06-14 14:17:16'),
-(3, 2, 2, NULL, NULL, 'Purchase', '2025-06-20', '29700.00', NULL, '29700.00', NULL, 'Due', 1, NULL, '2025-06-20 07:04:18', '2025-06-20 07:04:18');
+(1, 2, 1, NULL, NULL, 'Purchase', '2025-09-22', '50.00', NULL, '50.00', NULL, NULL, 1, NULL, '2025-09-22 10:14:43', '2025-09-22 10:14:43'),
+(2, 2, NULL, 1, 1, 'Payment', '2025-09-22', NULL, '50.00', '0.00', NULL, NULL, 1, NULL, '2025-09-22 10:14:43', '2025-09-22 10:14:43');
 
 -- --------------------------------------------------------
 
@@ -2696,7 +2547,7 @@ CREATE TABLE `supplier_payments` (
 --
 
 INSERT INTO `supplier_payments` (`id`, `supplier_id`, `account_id`, `purchase_id`, `date`, `amount`, `reference_number`, `note`, `status`, `created_by_id`, `updated_by_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, '2025-06-14', 12500.00, NULL, NULL, 1, 1, NULL, '2025-06-14 14:17:16', '2025-06-14 14:17:16');
+(1, 2, 1, 1, '2025-09-22', 50.00, NULL, NULL, 1, 1, NULL, '2025-09-22 10:14:43', '2025-09-22 10:14:43');
 
 -- --------------------------------------------------------
 
@@ -3129,7 +2980,7 @@ ALTER TABLE `accounts`
 -- AUTO_INCREMENT for table `account_ledgers`
 --
 ALTER TABLE `account_ledgers`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `admins`
@@ -3165,7 +3016,7 @@ ALTER TABLE `bike_profit_share_records`
 -- AUTO_INCREMENT for table `bike_services`
 --
 ALTER TABLE `bike_services`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=124;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `bike_service_categories`
@@ -3189,13 +3040,13 @@ ALTER TABLE `branches`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `category_types`
 --
 ALTER TABLE `category_types`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `countries`
@@ -3207,19 +3058,19 @@ ALTER TABLE `countries`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `customer_ledgers`
 --
 ALTER TABLE `customer_ledgers`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `customer_payments`
 --
 ALTER TABLE `customer_payments`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `departments`
@@ -3297,19 +3148,19 @@ ALTER TABLE `investors`
 -- AUTO_INCREMENT for table `investor_ledgers`
 --
 ALTER TABLE `investor_ledgers`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
 
 --
 -- AUTO_INCREMENT for table `investor_transactions`
 --
 ALTER TABLE `investor_transactions`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `items`
 --
 ALTER TABLE `items`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `menus`
@@ -3339,13 +3190,13 @@ ALTER TABLE `parcel_items`
 -- AUTO_INCREMENT for table `parcel_transfers`
 --
 ALTER TABLE `parcel_transfers`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `parcel_transfer_details`
 --
 ALTER TABLE `parcel_transfer_details`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `parties`
@@ -3393,13 +3244,13 @@ ALTER TABLE `privileges`
 -- AUTO_INCREMENT for table `purchases`
 --
 ALTER TABLE `purchases`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `purchase_details`
 --
 ALTER TABLE `purchase_details`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `roles`
@@ -3411,7 +3262,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT for table `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `sale_details`
@@ -3429,13 +3280,13 @@ ALTER TABLE `shipment_boxes`
 -- AUTO_INCREMENT for table `shipment_box_items`
 --
 ALTER TABLE `shipment_box_items`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=68;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `stock_histories`
 --
 ALTER TABLE `stock_histories`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `suppliers`
@@ -3447,7 +3298,7 @@ ALTER TABLE `suppliers`
 -- AUTO_INCREMENT for table `supplier_ledgers`
 --
 ALTER TABLE `supplier_ledgers`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `supplier_payments`

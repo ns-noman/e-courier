@@ -177,13 +177,39 @@ class ParcelTransferController extends Controller
     
     public function receive($id)
     {
-        $transfer = ParcelTransfer::findOrFail($id);
-        $transfer->is_received = true;
-        $transfer->status = 'delivered';
-        $transfer->received_by_id = Auth::guard('admin')->user()->id;
-        $transfer->save();
+        DB::beginTransaction();
+        try {
+             $transfer = ParcelTransfer::findOrFail($id);
+            $details = ParcelTransferDetails::where('parcel_transfer_id', $id)->get();
+            foreach ($details as $detail) {
+                $shipmentBoxes = ShipmentBox::where('id', $detail->shipment_box_id)->get();
+                foreach ($shipmentBoxes as $box) {
+                    $shipmentBoxesItems = ShipmentBoxItem::where('box_shipment_id', $box->id)->get();
+                    foreach ($shipmentBoxesItems as $item) {
+                        $invoice = ParcelInvoice::find($item->invoice_id);
+                        if ($invoice) {
+                            $invoice->current_branch_id = $transfer->to_branch_id;
+                            $invoice->parcel_status = 'delivered';
+                            $invoice->save();
+                        }
+                    }
+                    $box->update([
+                        'status' => 'delivered',
+                        'current_branch_id' => $transfer->to_branch_id,
+                    ]);
+                }
+            }
 
-        return response()->json(['success' => true, 'message' => 'Parcel Received Successfully!']);
+            $transfer->is_received = 1;
+            $transfer->status = 'delivered';
+            $transfer->received_by_id = Auth::guard('admin')->user()->id;
+            $transfer->save();
+            DB::commit();
+            return response()->json(['success' => true, 'message' => 'Parcel Received Successfully!']);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json(['success' => false, 'message' => 'Receive failed: ' . $th->getMessage()], 500);
+        }
     }
     
     public function destroy($id)

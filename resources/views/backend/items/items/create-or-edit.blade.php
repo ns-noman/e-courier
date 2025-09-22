@@ -66,13 +66,13 @@
                                                     <label>Purchase Price *</label>
                                                     <input value="{{ isset($data['item']) ? $data['item']->purchase_price : null }}" type="number" class="form-control" name="purchase_price" placeholder="0.00" required>
                                                 </div>
-                                                <div class="form-group col-sm-12 col-md col-lg" id="price_div_id">
+                                                <div class="form-group col-sm-12 col-md col-lg" id="price_div_id" hidden>
                                                     <label>Sale Price *</label>
-                                                    <input value="{{ isset($data['item']) ? $data['item']->sale_price : null }}" type="number" class="form-control" name="sale_price" id="sale_price"  placeholder="0.00" required>
+                                                    <input value="{{ isset($data['item']) ? $data['item']->sale_price : 0 }}" type="number" class="form-control" name="sale_price" id="sale_price"  placeholder="0.00" required>
                                                 </div>
-                                                <div class="form-group col-sm-12 col-md col-lg" id="vat_div_id">
+                                                <div class="form-group col-sm-12 col-md col-lg" id="vat_div_id" hidden>
                                                     <label>Vat (%)</label>
-                                                    <input value="{{ isset($data['item']) ? $data['item']->vat : null }}" type="number" class="form-control" step="0.1" name="vat" id="vat"  placeholder="0.00">
+                                                    <input value="{{ isset($data['item']) ? $data['item']->vat : 0 }}" type="number" class="form-control" step="0.1" name="vat" id="vat"  placeholder="0.00">
                                                 </div>
                                                 <div class="form-group col-sm-12 col-md col-lg" {{ isset($data['item']) ? 'hidden' : null }}>
                                                     <label>Opening Stock</label>

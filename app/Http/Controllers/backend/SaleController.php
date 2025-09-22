@@ -20,7 +20,7 @@ use Auth;
 class SaleController extends Controller
 {
     protected $breadcrumb;
-    public function __construct(){$this->breadcrumb = ['title'=>'Sales'];}
+    public function __construct(){$this->breadcrumb = ['title'=>'Box Consume'];}
     public function index()
     {
       
