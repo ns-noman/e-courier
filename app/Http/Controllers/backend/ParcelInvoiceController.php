@@ -345,7 +345,7 @@ class ParcelInvoiceController extends Controller
             ->where('parcel_invoices.current_branch_id', $this->getUserInfo()->branch_id)
             ->select($select);
         if (!$request->has('order')) {
-            $query = $query->orderBy('parcel_invoices.updated_at', 'desc');
+            $query = $query->orderBy('parcel_invoices.is_packed', 'asc');
         }
 
         return DataTables::of($query)

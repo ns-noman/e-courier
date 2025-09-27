@@ -43,6 +43,9 @@
                                                     <option value="{{ $branch->id }}" 
                                                         @if(isset($data['item'])){{ $branch->id == $data['item']->to_branch_id ? 'selected' : null }}@endif>
                                                         {{ $branch->code }} - {{ $branch->title }}
+                                                        @if($branch->is_main_branch==1)
+                                                            (head office)
+                                                        @endif
                                                     </option>
                                                 @endforeach
                                             </select>

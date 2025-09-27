@@ -22,6 +22,7 @@
                                                 <tr>
                                                     <th>SN</th>
                                                     <th>Box No</th>
+                                                    <th>Box Title</th>
                                                     <th>Invoices</th>
                                                     <th>Origin Branch</th>
                                                     <th>Current Branch</th>
@@ -77,6 +78,15 @@
                             render: function(data, type, row, meta) {
                                 let view = `{{ route('shipment-boxes.invoice', ":id") }}`.replace(':id', row.id);
                                 return `<a href="${view}" class=""><b>${row.shipment_no}</b></a>`;
+                            }
+                        },
+                        {
+                            data: null, 
+                            name: null, 
+                            orderable: false, 
+                            searchable: false, 
+                            render: function(data, type, row, meta) {
+                                return row.boxes.box_name;
                             }
                         },
                         {

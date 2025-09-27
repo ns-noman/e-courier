@@ -12,6 +12,7 @@ use App\Models\ShipmentBoxItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\HtmlString;
 use DB;
 use Auth;
 
@@ -51,7 +52,7 @@ class ParcelTransferController extends Controller
         $data['shipment_boxes'] = ShipmentBox::where(['shipment_boxes.is_packed'=> 0, 'shipment_boxes.status'=> 'approved'])
                             ->select('shipment_boxes.id','shipment_boxes.shipment_no')
                             ->get();
-        $data['branches'] = Branch::where('status', 1)->where('id', '!=', $this->getUserInfo()->branch_id)->select(['code','title', 'id'])->get();
+        $data['branches'] = Branch::where('status', 1)->where('id', '!=', $this->getUserInfo()->branch_id)->select(['is_main_branch','code','title', 'id'])->get();
         $data['breadcrumb'] = $this->breadcrumb;
         return view('backend.parcel-transfers.create-or-edit',compact('data'));
     }
@@ -117,12 +118,26 @@ class ParcelTransferController extends Controller
     public function incomingList(Request $request)
     {
         $branch_id = Auth::guard('admin')->user()->branch_id;
-        $query = ParcelTransfer::with(['fromBranch', 'toBranch', 'creator', 'receiver'])
+        $query = ParcelTransfer::with(['parcelTransferDetails','fromBranch', 'toBranch', 'creator', 'receiver'])
                     ->where('to_branch_id', $branch_id);
         if (!$request->has('order')) {
             $query = $query->orderBy('id', 'desc');
         }
-        return DataTables::of($query)->make(true);
+        return DataTables::of($query)
+            ->addColumn('items', function ($query) {
+                $html = $query->parcelTransferDetails
+                    ->map(function ($item) {
+                        if ($item->boxes) {
+                            // $url = route('parcel-invoices.invoice', $item->invoice->id);
+                            $url = 'javascript:void(0)';
+                            return '<a href="' . $url . '" target="_blank"><b>#' . e($item->boxes->shipment_no) . '</b></a>';
+                        }
+                        return '';
+                    })
+                    ->implode(', ');
+                return new HtmlString($html);
+            })
+            ->make(true);
     }
 
     // ========== Incoming ==========
@@ -215,7 +230,7 @@ class ParcelTransferController extends Controller
     public function destroy($id)
     {
         try {
-            ParcelTransfer::destroy($id);
+            // ParcelTransfer::destroy($id);
             return redirect()->back()->with('alert', [
                 'messageType' => 'success',
                 'message' => 'Parcel Transfer Deleted successfully!'

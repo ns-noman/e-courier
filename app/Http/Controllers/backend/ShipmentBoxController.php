@@ -153,7 +153,7 @@ class ShipmentBoxController extends Controller
     }
     public function list(Request $request)
     {
-        $query = ShipmentBox::with(['shipmentBoxItems.invoice', 'fromBranch', 'toBranch', 'currentBranch'])
+        $query = ShipmentBox::with(['shipmentBoxItems.invoice', 'fromBranch', 'toBranch', 'currentBranch', 'boxes'])
                     ->where('current_branch_id', $this->getUserInfo()->branch_id);
 
         if (!$request->has('order')) {

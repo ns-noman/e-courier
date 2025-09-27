@@ -14,4 +14,11 @@ class ParcelTransferDetails extends Model
         'invoice_id',
         'note',
     ];
+    public function boxes()
+    {
+        return $this->belongsTo(ShipmentBox::class, 'shipment_box_id')->select([
+            'id',
+            'shipment_no',
+        ]);
+    }
 }

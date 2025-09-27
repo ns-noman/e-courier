@@ -40,6 +40,10 @@ class ShipmentBox extends Model
     {
         return $this->belongsTo(Branch::class, 'current_branch_id')->select(['id', 'title']);
     }
+    public function boxes()
+    {
+        return $this->belongsTo(Box::class, 'box_id')->select(['id','box_name', 'box_code']);
+    }
     
 
 }

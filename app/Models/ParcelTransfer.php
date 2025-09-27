@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ParcelTransfer extends Model
 {
@@ -21,35 +23,32 @@ class ParcelTransfer extends Model
         'received_by_id',
     ];
 
-    /**
-     * From Branch relation
-     */
+
     public function fromBranch()
     {
         return $this->belongsTo(Branch::class, 'from_branch_id');
     }
 
-    /**
-     * To Branch relation
-     */
     public function toBranch()
     {
         return $this->belongsTo(Branch::class, 'to_branch_id');
     }
 
-    /**
-     * Created by relation (admin user who created)
-     */
     public function creator()
     {
         return $this->belongsTo(Admin::class, 'created_by_id');
     }
 
-    /**
-     * Received by relation (admin user who received)
-     */
     public function receiver()
     {
         return $this->belongsTo(Admin::class, 'received_by_id');
     }
+    public function parcelTransferDetails()
+    {
+        return $this->hasMany(ParcelTransferDetails::class, 'parcel_transfer_id')->with('boxes')->select([
+            'id',
+            'shipment_box_id',
+        ]);
+    }
+
 }

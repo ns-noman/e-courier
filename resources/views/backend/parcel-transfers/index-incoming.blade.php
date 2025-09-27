@@ -22,6 +22,7 @@
                                                 <tr>
                                                     <th>SN</th>
                                                     <th>Transfer No</th>
+                                                    <th>Boxes</th>
                                                     <th>From Branch</th>
                                                     <th>To Branch</th>
                                                     <th>Transfer Date</th>
@@ -59,6 +60,14 @@
                     name: 'parcel_transfers.parcel_transfer_no',
                     render: function(data, type, row) {
                         return `<b>${data}</b>`;
+                    }
+                },
+                {
+                    data: 'items',
+                    orderable: false, 
+                    searchable: false, 
+                    render: function(data, type, row, meta) {
+                        return data;
                     }
                 },
                 {
