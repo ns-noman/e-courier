@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 27, 2025 at 04:35 AM
+-- Generation Time: Oct 08, 2025 at 12:29 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.2.28
 
@@ -323,9 +323,14 @@ CREATE TABLE `boxes` (
   `id` bigint UNSIGNED NOT NULL,
   `box_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `box_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `box_type` enum('small','medium','large') COLLATE utf8mb4_unicode_ci NOT NULL,
-  `weight` decimal(10,2) DEFAULT NULL COMMENT 'Weight in kg',
-  `dimensions` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `box_type` enum('Domestic','International') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'International',
+  `height_cm` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `width_cm` decimal(10,2) DEFAULT '0.00',
+  `length_cm` decimal(10,2) NOT NULL DEFAULT '0.00',
+  `volume_weight` decimal(10,2) DEFAULT '0.00',
+  `box_weight` decimal(10,2) DEFAULT '0.00' COMMENT 'Weight in kg',
+  `total_weight` decimal(10,2) DEFAULT '0.00',
+  `cbm` decimal(10,4) DEFAULT '0.0000',
   `status` tinyint(1) NOT NULL DEFAULT '1',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -335,18 +340,20 @@ CREATE TABLE `boxes` (
 -- Dumping data for table `boxes`
 --
 
-INSERT INTO `boxes` (`id`, `box_name`, `box_code`, `box_type`, `weight`, `dimensions`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Small Box A', 'BX-S-01', 'medium', '1.20', '20x15x10 cm', 1, NULL, NULL),
-(2, 'Small Box B', 'BX-S-02', 'small', '1.30', '21x16x11 cm', 1, NULL, NULL),
-(3, 'Small Box C', 'BX-S-03', 'small', '1.25', '22x17x12 cm', 1, NULL, NULL),
-(4, 'Small Box D', 'BX-S-04', 'small', '1.10', '19x14x9 cm', 1, NULL, NULL),
-(5, 'Medium Box A', 'BX-M-01', 'medium', '3.50', '40x30x20 cm', 1, NULL, NULL),
-(6, 'Medium Box B', 'BX-M-02', 'medium', '3.80', '42x32x22 cm', 1, NULL, NULL),
-(7, 'Medium Box C', 'BX-M-03', 'medium', '4.00', '45x35x25 cm', 1, NULL, NULL),
-(8, 'Large Box A', 'BX-L-01', 'large', '6.50', '60x45x40 cm', 1, NULL, NULL),
-(9, 'Large Box B', 'BX-L-02', 'large', '7.00', '65x50x45 cm', 1, NULL, NULL),
-(10, 'Large Box C', 'BX-L-03', 'large', '7.20', '70x55x50 cm', 1, NULL, NULL),
-(11, 'Large Box D', 'BX-L-04', 'large', '7.80', '75x60x55 cm', 1, NULL, NULL);
+INSERT INTO `boxes` (`id`, `box_name`, `box_code`, `box_type`, `height_cm`, `width_cm`, `length_cm`, `volume_weight`, `box_weight`, `total_weight`, `cbm`, `status`, `created_at`, `updated_at`) VALUES
+(1, 'Small Box A', 'BX-S-01', 'International', '0.00', '0.00', '0.00', '0.00', '1.20', '0.00', '0.0000', 1, NULL, NULL),
+(2, 'Small Box B', 'Small Box B', 'Domestic', '5.00', '74.00', '31.00', '2.29', '46.00', '2.34', '0.0115', 1, NULL, '2025-10-08 12:23:22'),
+(3, 'Small Box C', 'BX-S-03', 'International', '0.00', '0.00', '0.00', '0.00', '1.25', '0.00', '0.0000', 1, NULL, NULL),
+(4, 'Small Box D', 'BX-S-04', 'International', '0.00', '0.00', '0.00', '0.00', '1.10', '0.00', '0.0000', 1, NULL, NULL),
+(5, 'Medium Box A', 'BX-M-01', 'International', '0.00', '0.00', '0.00', '0.00', '3.50', '0.00', '0.0000', 1, NULL, NULL),
+(6, 'Medium Box B', 'BX-M-02', 'International', '0.00', '0.00', '0.00', '0.00', '3.80', '0.00', '0.0000', 1, NULL, NULL),
+(7, 'Medium Box C', 'BX-M-03', 'International', '20.00', '50.00', '30.00', '6.00', '4.00', '6.00', '0.0300', 1, NULL, '2025-10-08 12:20:16'),
+(8, 'Large Box A', 'BX-L-01', 'International', '0.00', '0.00', '0.00', '0.00', '6.50', '0.00', '0.0000', 1, NULL, NULL),
+(9, 'Large Box B', 'BX-L-02', 'International', '0.00', '0.00', '0.00', '0.00', '7.00', '0.00', '0.0000', 1, NULL, NULL),
+(10, 'Large Box C', 'BX-L-03', 'International', '10.00', '12.00', '14.00', '0.34', '100.00', '0.44', '0.0017', 1, NULL, '2025-10-08 12:17:30'),
+(11, 'Small Box A', 'Small Box A', 'Domestic', '74.00', '5.00', '4.00', '0.30', '6.00', '0.30', '0.0015', 1, NULL, '2025-10-08 12:24:04'),
+(12, 'Clare Frazier', 'Enim atque voluptas', 'International', '86.00', '73.00', '87.01', '109.25', '200.00', '109.45', '0.5462', 1, '2025-10-08 12:05:46', '2025-10-08 12:16:42'),
+(13, 'Small Box A', 'Small Box A', 'Domestic', '54.00', '35.00', '20.00', '7.56', '100.00', '7.66', '0.0378', 1, '2025-10-08 12:09:42', '2025-10-08 12:23:40');
 
 -- --------------------------------------------------------
 
@@ -3017,7 +3024,7 @@ ALTER TABLE `bike_service_categories`
 -- AUTO_INCREMENT for table `boxes`
 --
 ALTER TABLE `boxes`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT for table `branches`

@@ -13,8 +13,13 @@ class Box extends Model
         'box_name',
         'box_code',
         'box_type',
-        'weight',
-        'dimensions',
+        'height_cm',
+        'width_cm',
+        'length_cm',
+        'volume_weight',
+        'box_weight',
+        'total_weight',
+        'cbm',
         'status',
     ];
 }
