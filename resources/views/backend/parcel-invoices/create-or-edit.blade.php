@@ -44,142 +44,245 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="form-group col-sm-3 col-md-3 col-lg-3">
-                                            <label>HAWB No <span class="text-danger">*</span></label>
-                                            <input value="{{ $data['item']->hawb_no ?? '' }}" type="text" name="hawb_no" class="form-control" placeholder="House Air Waybill No" required>
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                                    <label>Reference</label>
+                                                    <input value="{{ $data['item']->reference ?? '' }}" type="text" name="reference" class="form-control" placeholder="Reference">
+                                                </div>
+
+                                                <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                                    <label>Pieces <span class="text-danger">*</span></label>
+                                                    <input value="{{ $data['item']->pieces ?? '' }}" type="number" name="pieces" class="form-control" placeholder="Total Pieces" required>
+                                                </div>
+
+                                                <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                                    <label>Product Value</label>
+                                                    <input value="{{ $data['item']->product_value ?? '' }}" type="number" name="product_value" class="form-control" placeholder="Value in BDT">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                                    <label>Payment Mode <span class="text-danger">*</span></label>
+                                                    <select name="payment_mode" class="form-control" required>
+                                                        <option value="">Select Mode</option>
+                                                        <option value="Prepaid" {{ isset($data['item']) && $data['item']->payment_mode == 'Prepaid' ? 'selected' : '' }}>Prepaid</option>
+                                                        <option value="Collect" {{ isset($data['item']) && $data['item']->payment_mode == 'Collect' ? 'selected' : '' }}>Collect</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="form-group col-sm-6 col-md-6 col-lg-6">
+                                                    <label>Item Type <span class="text-danger">*</span></label>
+                                                    <select name="item_type" class="form-control" required>
+                                                        <option value="">Select Type</option>
+                                                        <option value="SPX" {{ isset($data['item']) && $data['item']->item_type == 'SPX' ? 'selected' : '' }}>SPX</option>
+                                                        <option value="DOCS" {{ isset($data['item']) && $data['item']->item_type == 'DOCS' ? 'selected' : '' }}>DOCS</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="form-group col-sm-12 col-md-12 col-lg-12 mt-3">
+                                                    <div class="table-responsive">
+                                                        <table id="table-item"
+                                                            class="table table-striped table-bordered table-centre p-0 m-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th width="5%">SN</th>
+                                                                    <th width="30%">
+                                                                        <div class="d-flex justify-content-center align-items-center gap-1">
+                                                                            Item Name: 
+                                                                            <input type="text" class="form-control form-control-sm" id="item_name_input" placeholder="Item Name">
+                                                                            <input type="hidden" id="item_name_temp">
+                                                                            <input type="hidden" id="item_id_temp">
+                                                                        </div>
+                                                                    </th>
+                                                                    <th width="10%">Quantity</th>
+                                                                    <th width="10%">Unit Price</th>
+                                                                    <th width="10%">Sub Total</th>
+                                                                    <th width="5%">Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbody">
+                                                                @if(isset($data['parcelInvoiceDetails']))
+                                                                    @foreach ($data['parcelInvoiceDetails'] as $pid)
+                                                                        <tr>
+                                                                            <td class="serial">{{ $loop->iteration }}</td>
+                                                                            <td class="text-left">
+                                                                            {{ ucwords($pid['item_name']) }}
+                                                                                <input type="hidden" value="{{  $pid['item_id'] }}" name="item_id[]">
+                                                                            </td>
+                                                                            <td><input type="number" value="{{ $pid['quantity'] }}"
+                                                                                    class="form-control form-control-sm calculate"
+                                                                                    name="quantity[]" placeholder="0.00" required>
+                                                                            </td>
+                                                                            <td><input type="number" value="{{ $pid['unit_price'] }}"
+                                                                                    class="form-control form-control-sm calculate"
+                                                                                    name="unit_price[]" placeholder="0.00" required>
+                                                                            </td>
+                                                                            <td><input type="number"
+                                                                                    value="{{ $pid['unit_price'] * $pid['quantity'] }}"
+                                                                                    class="form-control form-control-sm"
+                                                                                    name="sub_total[]" placeholder="0.00" disabled>
+                                                                            </td>
+                                                                            <td><button class="btn btn-sm btn-danger btn-del"
+                                                                                    type="button"><i
+                                                                                        class="fa-solid fa-trash btn-del"></i></button>
+                                                                            </td>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                @else
+                                                                    <tr id="no_item_row_item" class="bg-dark">
+                                                                        <td colspan="6"><b>No items added yet...</b></td>
+                                                                    </tr>
+                                                                @endif
+                                                            </tbody>
+                                                            <footer>
+                                                                <tr>
+                                                                    <th colspan="4" class="text-left">Total Price</th>
+                                                                    <th><input type="number" id="total_price" name="total_price" class="form-control form-control-sm" value="{{ isset($data['item']) ? $data['item']->total_price : '0.00' }}" placeholder="0.00" readonly></th>
+                                                                    <th></th>
+                                                                </tr>
+                                                            </footer>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
 
-                                        <div class="form-group col-sm-3 col-md-3 col-lg-3">
-                                            <label>Reference</label>
-                                            <input value="{{ $data['item']->reference ?? '' }}" type="text" name="reference" class="form-control" placeholder="Reference">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-sm-9 col-md-9 col-lg-8">
+                                                    <div class="row">
+                                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                                            <label>Length (cm) <span class="text-danger">*</span></label>
+                                                            <input value="{{ $data['item']->length ?? '' }}" type="number" min="1" step="1" name="length" id="length" class="form-control" placeholder="Length in cm" required>
+                                                        </div>
+
+                                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                                            <label>Height (cm) <span class="text-danger">*</span></label>
+                                                            <input value="{{ $data['item']->height ?? '' }}" type="number" min="1" step="1" name="height" id="height" class="form-control" placeholder="Height in cm" required>
+                                                        </div>
+
+                                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                                            <label>Width (cm) <span class="text-danger">*</span></label>
+                                                            <input value="{{ $data['item']->width ?? '' }}" type="number" min="1" step="1" name="width"  id="width" class="form-control" placeholder="Width in cm" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-sm-3 col-md-3 col-lg-4">
+                                                    <label>Gross Volume Weight (kg)</label>
+                                                    <input value="{{ $data['item']->gross_volume_weight ?? '' }}" type="number" step="0.01" name="gross_volume_weight" id="gross_volume_weight" class="form-control" placeholder="Weight in kg" readonly>
+                                                </div>
+                                            </div>
                                         </div>
 
-                                        <div class="form-group col-sm-3 col-md-3 col-lg-3">
-                                            <label>Pieces <span class="text-danger">*</span></label>
-                                            <input value="{{ $data['item']->pieces ?? '' }}" type="number" name="pieces" class="form-control" placeholder="Total Pieces" required>
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                                    <label>Physical Weight (kg) <span class="text-danger">*</span></label>
+                                                    <input value="{{ $data['item']->physical_weight_kg ?? '' }}" type="number" min="0" step="1" id="physical_weight_kg" class="form-control" placeholder="Kg" required>
+                                                </div>
+                                                <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                                    <label>Physical Weight (gm) <span class="text-danger">*</span></label>
+                                                    <input value="{{ $data['item']->physical_weight_gm ?? '' }}" type="number" min="0" max="999" step="1" id="physical_weight_gm" class="form-control" placeholder="Gm" required>
+                                                </div>
+                                                <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                                    <label>Gross Physical Weight (kg)</label>
+                                                    <input value="{{ $data['item']->gross_physical_weight ?? '' }}" type="number" step="0.01" name="gross_physical_weight" id="gross_physical_weight" class="form-control" placeholder="Gross Weight in Kg" readonly>
+                                                </div>
+                                            </div>
                                         </div>
 
-                                        <div class="form-group col-sm-3 col-md-3 col-lg-3">
-                                            <label>Product Value</label>
-                                            <input value="{{ $data['item']->product_value ?? '' }}" type="number" name="product_value" class="form-control" placeholder="Value in BDT">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                                    <label>Billing Weight (kg)</label>
+                                                    <input value="{{ $data['item']->billing_weight_kg ?? '' }}" type="number" id="billing_weight_kg" class="form-control" placeholder="Kg" readonly>
+                                                </div>
+                                                <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                                    <label>Billing Weight (gm)</label>
+                                                    <input value="{{ $data['item']->billing_weight_gm ?? '' }}" type="number" id="billing_weight_gm" class="form-control" placeholder="Gm" readonly>
+                                                </div>
+                                                <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                                    <label>Gross Billing Weight (kg)</label>
+                                                    <input value="{{ $data['item']->gross_billing_weight ?? '' }}" type="number" step="0.01" name="gross_billing_weight" id="gross_billing_weight" class="form-control" placeholder="Gross Weight in Kg" required readonly>
+                                                </div>
+                                            </div>
                                         </div>
-
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>Billing Weight (kg) <span class="text-danger">*</span></label>
-                                            <input value="{{ $data['item']->billing_weight_kg ?? '' }}" type="number" name="billing_weight_kg" id="billing_weight_kg" class="form-control" placeholder="Kg" required>
-                                        </div>
-
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>Billing Weight (gm) <span class="text-danger">*</span></label>
-                                            <input value="{{ $data['item']->billing_weight_gm ?? '' }}" type="number" name="billing_weight_gm" id="billing_weight_gm" class="form-control" placeholder="Gm" required>
-                                        </div>
-
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>Gross Weight (kg)</label>
-                                            <input value="{{ $data['item']->gross_weight_kg ?? '' }}" type="number" step="0.01" name="gross_weight_kg" id="gross_weight_kg" class="form-control" placeholder="Gross Weight in Kg" readonly>
-                                        </div>
-
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>Payment Mode <span class="text-danger">*</span></label>
-                                            <select name="payment_mode" class="form-control" required>
-                                                <option value="">Select Mode</option>
-                                                <option value="Prepaid" {{ isset($data['item']) && $data['item']->payment_mode == 'Prepaid' ? 'selected' : '' }}>Prepaid</option>
-                                                <option value="Collect" {{ isset($data['item']) && $data['item']->payment_mode == 'Collect' ? 'selected' : '' }}>Collect</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>COD Amount <span class="text-danger">*</span></label>
-                                            <input value="{{ $data['item']->cod_amount ?? '' }}" type="number" step="0.01" name="cod_amount" class="form-control" placeholder="Cash On Delivery Amount" required>
-                                        </div>
-
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>Item Type <span class="text-danger">*</span></label>
-                                            <select name="item_type" class="form-control" required>
-                                                <option value="">Select Type</option>
-                                                <option value="SPX" {{ isset($data['item']) && $data['item']->item_type == 'SPX' ? 'selected' : '' }}>SPX</option>
-                                                <option value="DOCS" {{ isset($data['item']) && $data['item']->item_type == 'DOCS' ? 'selected' : '' }}>DOCS</option>
-                                            </select>
-                                        </div>
-
-                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                            <label>All Item Names</label>
-                                            <input value="{{ $data['item']->all_item_names ?? '' }}" type="text" name="all_item_names" class="form-control" placeholder="All Item Names">
-                                        </div>
-
-                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                            <label>Item Description</label>
-                                            <textarea name="item_description" class="form-control" placeholder="Item Description" rows="1">{{ $data['item']->item_description ?? '' }}</textarea>
-                                        </div>
-
-                                        <div class="form-group col-sm-3 col-md-3 col-lg-3">
-                                            <label>Length (cm)</label>
-                                            <input value="{{ $data['item']->length ?? '' }}" type="number" step="0.01" name="length" id="length" class="form-control" placeholder="Length in cm">
-                                        </div>
-
-                                        <div class="form-group col-sm-3 col-md-3 col-lg-3">
-                                            <label>Height (cm)</label>
-                                            <input value="{{ $data['item']->height ?? '' }}" type="number" step="0.01" name="height" id="height" class="form-control" placeholder="Height in cm">
-                                        </div>
-
-                                        <div class="form-group col-sm-3 col-md-3 col-lg-3">
-                                            <label>Width (cm)</label>
-                                            <input value="{{ $data['item']->width ?? '' }}" type="number" step="0.01" name="width"  id="width" class="form-control" placeholder="Width in cm">
-                                        </div>
-
-                                        <div class="form-group col-sm-3 col-md-3 col-lg-3">
-                                            <label>Weight (kg)</label>
-                                            <input value="{{ $data['item']->weight ?? '' }}" type="number" step="0.01" name="weight" id="weight" class="form-control" placeholder="Weight in kg" readonly>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card card-primary">
-                                <div class="card-header">
-                                    <h3 class="card-title">Service Information</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>Hub ID <span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="hub_id" placeholder="Enter Hub ID"
-                                                value="{{ isset($data['item']) ? $data['item']->hub_id : '' }}" required>
-                                        </div>
-
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>Flight <span class="text-danger">*</span></label>
-                                            <select class="form-control select2" id="flight_id" name="flight_id" required>
-                                                <option value="">Select Flight</option>
-                                                @foreach ($data['flights'] as $flight)
-                                                    <option value="{{ $flight->id }}"
-                                                        {{ isset($data['item']) ? ($data['item']->flight_id == $flight->id ? 'selected' : null) : null }}>
-                                                        {{ $flight->flight_name }} ({{ $flight->flight_code }})
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>Service ID <span class="text-danger">*</span></label>
-                                            <input type="number" class="form-control" name="service_id" placeholder="Enter Service ID"
-                                                value="{{ isset($data['item']) ? $data['item']->service_id : '' }}" required>
-                                        </div>
-
-                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                            <label>Payment Type <span class="text-danger">*</span></label>
-                                            <select name="payment_type" class="form-control" required>
-                                                <option value="">Select Payment Type</option>
-                                                <option value="Cash" {{ isset($data['item']) && $data['item']->payment_type == 'Cash' ? 'selected' : '' }}>Cash</option>
-                                                <option value="Due" {{ isset($data['item']) && $data['item']->payment_type == 'Due' ? 'selected' : '' }}>Due</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                            <label>USA Country Code</label>
-                                            <input type="text" class="form-control" name="usa_country_code" placeholder="e.g. US, CA"
-                                            value="{{ isset($data['item']) ? $data['item']->usa_country_code : '' }}">
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="form-group col-sm-12 col-md-12 col-lg-12 mt-3">
+                                                    <div class="table-responsive">
+                                                        <table id="table-box" class="table table-striped table-bordered table-centre p-0 m-0">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th width="5%">SN</th>
+                                                                    <th width="30%">
+                                                                        <div class="d-flex justify-content-center align-items-center gap-1">
+                                                                            <label>Box:&nbsp;</label>
+                                                                            <select class="form-control form-control-sm select2" id="box_id" name="box_id" required>
+                                                                                <option value="" selected>Select Box</option>
+                                                                                @foreach($data['boxes'] as $key => $box)
+                                                                                    <option value="{{ $box->id }}" 
+                                                                                        data-total_weight="{{ $box->total_weight }}"
+                                                                                        @if(isset($data['item']) && $box->id == $data['item']->box_id) selected
+                                                                                        @endif>
+                                                                                        {{ $box->box_name }} : {{ round($box->length_cm) }}×{{ round($box->width_cm) }}×{{ round($box->height_cm) }} cm, {{ $box->total_weight }} kg
+                                                                                    </option>
+                                                                                @endforeach
+                                                                            </select>
+                                                                        </div>
+                                                                    </th>
+                                                                    <th width="30%">Box Weight (kg)</th>
+                                                                    <th width="10%">Box Dimension (cm)</th>
+                                                                    <th width="5%">Action</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id="tbody-box">
+                                                                @if(isset($data['parcelBoxes']) && count($data['parcelBoxes']) > 0)
+                                                                    @foreach ($data['parcelBoxes'] as $index => $box)
+                                                                        <tr>
+                                                                            <td class="serial">{{ $loop->iteration }}</td>
+                                                                            <td>
+                                                                                {{ $box->box_name }} 
+                                                                                <input type="hidden" name="box_id[]" value="{{ $box->id }}">
+                                                                            </td>
+                                                                            <td>
+                                                                                <input type="number" 
+                                                                                    name="box_weight[]" 
+                                                                                    value="{{ $box->gross_physical_weight_kg ?? 0 }}" 
+                                                                                    step="0.001" 
+                                                                                    class="form-control form-control-sm text-center" 
+                                                                                    placeholder="0.000" 
+                                                                                    required>
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                {{ round($box->length_cm, 1) }} × {{ round($box->width_cm, 1) }} × {{ round($box->height_cm, 1) }} cm
+                                                                                <input type="hidden" name="length_cm[]" value="{{ $box->length_cm }}">
+                                                                                <input type="hidden" name="width_cm[]" value="{{ $box->width_cm }}">
+                                                                                <input type="hidden" name="height_cm[]" value="{{ $box->height_cm }}">
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <button type="button" class="btn btn-sm btn-danger btn-del">
+                                                                                    <i class="fa-solid fa-trash"></i>
+                                                                                </button>
+                                                                            </td>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                @else
+                                                                    <tr id="no_item_row_box" class="bg-secondary text-center">
+                                                                        <td colspan="5"><b>No box added yet...</b></td>
+                                                                    </tr>
+                                                                @endif
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -247,10 +350,10 @@
                                                 placeholder="+8801XXXXXXXXX">
                                         </div>
                                         <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                            <label>Email</label>
+                                            <label>Email <span class="text-danger">*</span></label>
                                             <input value="{{ isset($data['item']) ? $data['item']->sender_email : null }}"
                                                 type="email" class="form-control" name="sender_email"
-                                                placeholder="example@gmail.com">
+                                                placeholder="example@gmail.com" required>
                                         </div>
                                     </div>
 
@@ -310,35 +413,10 @@
                                                 placeholder="+8801XXXXXXXXX" required>
                                         </div>
                                         <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                            <label>Email</label>
+                                            <label>Email <span class="text-danger">*</span></label>
                                             <input value="{{ isset($data['item']) ? $data['item']->receiver_email : null }}"
                                                 type="email" class="form-control" name="receiver_email"
-                                                placeholder="example@gmail.com">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="card card-primary">
-                                <div class="card-header">
-                                    <h3 class="card-title">Booking & Export Date</h3>
-                                </div>
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                            <label>Booking Date <span class="text-danger">*</span></label>
-                                            <input name="booking_date" id="booking_date" type="date"
-                                                value="{{ isset($data['item']) ? $data['item']->booking_date : date('Y-m-d') }}"
-                                                class="form-control" required>
-                                        </div>
-                                        <div class="form-group col-sm-6 col-md-6 col-lg-6">
-                                            <label>Export Date <span class="text-danger">*</span></label>
-                                            <input name="export_date" id="export_date" type="date"
-                                                value="{{ isset($data['item']) ? $data['item']->export_date : date('Y-m-d') }}"
-                                                class="form-control" required>
+                                                placeholder="example@gmail.com" required>
                                         </div>
                                     </div>
                                 </div>
@@ -367,6 +445,13 @@
                                                 value="{{ isset($data['item']) ? \Carbon\Carbon::parse($data['item']->picked_up_date_time)->format('Y-m-d\TH:i') : '' }}"
                                                 required>
                                         </div>
+                                        
+                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
+                                            <label>Export Date <span class="text-danger">*</span></label>
+                                            <input name="export_date" id="export_date" type="date"
+                                                value="{{ isset($data['item']) ? $data['item']->export_date : date('Y-m-d') }}"
+                                                class="form-control" required>
+                                        </div>
 
                                         <div class="form-group col-sm-4 col-md-4 col-lg-4">
                                             <label>MAWB No</label>
@@ -375,33 +460,14 @@
                                                 placeholder="Master Air Waybill Number">
                                         </div>
 
-                                        <div class="form-group col-sm-12 col-md-12 col-lg-12">
+                                        <div class="form-group col-sm-8 col-md-8 col-lg-8">
                                             <label>Remarks</label>
                                             <textarea class="form-control" name="remarks" placeholder="Enter any remarks"
                                                 rows="1">{{ isset($data['item']) ? $data['item']->remarks : '' }}</textarea>
                                         </div>
 
                                     </div>
-                                    <div class="row">
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>Showing Weight (kg)</label>
-                                            <input type="number" class="form-control" id="showing_weight_kgs" name="showing_weight_kgs"
-                                                value="{{ isset($data['item']) ? $data['item']->showing_weight_kgs : '' }}"
-                                                placeholder="e.g. 5">
-                                        </div>
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>Showing Weight (gm)</label>
-                                            <input type="number" class="form-control" id="showing_weight_gms" name="showing_weight_gms"
-                                                value="{{ isset($data['item']) ? $data['item']->showing_weight_gms : '' }}"
-                                                placeholder="e.g. 500">
-                                        </div>
-                                        <div class="form-group col-sm-4 col-md-4 col-lg-4">
-                                            <label>Total Showing Weight (kg)</label>
-                                            <input type="number" class="form-control" id="showing_weight_kgs_total" name="showing_weight_kgs_total"
-                                                value="{{ isset($data['item']) ? $data['item']->showing_weight_kgs_total : '' }}"
-                                                placeholder="e.g. 5.50" readonly>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -417,25 +483,286 @@
 @section('script')
 <script>
     $(document).ready(function() {
-        $('#length, #height, #width').on('input', ()=>{
+        $('#length, #height, #width, #billing_weight_kg, #billing_weight_gm, #physical_weight_kg, #physical_weight_gm').on('input', ()=>{
             const length = parseInt($('#length').val()) | 0;
             const height = parseInt($('#height').val()) | 0;
             const width = parseInt($('#width').val()) | 0;
-            let weight = (length * height * width) / 5000;
-            $('#weight').val(fNum(weight));
+            let gross_volume_weight = (length * height * width) / 5000;
+            $('#gross_volume_weight').val(gross_volume_weight); 
+            
+            const physical_weight_kg = parseInt($("#physical_weight_kg").val()) | 0;
+            const physical_weight_gm = parseInt($("#physical_weight_gm").val()) | 0;
+            let gross_physical_weight = parseInt(physical_weight_kg) + (parseInt(physical_weight_gm)/1000);
+            
+            $('#gross_physical_weight').val(gross_physical_weight); 
+
+            if(gross_volume_weight || gross_physical_weight){
+                let gross_billing_weight = parseFloat(gross_volume_weight) > parseFloat(gross_physical_weight) ? gross_volume_weight : gross_physical_weight;
+                let billing_weight_kg = parseInt(gross_billing_weight);
+                let billing_weight_gm = parseInt((gross_billing_weight - billing_weight_kg) * 1000);
+                $('#billing_weight_kg').val(billing_weight_kg);
+                $('#billing_weight_gm').val(billing_weight_gm);
+                $('#gross_billing_weight').val(gross_billing_weight);
+            }
         });
-        $('#billing_weight_kg, #billing_weight_gm').on('input', ()=>{
-            const billing_weight_kg = parseInt($('#billing_weight_kg').val()) | 0;
-            const billing_weight_gm = parseInt($('#billing_weight_gm').val()) | 0;
-            let gross_weight_kg = billing_weight_kg + (billing_weight_gm/1000);
-            $('#gross_weight_kg').val(fNum(gross_weight_kg));
+        $("#box_id").on("change", function (e) {
+            e.preventDefault();
+            let box_id = $("#box_id").val();
+            if (box_id) {
+                generateBoxRow();
+                $("#box_id").val('').trigger('change');
+                let no_item_row_box = $("#no_item_row_box");
+                if (no_item_row_box) {
+                    no_item_row_box.remove();
+                }
+            }
         });
-        $('#showing_weight_kgs, #showing_weight_gms').on('input', ()=>{
-            const showing_weight_kgs = parseInt($('#showing_weight_kgs').val()) | 0;
-            const showing_weight_gms = parseInt($('#showing_weight_gms').val()) | 0;
-            let showing_weight_kgs_total = showing_weight_kgs + (showing_weight_gms/1000);
-            $('#showing_weight_kgs_total').val(fNum(showing_weight_kgs_total));
+
+       
+    });
+
+    $('#tbody').bind('click', function(e) {
+        $(e.target).is('.btn-del') && e.target.closest('tr').remove();
+        $(".serial").each(function(index) {
+            $(this).html(index + 1);
+        });
+        calculate();
+    });
+
+
+    function generateBoxRow() {
+        let box_id = $('#box_id').val();
+        let box_text = $('#box_id option:selected').text();
+        let box_weight = $('#box_id option:selected').attr('data-total_weight')  || 0;
+        let tbody = '';
+        tbody += `<tr>
+                    <td class="serial"></td>
+
+                    <!-- Box name -->
+                    <td>
+                        ${box_text}
+                        <input type="hidden" name="box_id[]" value="${box_id}">
+                    </td>
+
+                    <!-- Box weight -->
+                    <td>
+                        <input type="number" name="box_weight[]" value="${box_weight}" 
+                            step="0.001" 
+                            class="form-control form-control-sm text-center calculate-weight" 
+                            placeholder="0.000" required>
+                    </td>
+
+                    <!-- Box dimensions (display only) -->
+                    <td class="text-center">
+                        ${getBoxDimensions(box_text)}
+                    </td>
+
+                    <!-- Action -->
+                    <td class="text-center">
+                        <button type="button" class="btn btn-sm btn-danger btn-del">
+                            <i class="fa-solid fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>`;
+
+        $('#tbody-box').append(tbody);
+
+        $(".serial").each(function(index) {
+            $(this).html(index + 1);
+        });
+    }
+
+    function getBoxDimensions(box_text) {
+        let parts = box_text.split(':');
+        return parts.length > 1 ? parts[1].trim() : '';
+    }
+
+
+
+</script>
+
+<script>
+    $('#table-item').bind('keyup, input', function(e) {
+        if ($(e.target).is('.calculate')) {
+            calculate();
+        }
+    });
+    $('#tbody').bind('click', function(e) {
+        $(e.target).is('.btn-del') && e.target.closest('tr').remove();
+        $(".serial").each(function(index) {
+            $(this).html(index + 1);
+        });
+        calculate();
+    });
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $("#item_name_input").autocomplete({
+        source: function(request, response) {
+            $.ajax({
+                url: "{{ route('parcel-invoices.items') }}",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    search: request.term
+                },
+                success: function(data) {
+                    console.log(data);
+                    response(data);
+                    
+                }
+            });
+        },
+
+        change: function(event, ui) {
+            if (!ui.item) {
+                event.currentTarget.value = '';
+                event.currentTarget.focus();
+            }
+        },
+        select: function(event, ui) {
+            $('#item_name_input').val(ui.item.label);
+            $('#item_name_temp').val(ui.item.label);
+            $('#item_id_temp').val(ui.item.item_id);
+            return false;
+        }
+    });
+
+
+    $("#item_name_input").on("keydown", async function (e) {
+        if (e.key === "Enter" || e.keyCode === 13) {
+            e.preventDefault();
+
+            const item_name_input = $("#item_name_input").val();
+            const item_name_temp = $("#item_name_temp").val();
+            const item_id_temp = $("#item_id_temp").val();
+
+            if(item_name_input){
+                if(!item_id_temp && item_name_input){
+                    const item = await storeItem(item_name_input);
+                    $("#item_name_temp").val(item.name);
+                    $("#item_id_temp").val(item.id);
+                }
+                generateRow();
+                $("#item_name_input").val('');
+                $("#item_name_temp").val('');
+                $("#item_id_temp").val('');
+                let no_item_row_item = $("#no_item_row_item");
+                if(no_item_row_item){
+                    no_item_row_item.remove();
+                }
+            }
+        }
+    });
+
+    function generateRow()
+    {
+        let item_id = $('#item_id_temp').val();
+        let item_name = $('#item_name_temp').val();
+        let item_price = null;
+        let unit_price_temp = null;
+        let quantity_temp = 1;
+        let total_temp = unit_price_temp * quantity_temp;
+        let tbody = ``;
+
+        if (checkDuplicate(item_id)) {
+            duplicateAlert();
+            return;
+        }
+
+        tbody += `<tr>
+                    <td class="serial"></td>
+                    <td class="text-left">
+                        ${item_name}
+                        <input type="hidden" value="${item_id}" name="item_id[]">
+                    </td>
+                    <td><input type="number" value="${quantity_temp}" class="form-control form-control-sm calculate" name="quantity[]" placeholder="0.00" required></td>
+                    <td><input type="number" value="${unit_price_temp}" class="form-control form-control-sm calculate" name="unit_price[]" placeholder="0.00" required></td>
+                    <td><input type="number" value="${total_temp}" class="form-control form-control-sm" name="sub_total[]" placeholder="0.00" disabled></td>
+                    <td><button class="btn btn-sm btn-danger btn-del" type="button"><i class="fa-solid fa-trash btn-del"></i></button></td>
+                </tr>`;
+
+        $('#tbody').append(tbody);
+        $(".serial").each(function(index) {
+            $(this).html(index + 1);
+        });
+        calculate();
+    }
+
+    async function storeItem(itemName)
+    {
+        try {
+            const item = await $.ajax({
+                url: "{{ route('parcel-invoices.store-new-item') }}",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    name: itemName,
+                }
+            });
+            return item;
+        } catch (error) {
+            console.error("Error: ", error);
+            return null
+        }
+    }
+    $('#tbody').bind('click', function(e) {
+        $(e.target).is('.btn-del') && e.target.closest('tr').remove();
+        $(".serial").each(function(index) {
+            $(this).html(index + 1);
         });
     });
+    
+    function checkDuplicate(item_id) {
+        let isDuplicate = false;
+        $('#tbody tr').each(function() {
+            let existingItemId = $(this).find('input[name="item_id[]"]').val();
+            if (existingItemId == item_id) {
+                isDuplicate = true;
+                return false;
+            }
+        });
+        return isDuplicate;
+    }
+
+    function duplicateAlert() {
+        Swal.fire({
+            icon: 'error',
+            title: 'Duplicate Item',
+            text: 'This Item has already been added!'
+        });
+    }
+
+    function calculate() {
+        let item_id = $('input[name="item_id[]"]');
+        let total_price = 0;
+        for (let i = 0; i < item_id.length; i++) {
+            let quantity = $('input[name="quantity[]"]')[i].value;
+            let unit_price = $('input[name="unit_price[]"]')[i].value;
+            let sub_total = $('input[name="sub_total[]"]')[i].value;
+            sub_total = unit_price * quantity;
+            total_price += sub_total;
+            $('input[name="sub_total[]"]')[i].value = sub_total;
+        }
+        $('#total_price').val(total_price.toFixed(2));
+        let discount_method = $('#discount_method').val();
+        let discount_rate = parseFloat($('#discount_rate').val()) || 0;
+        let vat_tax = parseFloat($('#vat_tax').val()) || 0;
+        let discount = 0;
+        let total_payable = 0;
+        if (discount_method == 0) {
+            discount = total_price * (discount_rate / 100);
+        } else {
+            discount = discount_rate;
+        }
+        total_payable = total_price + vat_tax - discount;
+        $('#paid_amount').val(total_payable.toFixed(2));
+        $('#discount').val(discount.toFixed(2));
+        $('#total_payable').val(total_payable.toFixed(2));
+    }
+
 </script>
 @endsection

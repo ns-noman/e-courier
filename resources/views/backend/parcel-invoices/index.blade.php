@@ -33,7 +33,6 @@
                                             <thead>
                                                 <tr>
                                                     <th>SN</th>
-                                                    <th>Invoice No</th>
                                                     <th>HAWB No</th>
                                                     <th>Booking Date</th>
                                                     <th>Export Date</th>
@@ -92,16 +91,6 @@
                             render: function(data, type, row, meta) {
                                 let view = `{{ route('parcel-invoices.invoice', ":id") }}`.replace(':id', row.id);
                                 return `<a href="${view}" class=""><b>${row.invoice_no}</b></a>`;
-                            }
-                        },
-                        {
-                            data: null, 
-                            name: 'parcel_invoices.hawb_no', 
-                            orderable: true, 
-                            searchable: true, 
-                            render: function(data, type, row, meta) {
-                                let view = `{{ route('parcel-invoices.invoice', ":id") }}`.replace(':id', row.id) && '#';
-                                return `<a href="${view}" class=""><b>${row.hawb_no}</b></a>`;
                             }
                         },
                         { data: 'booking_date', name: 'parcel_invoices.booking_date'},

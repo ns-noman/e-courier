@@ -8,6 +8,7 @@ use App\Models\BasicInfo;
 use App\Models\ParcelItem;
 use App\Models\ParcelInvoice;
 use App\Models\Country;
+use App\Models\Box;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -51,6 +52,7 @@ class ParcelInvoiceController extends Controller
         $data['breadcrumb'] = $this->breadcrumb;
         $data['counties'] = Country::where('status', '=', 1)->get();
         $data['flights'] = Flight::where('status', '=', 1)->get();
+        $data['boxes'] = Box::where('status', '=', 1)->get();
         return view('backend.parcel-invoices.create-or-edit',compact('data'));
     }
 
@@ -71,7 +73,6 @@ class ParcelInvoiceController extends Controller
             'parcel_invoices.paid_amount',
             'parcel_invoices.reference_number',
             'parcel_invoices.note',
-            'parcel_invoices.hawb_no',
             'parcel_invoices.reference',
             'parcel_invoices.pieces',
             'parcel_invoices.product_value',
@@ -81,8 +82,6 @@ class ParcelInvoiceController extends Controller
             'parcel_invoices.payment_mode',
             'parcel_invoices.cod_amount',
             'parcel_invoices.item_type',
-            'parcel_invoices.all_item_names',
-            'parcel_invoices.item_description',
             'parcel_invoices.length',
             'parcel_invoices.height',
             'parcel_invoices.width',
@@ -112,19 +111,13 @@ class ParcelInvoiceController extends Controller
             'parcel_invoices.to_branch_id',
             'parcel_invoices.agent_id',
             'parcel_invoices.current_branch_id',
-            'parcel_invoices.hub_id',
-            'parcel_invoices.flight_id',
             'parcel_invoices.service_id',
             'parcel_invoices.payment_type',
-            'parcel_invoices.usa_country_code',
             'parcel_invoices.picked_up_by',
             'parcel_invoices.picked_up_date_time',
             'parcel_invoices.mawb_no',
             'parcel_invoices.remarks',
             'parcel_invoices.updated_by_id',
-            'parcel_invoices.showing_weight_kgs',
-            'parcel_invoices.showing_weight_gms',
-            'parcel_invoices.showing_weight_kgs_total',
             'parcel_invoices.created_by_id',
             'parcel_invoices.is_packed',
             'parcel_invoices.payment_status',
@@ -186,12 +179,28 @@ class ParcelInvoiceController extends Controller
             $data['agent_id'] = $this->getUserInfo()->id;
             $data['invoice_no'] = $this->formatNumber(ParcelInvoice::latest()->limit(1)->max('invoice_no') + 1);;
             $data['created_by_id'] = $this->getUserInfo()->branch_id;
+            $data['booking_date'] = now();
             $data['payment_status'] = 'paid';
             $data['parcel_status'] = 'pending';
+
+            $item_id = $data['item_id'];
+            $quantity = $data['quantity'];
+            $unit_price = $data['unit_price'];
+
             unset($data['item_id']);
             unset($data['quantity']);
             unset($data['unit_price']);
             $parcelInvoice = ParcelInvoice::create($data);
+
+            for ($i = 0; $i < count($item_id); $i++) {
+                $parcelInvoiceDetails['parcel_invoice_id'] = $parcelInvoice->id; 
+                $parcelInvoiceDetails['item_id'] = $item_id[$i];         
+                $parcelInvoiceDetails['quantity'] = $quantity[$i];         
+                $parcelInvoiceDetails['unit_price'] = $unit_price[$i];
+                ParcelInvoiceDetails::create($parcelInvoiceDetails);
+            }
+
+
             DB::commit();
             return redirect()->route('parcel-invoices.index')->with('alert', ['messageType' => 'success', 'message' => 'Data Inserted Successfully!']);
         } catch (\Exception $e) {
@@ -205,10 +214,21 @@ class ParcelInvoiceController extends Controller
         try {
             $data = $request->all();
             $data['updated_by_id'] = $this->getUserInfo()->branch_id;
+            $item_id = $data['item_id'];
+            $quantity = $data['quantity'];
+            $unit_price = $data['unit_price'];
             unset($data['item_id']);
             unset($data['quantity']);
             unset($data['unit_price']);
             $parcelInvoice = ParcelInvoice::find($id);
+            ParcelInvoiceDetails::where('parcel_invoice_id', $id)->delete();
+            for ($i = 0; $i < count($item_id); $i++) {
+                $parcelInvoiceDetails['parcel_invoice_id'] = $parcelInvoice->id; 
+                $parcelInvoiceDetails['item_id'] = $item_id[$i];         
+                $parcelInvoiceDetails['quantity'] = $quantity[$i];         
+                $parcelInvoiceDetails['unit_price'] = $unit_price[$i];
+                ParcelInvoiceDetails::create($parcelInvoiceDetails);
+            }
             $parcelInvoice->update($data);
             DB::commit();
             return redirect()->route('parcel-invoices.index')->with('alert', ['messageType' => 'success', 'message' => 'Data Updated Successfully!']);
@@ -279,7 +299,6 @@ class ParcelInvoiceController extends Controller
             'parcel_invoices.paid_amount',
             'parcel_invoices.reference_number',
             'parcel_invoices.note',
-            'parcel_invoices.hawb_no',
             'parcel_invoices.reference',
             'parcel_invoices.pieces',
             'parcel_invoices.product_value',
@@ -287,10 +306,7 @@ class ParcelInvoiceController extends Controller
             'parcel_invoices.billing_weight_gm',
             'parcel_invoices.gross_weight_kg',
             'parcel_invoices.payment_mode',
-            'parcel_invoices.cod_amount',
             'parcel_invoices.item_type',
-            'parcel_invoices.all_item_names',
-            'parcel_invoices.item_description',
             'parcel_invoices.length',
             'parcel_invoices.height',
             'parcel_invoices.width',
@@ -317,19 +333,12 @@ class ParcelInvoiceController extends Controller
             'parcel_invoices.to_branch_id',
             'parcel_invoices.current_branch_id',
             'parcel_invoices.agent_id',
-            'parcel_invoices.hub_id',
-            'parcel_invoices.flight_id',
             'parcel_invoices.service_id',
-            'parcel_invoices.payment_type',
-            'parcel_invoices.usa_country_code',
             'parcel_invoices.picked_up_by',
             'parcel_invoices.picked_up_date_time',
             'parcel_invoices.mawb_no',
             'parcel_invoices.remarks',
             'parcel_invoices.updated_by_id',
-            'parcel_invoices.showing_weight_kgs',
-            'parcel_invoices.showing_weight_gms',
-            'parcel_invoices.showing_weight_kgs_total',
             'parcel_invoices.created_by_id',
             'parcel_invoices.is_packed',
             'parcel_invoices.payment_status',

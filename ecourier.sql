@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Oct 08, 2025 at 12:29 PM
+-- Generation Time: Oct 21, 2025 at 01:01 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.2.28
 
@@ -341,15 +341,15 @@ CREATE TABLE `boxes` (
 --
 
 INSERT INTO `boxes` (`id`, `box_name`, `box_code`, `box_type`, `height_cm`, `width_cm`, `length_cm`, `volume_weight`, `box_weight`, `total_weight`, `cbm`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Small Box A', 'BX-S-01', 'International', '0.00', '0.00', '0.00', '0.00', '1.20', '0.00', '0.0000', 1, NULL, NULL),
+(1, 'Small Box A', 'BX-S-01', 'International', '20.00', '25.00', '30.00', '3.00', '100.00', '3.10', '0.0150', 1, NULL, '2025-10-21 03:50:34'),
 (2, 'Small Box B', 'Small Box B', 'Domestic', '5.00', '74.00', '31.00', '2.29', '46.00', '2.34', '0.0115', 1, NULL, '2025-10-08 12:23:22'),
-(3, 'Small Box C', 'BX-S-03', 'International', '0.00', '0.00', '0.00', '0.00', '1.25', '0.00', '0.0000', 1, NULL, NULL),
-(4, 'Small Box D', 'BX-S-04', 'International', '0.00', '0.00', '0.00', '0.00', '1.10', '0.00', '0.0000', 1, NULL, NULL),
-(5, 'Medium Box A', 'BX-M-01', 'International', '0.00', '0.00', '0.00', '0.00', '3.50', '0.00', '0.0000', 1, NULL, NULL),
-(6, 'Medium Box B', 'BX-M-02', 'International', '0.00', '0.00', '0.00', '0.00', '3.80', '0.00', '0.0000', 1, NULL, NULL),
-(7, 'Medium Box C', 'BX-M-03', 'International', '20.00', '50.00', '30.00', '6.00', '4.00', '6.00', '0.0300', 1, NULL, '2025-10-08 12:20:16'),
-(8, 'Large Box A', 'BX-L-01', 'International', '0.00', '0.00', '0.00', '0.00', '6.50', '0.00', '0.0000', 1, NULL, NULL),
-(9, 'Large Box B', 'BX-L-02', 'International', '0.00', '0.00', '0.00', '0.00', '7.00', '0.00', '0.0000', 1, NULL, NULL),
+(3, 'Small Box C', 'BX-S-03', 'International', '5.00', '5.00', '5.00', '0.03', NULL, '0.03', '0.0001', 1, NULL, '2025-10-21 03:51:07'),
+(4, 'Small Box D', 'BX-S-04', 'International', '6.00', '6.00', '6.00', '0.04', '6.00', '0.05', '0.0002', 1, NULL, '2025-10-21 03:51:31'),
+(5, 'Medium Box A', 'BX-M-01', 'International', '7.00', '7.00', '7.00', '0.07', '7.00', '0.08', '0.0003', 1, NULL, '2025-10-21 03:51:43'),
+(6, 'Medium Box B', 'BX-M-02', 'International', '8.00', '8.00', '8.00', '0.10', '8.00', '0.11', '0.0005', 1, NULL, '2025-10-21 03:51:57'),
+(7, 'Medium Box C', 'BX-M-03', 'International', '20.00', '50.00', '30.00', '6.00', '100.00', '6.10', '0.0300', 1, NULL, '2025-10-21 10:08:59'),
+(8, 'Large Box A', 'BX-L-01', 'International', '9.00', '9.00', '9.00', '0.15', '9.00', '0.15', '0.0007', 1, NULL, '2025-10-21 03:52:13'),
+(9, 'Large Box B', 'BX-L-02', 'International', '10.00', '10.00', '10.00', '0.20', '10.00', '0.21', '0.0010', 1, NULL, '2025-10-21 03:52:51'),
 (10, 'Large Box C', 'BX-L-03', 'International', '10.00', '12.00', '14.00', '0.34', '100.00', '0.44', '0.0017', 1, NULL, '2025-10-08 12:17:30'),
 (11, 'Small Box A', 'Small Box A', 'Domestic', '74.00', '5.00', '4.00', '0.30', '6.00', '0.30', '0.0015', 1, NULL, '2025-10-08 12:24:04'),
 (12, 'Clare Frazier', 'Enim atque voluptas', 'International', '86.00', '73.00', '87.01', '109.25', '200.00', '109.45', '0.5462', 1, '2025-10-08 12:05:46', '2025-10-08 12:16:42'),
@@ -1580,15 +1580,15 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (131, '2025_07_22_111101_add_agent_id_to_admins_table', 67),
 (134, '2025_07_22_112244_add_commission_percentage_to_branches_table', 68),
 (135, '2025_07_22_111634_create_agents_table', 69),
-(137, '2025_07_23_161922_create_parcel_invoice_details_table', 70),
 (138, '2025_07_24_162500_create_parcel_items_table', 71),
-(139, '2025_07_23_145516_create_parcel_invoices_table', 72),
 (140, '2025_07_28_154725_create_flights_table', 73),
 (142, '2025_07_30_181837_create_boxes_table', 74),
 (143, '2025_08_17_103506_create_shipment_boxes_table', 75),
 (144, '2025_08_17_103717_create_shipment_box_items_table', 75),
 (147, '2025_08_18_150131_create_parcel_transfers_table', 76),
-(148, '2025_08_18_150804_create_parcel_transfer_details_table', 76);
+(148, '2025_08_18_150804_create_parcel_transfer_details_table', 76),
+(150, '2025_07_23_161922_create_parcel_invoice_details_table', 77),
+(151, '2025_07_23_145516_create_parcel_invoices_table', 78);
 
 -- --------------------------------------------------------
 
@@ -1598,7 +1598,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 
 CREATE TABLE `parcel_invoices` (
   `id` bigint UNSIGNED NOT NULL,
-  `invoice_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `invoice_no` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `total_price` double(20,2) NOT NULL,
   `vat_tax` double(20,2) DEFAULT '0.00',
   `discount_method` tinyint NOT NULL DEFAULT '1' COMMENT '0=Percentage, 1=Solid',
@@ -1606,88 +1606,54 @@ CREATE TABLE `parcel_invoices` (
   `discount` double(20,2) NOT NULL,
   `total_payable` double(20,2) NOT NULL,
   `paid_amount` double(20,2) NOT NULL,
-  `reference_number` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `note` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `hawb_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'house air waybill no',
-  `reference` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `reference_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `note` text COLLATE utf8mb4_unicode_ci,
+  `reference` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `pieces` int NOT NULL,
   `product_value` int DEFAULT NULL,
-  `billing_weight_kg` int NOT NULL,
-  `billing_weight_gm` int NOT NULL,
-  `gross_weight_kg` decimal(10,2) DEFAULT NULL,
-  `payment_mode` enum('Prepaid','Collect') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `cod_amount` decimal(10,2) NOT NULL COMMENT 'Cash On Delivery',
-  `item_type` enum('SPX','DOCS') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `all_item_names` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `item_description` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `payment_mode` enum('Prepaid','Collect') COLLATE utf8mb4_unicode_ci NOT NULL,
+  `item_type` enum('SPX','DOCS') COLLATE utf8mb4_unicode_ci NOT NULL,
   `length` decimal(10,2) DEFAULT NULL COMMENT 'weight in cm',
   `height` decimal(10,2) DEFAULT NULL COMMENT 'weight in cm',
   `width` decimal(10,2) DEFAULT NULL COMMENT 'weight in cm',
-  `weight` decimal(10,2) DEFAULT NULL COMMENT 'weight in kg',
-  `sender_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `sender_company` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `sender_address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `sender_city` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sender_zip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `gross_volume_weight` decimal(10,3) DEFAULT NULL COMMENT 'weight in kg',
+  `gross_physical_weight` decimal(10,3) DEFAULT NULL COMMENT 'weight in kg',
+  `gross_billing_weight` decimal(10,3) DEFAULT NULL COMMENT 'weight in kg',
+  `sender_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sender_company` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sender_address` text COLLATE utf8mb4_unicode_ci,
+  `sender_city` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sender_zip` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `sender_country_id` int NOT NULL,
-  `sender_phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sender_email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sender_origin` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `receiver_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `receiver_company` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `receiver_address` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `receiver_city` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `receiver_zip` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sender_phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sender_email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `receiver_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `receiver_company` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `receiver_address` text COLLATE utf8mb4_unicode_ci,
+  `receiver_city` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `receiver_zip` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `receiver_country_id` int NOT NULL,
-  `receiver_phone` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `receiver_email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `receiver_origin` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `receiver_phone` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `receiver_email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `booking_date` date NOT NULL,
   `export_date` date NOT NULL,
-  `from_branch_id` bigint UNSIGNED DEFAULT NULL,
-  `to_branch_id` bigint UNSIGNED DEFAULT NULL,
-  `current_branch_id` bigint UNSIGNED DEFAULT NULL,
+  `from_branch_id` bigint DEFAULT NULL,
+  `to_branch_id` bigint DEFAULT NULL,
+  `current_branch_id` bigint DEFAULT NULL,
   `agent_id` int NOT NULL,
-  `hub_id` int NOT NULL,
-  `flight_id` int NOT NULL,
   `service_id` int NOT NULL,
-  `payment_type` enum('Cash','Due') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `usa_country_code` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `picked_up_by` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `picked_up_by` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `picked_up_date_time` timestamp NOT NULL,
-  `mawb_no` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Master Air Waybill',
-  `remarks` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `mawb_no` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL COMMENT 'Master Air Waybill',
+  `remarks` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `updated_by_id` int DEFAULT NULL,
-  `showing_weight_kgs` int DEFAULT NULL,
-  `showing_weight_gms` int DEFAULT NULL,
-  `showing_weight_kgs_total` decimal(10,2) NOT NULL DEFAULT '0.00',
   `created_by_id` int DEFAULT NULL,
   `is_packed` tinyint NOT NULL DEFAULT '0' COMMENT '0=no, 1=yes',
-  `payment_status` enum('unpaid','partial','paid') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'unpaid',
-  `parcel_status` enum('pending','approved','in_transit','delivered','cancelled') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payment_status` enum('unpaid','partial','paid') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'unpaid',
+  `parcel_status` enum('pending','approved','in_transit','delivered','cancelled') COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'pending',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `parcel_invoices`
---
-
-INSERT INTO `parcel_invoices` (`id`, `invoice_no`, `total_price`, `vat_tax`, `discount_method`, `discount_rate`, `discount`, `total_payable`, `paid_amount`, `reference_number`, `note`, `hawb_no`, `reference`, `pieces`, `product_value`, `billing_weight_kg`, `billing_weight_gm`, `gross_weight_kg`, `payment_mode`, `cod_amount`, `item_type`, `all_item_names`, `item_description`, `length`, `height`, `width`, `weight`, `sender_name`, `sender_company`, `sender_address`, `sender_city`, `sender_zip`, `sender_country_id`, `sender_phone`, `sender_email`, `sender_origin`, `receiver_name`, `receiver_company`, `receiver_address`, `receiver_city`, `receiver_zip`, `receiver_country_id`, `receiver_phone`, `receiver_email`, `receiver_origin`, `booking_date`, `export_date`, `from_branch_id`, `to_branch_id`, `current_branch_id`, `agent_id`, `hub_id`, `flight_id`, `service_id`, `payment_type`, `usa_country_code`, `picked_up_by`, `picked_up_date_time`, `mawb_no`, `remarks`, `updated_by_id`, `showing_weight_kgs`, `showing_weight_gms`, `showing_weight_kgs_total`, `created_by_id`, `is_packed`, `payment_status`, `parcel_status`, `created_at`, `updated_at`) VALUES
-(1, '0000001', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000001', 'Ut est consectetur f', 71, 15, 24, 7, '24.01', 'Collect', '64.00', 'DOCS', 'Sean Beard', 'Distinctio Hic sunt', '28.00', '39.00', '83.00', '18.13', 'Otto Bowman', 'Ayers Daniel Trading', 'Irure quaerat sunt', 'Obcaecati occaecat e', '24325', 123, '4', 'fepehucycy@mailinator.com', 'Sunt quis aliquid qu', 'Destiny Newman', 'Klein Daugherty Plc', 'Laudantium pariatur', 'Dolor facere quo lab', '60046', 58, '11', 'mezebofuzo@mailinator.com', 'Molestiae sint nisi', '2007-09-11', '1985-05-14', 3, 1, 1, 1, 60, 2, 33, 'Cash', 'Perspiciatis veniam', 'Sed quas veritatis p', '2008-09-24 18:27:00', 'Voluptate aliqua Ut', 'Sint tenetur vel ull', NULL, 67, 5, '67.01', 1, 1, 'paid', 'delivered', '2025-07-28 23:41:10', '2025-09-27 03:53:49'),
-(2, '0000002', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000002', 'Earum dolor blanditi', 98, 4, 19, 21, '19.02', 'Prepaid', '54.00', 'DOCS', 'Maryam Holman', 'Est optio aliquid e', '43.00', '22.00', '56.00', '10.60', 'Shoriful Islam', 'Ollyo', NULL, 'In ut ullam lorem cu', '26130', 163, '98', 'qylinilihu@mailinator.com', 'Irure laboris laboru', 'Imogene Bell', 'Medina and Burgess Trading', 'Et voluptates qui nu', 'Commodi dolorem est', '52540', 72, '71', 'vamejiwoq@mailinator.com', 'Optio sint id obca', '1994-05-21', '2016-03-18', 3, 1, 1, 1, 39, 2, 94, 'Due', 'Ut dicta reprehender', 'Et nostrud deserunt', '1989-06-11 19:11:00', 'Vel enim laborum bla', 'Id pariatur Illo en', 1, 10, 1, '10.00', 1, 1, 'paid', 'delivered', '2025-07-28 23:55:59', '2025-09-27 03:53:49'),
-(3, '0000003', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000003', 'Sed non modi quidem', 19, 73, 44, 37, '44.04', 'Collect', '57.00', 'SPX', 'Hayden Hopper', 'Vel voluptas dolores', '84.00', '26.00', '24.00', '10.48', 'Hanae Foreman', 'Pratt Moon Co', 'Nostrud delectus id', 'Proident dolore inc', '25122', 246, '9', 'qigosaxo@mailinator.com', NULL, 'Ivan Larson', 'Nielsen Hammond Inc', 'Enim rerum sunt labo', 'Corrupti distinctio', '11874', 193, '99', 'gidyde@mailinator.com', NULL, '1975-11-09', '2008-10-27', 3, 1, 1, 1, 63, 2, 16, 'Due', 'Illum reprehenderit', 'Repudiandae in dolor', '1995-09-20 10:14:00', 'Reprehenderit neces', 'Inventore aliqua La', NULL, 44, 63, '44.06', 1, 1, 'paid', 'delivered', '2025-08-16 22:18:46', '2025-09-27 03:53:49'),
-(4, '0000004', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000004', 'A non ab expedita ad', 16, 37, 78, 27, '78.03', 'Collect', '37.00', 'SPX', 'Austin Hull', 'Pariatur Similique', '6.00', '70.00', '71.00', '5.96', 'Ora Barry', 'Richmond and Franklin Co', 'Placeat architecto', 'In libero eum eos ei', '99532', 76, '8', 'zeqoxez@mailinator.com', NULL, 'Demetrius Wooten', 'Charles Waller Co', 'Animi explicabo Do', 'Est et delectus nih', '29385', 81, '29', 'zemenabyz@mailinator.com', NULL, '2006-07-26', '1992-07-15', 3, 1, 1, 1, 36, 2, 49, 'Cash', 'Impedit quaerat atq', 'Perspiciatis conseq', '2003-06-26 16:50:00', 'Rem velit aliquip ma', 'Minima aliquam ut qu', NULL, 46, 92, '46.09', 1, 1, 'paid', 'delivered', '2025-08-17 00:37:51', '2025-09-27 03:53:49'),
-(5, '0000005', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000005', 'Ipsum voluptate iur', 61, 56, 63, 92, '63.09', 'Prepaid', '89.00', 'DOCS', 'Eden Roach', 'Officiis in iste nos', '47.00', '44.00', '88.00', '36.40', 'Byron Hinton', 'Hartman and Pratt Plc', 'Voluptatem vitae pr', 'Totam excepteur culp', '40520', 24, '18', 'wofyceruve@mailinator.com', NULL, 'Clarke Mayer', 'Gates Dale LLC', 'Eius expedita iste u', 'Dolor in aut et simi', '94425', 243, '20', 'qivoni@mailinator.com', NULL, '2014-10-20', '1980-09-04', 3, 1, 1, 1, 64, 2, 47, 'Due', 'Voluptas animi nisi', 'Voluptatem aliquip', '2003-02-12 16:39:00', 'Temporibus qui sed a', 'Asperiores necessita', NULL, 32, 5, '32.01', 1, 1, 'paid', 'delivered', '2025-08-17 00:37:59', '2025-09-27 03:53:49'),
-(6, '0000006', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000006', 'Ut obcaecati rem lib', 55, 92, 23, 59, '23.06', 'Collect', '82.00', 'SPX', 'Liberty Compton', 'Tempora eius quia cu', '96.00', '5.00', '8.00', '0.77', 'Carissa Keller', 'Booker and David Co', 'Nisi asperiores cumq', 'Mollit similique lab', '31739', 68, '63', 'mevymop@mailinator.com', NULL, 'Laith Golden', 'Webster and Schwartz Co', 'Autem autem et quia', 'Reprehenderit qui vo', '51522', 208, '99', 'xikemocehi@mailinator.com', NULL, '2004-12-21', '1997-02-20', 3, 1, 1, 1, 38, 1, 14, 'Cash', 'Laudantium quasi do', 'Nam molestiae et aut', '2018-03-20 19:16:00', 'Quo quaerat consecte', 'Et debitis soluta co', NULL, 80, 65, '80.07', 1, 1, 'paid', 'delivered', '2025-08-17 00:38:07', '2025-09-27 03:53:49'),
-(7, '0000007', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000007', 'Iure repudiandae cum', 75, 74, 17, 77, '17.08', 'Collect', '76.00', 'DOCS', 'Colleen Sellers', 'Et officiis sit ius', '17.00', '3.00', '64.00', '0.65', 'Michelle Sandoval', 'English and Miles LLC', 'Nihil et ut occaecat', 'Sunt proident adip', '62712', 118, '7', 'detiwejip@mailinator.com', NULL, 'MacKenzie Swanson', 'Terry Miller Associates', 'Vitae consequatur in', 'Sed optio veniam a', '12270', 48, '24', 'cerojeni@mailinator.com', NULL, '1987-12-12', '1970-09-20', 3, 1, 1, 1, 84, 1, 38, 'Cash', 'Aliqua Occaecat asp', 'Dolor omnis ea place', '2004-01-03 19:10:00', 'Nam nihil culpa dist', 'Odio officia nisi qu', NULL, 83, 49, '83.05', 1, 1, 'paid', 'delivered', '2025-08-17 00:38:14', '2025-09-27 03:53:49'),
-(8, '0000008', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000008', 'Amet tempora nisi a', 21, 12, 81, 22, '81.02', 'Prepaid', '29.00', 'SPX', 'Jason Rivers', 'Explicabo Ut non qu', '81.00', '30.00', '31.00', '15.07', 'Geraldine Porter', 'Mcdowell and Franklin LLC', 'Ipsa tempora nihil', 'Et voluptates eligen', '85439', 219, '99', 'fyborewo@mailinator.com', NULL, 'Bradley Gallegos', 'Bryant Jarvis Associates', 'Cumque facere placea', 'Sequi soluta exercit', '45423', 138, '5', 'feqokezeh@mailinator.com', NULL, '2018-07-13', '2001-07-30', 3, 1, 1, 1, 7, 1, 92, 'Cash', 'Aliquid ea eiusmod b', 'Dolorem totam dolore', '2002-01-10 19:00:00', 'Voluptate atque tota', 'Aliquid sit commodi', NULL, 24, 19, '24.02', 1, 1, 'paid', 'delivered', '2025-08-17 00:38:20', '2025-09-27 03:53:49'),
-(9, '0000009', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000009', 'Iste eos neque amet', 74, 37, 91, 97, '91.10', 'Prepaid', '52.00', 'SPX', 'Hollee Holt', 'Consequatur Praesen', '31.00', '32.00', '99.00', '19.64', 'William Travis', 'Booth Dickson Associates', 'Tenetur ut delectus', 'Consequat Dolor qui', '73691', 55, '36', 'wucikahox@mailinator.com', NULL, 'Denton Boyer', 'Burton and Guy Co', 'Ut sit deserunt quam', 'Sit consequuntur sit', '81012', 105, '38', 'namatileh@mailinator.com', NULL, '1971-07-10', '2015-02-09', 3, 3, 3, 1, 68, 2, 28, 'Due', 'Assumenda quaerat co', 'Qui esse esse dolor', '1988-08-07 00:23:00', 'Est aperiam eveniet', 'Animi cumque itaque', NULL, 67, 24, '67.02', 1, 0, 'paid', 'approved', '2025-08-17 00:38:28', '2025-09-22 09:23:55'),
-(10, '0000010', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000010', 'In eum non aliquip d', 55, 7, 21, 1, '21.00', 'Collect', '1.00', 'SPX', 'Phoebe Vega', 'Veritatis irure qui', '73.00', '54.00', '59.00', '46.52', 'Mia English', 'Mccall Romero LLC', 'In consequuntur iure', 'Sit magna minima au', '87794', 113, '84', 'rynu@mailinator.com', NULL, 'Graiden Fox', 'Oneal and Jacobs LLC', 'Ut et eveniet aut q', 'Et aut dolorem aliqu', '19833', 145, '13', 'tokuciwa@mailinator.com', NULL, '1998-04-16', '1992-08-29', 3, NULL, 3, 1, 2, 1, 96, 'Due', 'Perspiciatis harum', 'Ipsum dolorem exerci', '2003-06-14 16:48:00', 'Ea distinctio Est', 'Totam ex debitis qua', NULL, 54, 4, '54.00', 1, 0, 'paid', 'approved', '2025-08-17 00:38:36', '2025-09-18 09:36:52'),
-(11, '0000011', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000011', 'Fugit aut debitis c', 87, 14, 28, 89, '28.09', 'Prepaid', '15.00', 'DOCS', 'Althea Dickson', 'Rerum harum aut ab e', '73.00', '98.00', '8.00', '11.45', 'Malachi Sparks', 'Harding Cabrera Traders', 'Do aut rerum ut pers', 'Dicta ea ipsum offic', '65218', 65, '97', 'tapu@mailinator.com', NULL, 'Aline Herman', 'Sykes and Peterson Trading', 'Laborum officia dist', 'Libero iusto tempora', '69832', 11, '77', 'giziwuh@mailinator.com', NULL, '2022-12-21', '1973-09-25', 3, NULL, 3, 1, 41, 2, 94, 'Cash', 'Facere cupidatat eaq', 'Voluptatem Nam ut s', '2024-06-24 20:26:00', 'Qui soluta voluptate', 'Lorem minim sed quis', NULL, 36, 24, '36.02', 1, 0, 'paid', 'approved', '2025-08-17 00:38:42', '2025-09-18 09:36:52'),
-(12, '0000012', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000012', 'Unde quis officia pe', 65, 92, 5, 62, '5.06', 'Collect', '95.00', 'DOCS', 'Ralph Robles', 'Blanditiis eiusmod r', '87.00', '59.00', '96.00', '98.55', 'Vladimir Waters', 'Trujillo Odom Trading', 'Est recusandae Pari', 'Voluptatem Minim id', '78701', 138, '62', 'disel@mailinator.com', NULL, 'Jenna Payne', 'Maxwell and Head Associates', 'Officiis delectus a', 'Accusamus dolore omn', '46158', 119, '20', 'wuqivu@mailinator.com', NULL, '1984-06-28', '1995-06-20', 3, NULL, 3, 1, 44, 1, 70, 'Due', 'Animi ad fugiat id', 'Nulla accusamus moll', '1971-06-11 08:43:00', 'Minim quo officiis i', 'Quidem officia fuga', NULL, 36, 22, '36.02', 1, 0, 'paid', 'approved', '2025-08-17 00:38:48', '2025-08-17 05:35:41'),
-(13, '0000013', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000013', 'Beatae nesciunt imp', 65, 40, 61, 37, '61.04', 'Prepaid', '64.00', 'SPX', 'Sigourney Caldwell', 'Veniam perferendis', '49.00', '26.00', '2.00', '0.51', 'Tyrone Floyd', 'Burris and Schwartz LLC', 'Vitae velit ex aut m', 'Expedita est harum', '67283', 4, '93', 'jigona@mailinator.com', NULL, 'Macey Herrera', 'Solis Carver Plc', 'Non libero repudiand', 'Eaque unde eum occae', '90929', 142, '19', 'vopiwoz@mailinator.com', NULL, '2018-05-30', '1990-08-21', 3, NULL, 3, 1, 3, 1, 63, 'Due', 'Eos ea asperiores q', 'Voluptatum neque dol', '2003-06-18 01:29:00', 'Asperiores ea qui si', 'Ipsum ipsam modi con', NULL, 89, 54, '89.05', 1, 0, 'paid', 'approved', '2025-08-17 00:38:54', '2025-08-17 05:35:41'),
-(14, '0000014', 0.00, 0.00, 1, 0.00, 0.00, 0.00, 0.00, NULL, NULL, '10000014', NULL, 5, 10, 5, 500, '5.50', 'Prepaid', '65.00', 'SPX', 'Item-1, Item-2', 'Item-1, Item-2', '5.00', '5.00', '5.00', '0.03', 'Omar Mcfarland', 'Sawyer and Castillo Co', 'Et fuga Alias nesci', 'Corrupti et volupta', '92030', 154, '66', 'qorir@mailinator.com', NULL, 'Ariel Oneil', 'Osborn Perez Trading', 'Voluptate recusandae', 'Pariatur Non volupt', '69837', 157, '5614641616', 'tojene@mailinator.com', NULL, '1981-09-05', '1975-06-05', 3, NULL, 3, 1, 53, 1, 25, 'Cash', NULL, 'Elit expedita et do', '2006-04-02 06:27:00', '123456', 'Velit sed sed suscip', NULL, 5, 15, '5.02', 1, 0, 'paid', 'approved', '2025-09-18 06:26:12', '2025-09-18 06:26:19');
 
 -- --------------------------------------------------------
 
@@ -1704,6 +1670,15 @@ CREATE TABLE `parcel_invoice_details` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `parcel_invoice_details`
+--
+
+INSERT INTO `parcel_invoice_details` (`id`, `parcel_invoice_id`, `item_id`, `quantity`, `unit_price`, `created_at`, `updated_at`) VALUES
+(15, 1, 1, 1.00, 10.00, '2025-10-21 08:31:43', '2025-10-21 08:31:43'),
+(16, 1, 2, 1.00, 4.00, '2025-10-21 08:31:43', '2025-10-21 08:31:43'),
+(17, 1, 3, 1.00, 6.00, '2025-10-21 08:31:43', '2025-10-21 08:31:43');
 
 -- --------------------------------------------------------
 
@@ -1753,7 +1728,15 @@ INSERT INTO `parcel_items` (`id`, `name`, `created_at`, `updated_at`) VALUES
 (28, 'ambrella', '2025-07-27 05:42:19', '2025-07-27 05:42:19'),
 (29, 'shirt', '2025-07-27 10:42:42', '2025-07-27 10:42:42'),
 (30, 'cloth', '2025-07-28 04:47:15', '2025-07-28 04:47:15'),
-(31, 'paper', '2025-07-28 09:03:39', '2025-07-28 09:03:39');
+(31, 'paper', '2025-07-28 09:03:39', '2025-07-28 09:03:39'),
+(32, 'apple juice', '2025-10-21 05:19:18', '2025-10-21 05:19:18'),
+(33, 'clothes', '2025-10-21 05:23:28', '2025-10-21 05:23:28'),
+(34, 'cotton', '2025-10-21 05:24:23', '2025-10-21 05:24:23'),
+(35, 'table', '2025-10-21 05:36:10', '2025-10-21 05:36:10'),
+(36, 'chair', '2025-10-21 05:36:16', '2025-10-21 05:36:16'),
+(37, 'mobile', '2025-10-21 05:39:12', '2025-10-21 05:39:12'),
+(38, 'computer', '2025-10-21 05:39:18', '2025-10-21 05:39:18'),
+(39, 'polythene', '2025-10-21 10:05:47', '2025-10-21 10:05:47');
 
 -- --------------------------------------------------------
 
@@ -2378,15 +2361,6 @@ CREATE TABLE `shipment_boxes` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `shipment_boxes`
---
-
-INSERT INTO `shipment_boxes` (`id`, `box_id`, `shipment_no`, `from_branch_id`, `to_branch_id`, `current_branch_id`, `is_packed`, `status`, `created_at`, `updated_at`) VALUES
-(1, 1, '0000001', 3, 1, 1, 1, 'delivered', '2025-09-27 03:37:46', '2025-09-27 03:53:49'),
-(2, 2, '0000002', 3, 1, 1, 1, 'delivered', '2025-09-27 03:39:15', '2025-09-27 03:53:49'),
-(3, 5, '0000003', 3, 1, 1, 1, 'delivered', '2025-09-27 03:41:47', '2025-09-27 03:53:49');
-
 -- --------------------------------------------------------
 
 --
@@ -2814,6 +2788,12 @@ ALTER TABLE `parcel_invoices`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `parcel_invoice_details`
+--
+ALTER TABLE `parcel_invoice_details`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `parcel_items`
 --
 ALTER TABLE `parcel_items`
@@ -3168,19 +3148,25 @@ ALTER TABLE `menus`
 -- AUTO_INCREMENT for table `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=152;
 
 --
 -- AUTO_INCREMENT for table `parcel_invoices`
 --
 ALTER TABLE `parcel_invoices`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `parcel_invoice_details`
+--
+ALTER TABLE `parcel_invoice_details`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `parcel_items`
 --
 ALTER TABLE `parcel_items`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT for table `parcel_transfers`
@@ -3270,7 +3256,7 @@ ALTER TABLE `sale_details`
 -- AUTO_INCREMENT for table `shipment_boxes`
 --
 ALTER TABLE `shipment_boxes`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `shipment_box_items`

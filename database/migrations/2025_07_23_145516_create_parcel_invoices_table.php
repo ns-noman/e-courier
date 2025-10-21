@@ -24,23 +24,22 @@ return new class extends Migration
             $table->text('note')->nullable();
 
             //Shipment Information....
-            $table->string('hawb_no')->comment('house air waybill no');
             $table->string('reference')->nullable();
             $table->integer('pieces');
             $table->integer('product_value')->nullable();
-            $table->integer('billing_weight_kg');
-            $table->integer('billing_weight_gm');
-            $table->decimal('gross_weight_kg', 10,2)->nullable();
+            
             $table->enum('payment_mode',['Prepaid', 'Collect']);
-            $table->decimal('cod_amount', 10,2)->comment('Cash On Delivery');
+
+
             $table->enum('item_type',['SPX', 'DOCS']);
-            $table->string('all_item_names')->nullable();
-            $table->text('item_description')->nullable();
 
             $table->decimal('length', 10,2)->nullable()->comment('weight in cm');
             $table->decimal('height', 10,2)->nullable()->comment('weight in cm');
             $table->decimal('width', 10,2)->nullable()->comment('weight in cm');
-            $table->decimal('weight', 10,2)->nullable()->comment('weight in kg');
+
+            $table->decimal('gross_volume_weight', 10,3)->nullable()->comment('weight in kg');
+            $table->decimal('gross_physical_weight', 10,3)->nullable()->comment('weight in kg');
+            $table->decimal('gross_billing_weight', 10,3)->nullable()->comment('weight in kg');
 
 
             //Sender Receiber Information....
@@ -72,28 +71,22 @@ return new class extends Migration
             $table->bigInteger('to_branch_id')->nullable();
             $table->bigInteger('current_branch_id')->nullable();
             $table->integer('agent_id');
-            $table->integer('hub_id');
-            $table->integer('flight_id');
             $table->integer('service_id');
-            $table->enum('payment_type',['Cash', 'Due']);
-            $table->string('usa_country_code')->nullable();
-
 
             //Others
             $table->string('picked_up_by');
             $table->timestamp('picked_up_date_time');
             $table->string('mawb_no')->nullable()->comment('Master Air Waybill');
             $table->string('remarks')->nullable();
+
+            
             $table->integer('updated_by_id')->nullable();
-            $table->integer('showing_weight_kgs')->nullable();
-            $table->integer('showing_weight_gms')->nullable();
-            $table->decimal('showing_weight_kgs_total', 10, 2)->default(0.00);
             $table->integer('created_by_id')->nullable();
             
             
             $table->tinyInteger('is_packed')->default(0)->comment('0=no, 1=yes');
             $table->enum('payment_status', ['unpaid', 'partial', 'paid'])->default('unpaid');
-            $table->enum('parcel_status', ['pending','approve', 'in_transit', 'delivered', 'cancelled'])->default('pending');
+            $table->enum('parcel_status', ['pending','approved', 'in_transit', 'delivered', 'cancelled'])->default('pending');
 
 
             $table->timestamps();

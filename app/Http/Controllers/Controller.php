@@ -187,7 +187,7 @@ class Controller extends BaseController
     }
     public function formatNumber($number)
     {
-        return str_pad($number, 7, '0', STR_PAD_LEFT);
+        return str_pad($number, 8, '0', STR_PAD_LEFT);
     }
 
 }

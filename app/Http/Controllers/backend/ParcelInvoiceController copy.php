@@ -231,21 +231,21 @@ class ParcelInvoiceController extends Controller
             $data['payment_status'] = 'paid';
             $data['parcel_status'] = 'pending';
 
-            // $item_id = $data['item_id'];
-            // $quantity = $data['quantity'];
-            // $unit_price = $data['unit_price'];
+            $item_id = $data['item_id'];
+            $quantity = $data['quantity'];
+            $unit_price = $data['unit_price'];
             unset($data['item_id']);
             unset($data['quantity']);
             unset($data['unit_price']);
             $parcelInvoice = ParcelInvoice::create($data);
 
-            // for ($i = 0; $i < count($item_id); $i++) {
-            //     $parcelInvoiceDetails['parcel_invoice_id'] = $parcelInvoice->id; 
-            //     $parcelInvoiceDetails['item_id'] = $item_id[$i];         
-            //     $parcelInvoiceDetails['quantity'] = $quantity[$i];         
-            //     $parcelInvoiceDetails['unit_price'] = $unit_price[$i];
-            //     ParcelInvoiceDetails::create($parcelInvoiceDetails);
-            // }
+            for ($i = 0; $i < count($item_id); $i++) {
+                $parcelInvoiceDetails['parcel_invoice_id'] = $parcelInvoice->id; 
+                $parcelInvoiceDetails['item_id'] = $item_id[$i];         
+                $parcelInvoiceDetails['quantity'] = $quantity[$i];         
+                $parcelInvoiceDetails['unit_price'] = $unit_price[$i];
+                ParcelInvoiceDetails::create($parcelInvoiceDetails);
+            }
 
             DB::commit();
             return redirect()->route('parcel-invoices.index')->with('alert', ['messageType' => 'success', 'message' => 'Data Inserted Successfully!']);
